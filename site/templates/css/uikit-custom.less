@@ -1,0 +1,191 @@
+@import "uikit/src/less/uikit.less";
+//@import "uikit-develop/src/less/theme/_import.less";
+//@import "uikit/src/less/uikit.theme.less";
+@base-body-color: #515151;
+@base-body-font-weight: 300;
+
+@main-color: #9B9B9B;
+
+.hook-base-link() {
+  text-decoration: underline;
+}
+
+@base-h1-font-size-m: 2.5rem;
+@base-h2-font-size-m: 2rem;
+
+@form-placeholder-color: #999999;
+
+@global-danger-background: @main-color;
+@global-muted-color: @base-body-color;
+@nav-default-item-active-color: @main-color;
+
+.hook-nav-default-item-active() {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+@global-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+//@base-heading-font-family: bc-liguria, sans-serif;
+@base-heading-font-weight: 800;
+
+//@navbar-nav-item-font-family: bc-liguria, sans-serif;
+
+/*.hook-form-label{
+  font-family: bc-liguria, sans-serif;
+
+}*/
+
+@global-link-color: @main-color;
+@global-link-hover-color: darken(@main-color, 10%);
+
+@inverse-navbar-item-color: #fff;
+@inverse-navbar-nav-item-color: #fff;
+@inverse-navbar-toggle-color: #fff;
+
+@offcanvas-bar-background: #fff;
+@offcanvas-bar-color-mode: none;
+
+//@navbar-nav-item-padding-horizontal: 0px;
+//@navbar-item-color: @main-color;
+@navbar-nav-item-hover-color: @base-body-color;
+
+.hook-navbar-nav-item-active() {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+
+@navbar-nav-item-onclick-color: @main-color;
+@navbar-nav-item-active-color: @main-color;
+@nav-default-item-active-color: @main-color;
+@nav-default-sublist-item-active-color: @main-color;
+
+.uk-nav-default .uk-nav-sub li.uk-active > a {
+  text-decoration: underline;
+}
+
+@navbar-nav-item-color: @base-body-color;
+@navbar-nav-item-hover-color: @main-color;
+
+@form-background: #fff;
+
+.hook-form() {
+  border-bottom: 1px solid @main-color;
+}
+
+@text-primary-color: @main-color;
+
+@iconnav-item-color: @main-color;
+
+@button-primary-background: transparent;
+@button-primary-color: black;
+@button-primary-hover-background: @main-color;
+@button-primary-hover-color: black;
+@button-primary-active-color: black;
+
+.hook-button-primary() {
+  border: 2px solid @main-color;
+}
+
+//@overlay-default-background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(13, 36, 162, 1) 100%);
+//@overlay-default-background: @main-color;
+//@overlay-default-background: fade(#515151, 90%);
+
+@alert-success-background: lighten(@main-color, 35%);
+@alert-success-color: @main-color;
+
+
+.even {
+  @media (min-width: 960px) {
+    .uk-overlay-default > .project-name {
+      left: auto;
+      right: 0;
+      text-align: right;
+    }
+  }
+}
+
+.hook-overlay-default() {
+  opacity: 0;
+  @media (max-width: 960px) {
+    &:not(.slider-overlay) {
+      background: transparent;
+    }
+
+    > div.project-name {
+      background-color: @main-color;
+      margin: 0 !important;
+      padding: 10px;
+      font-size: 14px;
+      right: 0;
+      left: 0;
+      max-width: 100%;
+
+      > h4 {
+        font-size: 1.25em;
+      }
+    }
+  }
+  @media (min-width: 959px) {
+
+    transition: opacity 300ms ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.hook-form-label() {
+  font-size: 0.9em;
+  font-weight: bold;
+
+}
+
+@slidenav-active-color: #fff;
+@slidenav-hover-color: #fff;
+
+@badge-background: transparent;
+@badge-color: @base-body-color;
+
+.hook-badge {
+  border: 1px solid @base-body-color;
+  font-weight:normal;
+  text-decoration: none;
+}
+
+.hook-nav-default{
+  &.tag-list{
+    > li:hover > a,
+    > li.uk-active > a{
+      text-decoration: none;
+      .uk-badge{
+        background-color: @base-body-color;
+        color:#fff;
+      }
+    }
+  }
+}
+
+.hook-nav-default-item{
+
+}
+
+.hook-nav-default-item-active,
+.hook-nav-default-item-hover{
+  .tag-list & {
+    text-decoration: none;
+  }
+}
+
+.htmx-transition-cover{
+  opacity:0;
+  background: rgba(255, 255, 255, 0.51);
+  display:none;
+}
+
+
+@import "main.less";
+
+
+
+
