@@ -6,3 +6,4 @@
 /*.xml
 /vendor
 /.idea
+/site/templates/css/build.css
