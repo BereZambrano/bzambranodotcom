@@ -57,20 +57,27 @@
   line-height: 3em;
 }
 
+.sidebar-info,
 .proyecto {
+
+  @media(min-width: 960px) {
+    .proyecto-content {
+      width: 75%;
+    }
+  }
+
   .proyecto-info {
+    width: 25%;
     font-size:14px;
     .proyecto-descripcion + p {
       margin: 0;
       color: #515151;
     }
-
-    h5 {
-      color: #9B9B9B;
-    }
   }
 
-
+  h5 {
+    color: #9B9B9B;
+  }
   .caption {
     margin-top: 5px;
     font-size: 14px;
@@ -388,3 +395,9 @@ footer {
 
 
 
+.service-description{
+
+  @media(min-width:960px){
+    min-height:250px;
+  }
+}

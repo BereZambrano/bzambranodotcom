@@ -6,22 +6,29 @@ $wire->addHookAfter('SeoMaestro::renderSeoDataValue', function (HookEvent $event
     $value = $event->arguments(2);
 
     if ($group === 'meta' && $name === 'description') {
-        //bd($name);
-        //bd($value);
         $value = $event->sanitizer->markupToLine($value);
-        //bd($value);
         $event->return = $value;
     }
 });
 
 $wire->addHookMethod("Page::getPostImage", function ($e) {
     $page = $e->object;
+		$width = $e->arguments(0);
+		$height = $e->arguments(1);
     if ($page->hasField('content')) {
         $galeria = $page->content->get("type=galeria_modulo");
         //bd($hero);
         if ($galeria->id) {
             $image = $galeria->galeria->first();
-            $e->return = $image;
+						if($image->ext == "gif") {
+							$e->return = $image;
+						}else{
+							if($width && $height){
+								$e->return = $image->size($width, $height);
+							}elseif($width){
+								$e->return = $image->width($width);
+							}
+						}
         }
     }
 });

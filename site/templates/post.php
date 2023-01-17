@@ -16,7 +16,9 @@
             <div class="">
                 <a class="uk-link-reset" href="<?=$page->prev()->url?>">
                     <img alt="<?=$page->prev()->getPostImage()->description?>"
-                         class="uk-width-1-1" width="400"  height="340" data-src="<?=$page->prev()->getPostImage()->size(400,340)->url?>" uk-img>
+                         class="uk-width-1-1" width="400"  height="340"
+                         data-src="<?=$page->prev()->getPostImage(400,340)->url?>"
+                         uk-img>
                     <div class="uk-margin-small uk-text-center">
                         <h4><?= $page->prev()->title ?></h4>
                     </div>
@@ -27,7 +29,9 @@
             <?php if($page->next()->id):?>
             <div class="">
                 <a class="uk-link-reset" href="<?=$page->next()->url?>">
-                    <img alt="<?=$page->next()->getPostImage()->description?>" class="uk-width-1-1" width="400"  height="340" data-src="<?=$page->next()->getPostImage()->size(400,340)->url?>" uk-img>
+                    <img alt="<?=$page->next()->getPostImage()->description?>"
+                         class="uk-width-1-1" width="400"  height="340"
+                         data-src="<?=$page->next()->getPostImage(400,340)->url?>" uk-img>
                     <div class="uk-margin-small uk-text-center">
                         <h4><?= $page->next()->title ?></h4>
                     </div>

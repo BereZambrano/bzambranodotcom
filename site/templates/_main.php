@@ -20,9 +20,8 @@ $uikitOptions = array('cache_dir' => $config->paths->assets . 'cache/less/',
 
 try {
     $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
-    //$log->save("less", $uikitCustomFilename);
-
-} catch (Exception $e) {
+    //$log->save("less", $uikitCustomFilename);\
+} catch (\Exception $e) {
     //$log->save("less", $e);
 }
 
@@ -156,7 +155,14 @@ try {
     <div class="uk-container">
         <div class="uk-visible@m">
             <div class="uk-width-1-1">
-                <nav class="uk-navbar-container uk-flex-center uk-navbar-transparent uk-navbar"
+                <!--
+                hx-boost="true"
+                     hx-target="main"
+                     hx-swap="outerHTML"
+                     hx-select="main"
+                     hx-oob="true"
+                -->
+                <nav  class="uk-navbar-container uk-flex-center uk-navbar-transparent uk-navbar"
                      uk-navbar>
                     <div class="uk-navbar-left">
                         <ul class="uk-navbar-nav">
@@ -260,9 +266,39 @@ try {
 
 <script src="<?= $urls->templates ?>js/uikit.min.js"></script>
 <script src="<?= $urls->templates ?>js/uikit-icons.min.js"></script>
+<script src="<?= $urls->templates ?>js/nanobar.min.js"></script>
 <script src="https://unpkg.com/htmx.org@1.6.1"></script>
 
 <script>
+    var options = {
+        classname: 'my-class',
+        id: 'my-id'
+    };
+    window.bereBar = new Nanobar( options );
+    htmx.on("htmx:beforeSend",function(e){
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        var el = e.detail.elt;
+        if(el.classList.contains('transition-link')){
+            bereBar.go( getRandomInt(20,70) ); // size bar 76%6
+        }
+    });
+    htmx.on("htmx:beforeSwap",function(){
+        bereBar.go( 100 );
+    });
+
+    htmx.onLoad(function(){
+        UIkit.util.on('#services-list li a','click',  function(e){
+            document.querySelectorAll('#services-list li a').forEach(function (item){
+                item.parentElement.classList.remove('uk-active');
+            })
+            this.parentElement.classList.add('uk-active');
+        })
+    });
+
     var contactMobile = document.querySelector('.mobile-contact-link');
     contactMobile.addEventListener("click", function () {
         UIkit.offcanvas("#offcanvas-menu").hide();

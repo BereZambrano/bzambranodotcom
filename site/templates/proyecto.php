@@ -33,8 +33,17 @@ $header_image = $page->getHeaderImage();
                         <h5 class="uk-text-small uk-text-bold uk-margin-remove"><?= __("Año") ?>:</h5>
                         <p class="uk-margin-remove"><?= $page->year ?></p>
                     </div>
+
+                    <div class="uk-margin uk-width-1-1">
+                        <?=$page->text?>
+                    </div>
+
                 </div>
+
+
+
             </div>
+
 
         </div>
 
@@ -48,10 +57,10 @@ $header_image = $page->getHeaderImage();
             </div>
         <?php endif ?>
 
-        <div class="project-container uk-container">
+        <div class="project-container uk-margin uk-container">
             <div class="uk-grid" uk-grid>
 
-                <div class="uk-width-4-5@m">
+                <div class="proyecto-content uk-width-4-5@m">
                     <?php
                     if ($page->show_header) {
                         $images = $page->images->not("name=$header_image")->getValues();

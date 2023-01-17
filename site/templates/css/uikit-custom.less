@@ -149,40 +149,51 @@
 
 .hook-badge {
   border: 1px solid @base-body-color;
-  font-weight:normal;
+  font-weight: normal;
   text-decoration: none;
 }
 
-.hook-nav-default{
-  &.tag-list{
-    > li:hover > a,
-    > li.uk-active > a{
-      text-decoration: none;
-      .uk-badge{
-        background-color: @base-body-color;
-        color:#fff;
-      }
+@grid-small-gutter-horizontal: 5px;
+@grid-small-gutter-vertical: @grid-small-gutter-horizontal;
+
+.tag-list {
+  a {
+    color: @base-body-color;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a.uk-active {
+    text-decoration: none;
+
+    .uk-badge {
+      background-color: @base-body-color;
+      color: #fff;
     }
   }
 }
 
-.hook-nav-default-item{
-
-}
 
 .hook-nav-default-item-active,
-.hook-nav-default-item-hover{
+.hook-nav-default-item-hover {
   .tag-list & {
     text-decoration: none;
   }
 }
 
-.htmx-transition-cover{
-  opacity:0;
+.htmx-transition-cover {
+  opacity: 0;
   background: rgba(255, 255, 255, 0.51);
-  display:none;
+  pointer-events: none;
+
+  .htmx-request & {
+    opacity: 1;
+    pointer-events: all;
+  }
 }
 
+@grid-small-gutter-horizontal: 10px;
+@grid-small-gutter-vertical: @grid-small-gutter-horizontal;
 
 @import "main.less";
 
