@@ -1,1 +1,18 @@
 /* blank */ 
+.service_intro{
+    margin-top: 100px;
+}
+
+.first_intro{
+    position: absolute;
+    width: 623px;
+    height: 110px;
+    left: 92px;
+    top: 265px;
+    
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+}

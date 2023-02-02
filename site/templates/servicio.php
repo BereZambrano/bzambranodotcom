@@ -1,14 +1,15 @@
 <?php namespace ProcessWire; ?>
+
 <div id="main-content" pw-append>
     <div class="uk-container uk-position-relative">
         <div class="htmx-transition-cover uk-position-z-index uk-position-cover">
-            <!-- <i class="uk-position-center" uk-spinner></i>-->
+           
         </div>
 
         <div class="uk-grid" uk-grid>
             <div class="uk-width-4-5@m">
 
-
+                
                 <div class="uk-margin-large-top service-description uk-child-width-1-2@m uk-grid-match uk-grid" uk-grid>
 
                     <div class="uk-flex-column uk-flex uk-flex-between">
@@ -70,6 +71,7 @@
 
                     </div>
                 </div>
+
                 <hr class="uk-margin-large">
                 <?php echo wireRenderFile('inc/proyectos-grid',
                   [
@@ -77,6 +79,7 @@
                   ]); ?>
 
             </div>
+          
 
         </div>
     </div>

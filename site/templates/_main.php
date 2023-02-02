@@ -35,6 +35,7 @@ try {
     <meta name="generator" content="ProcessWire">
     <meta name="p:domain_verify" content="0e8134772caa50fd446608012050877c"/>
     <link rel="stylesheet" href="<?= $urls->templates ?>css/build.css" class="href">
+    <link rel="stylesheet" href="<?= $urls->templates ?>styles/main.css" class="href">
     <link rel="icon"
           type="image/png"
           href="<?= $urls->templates ?>img/bzambrano.com-favicon.png">
