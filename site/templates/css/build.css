@@ -297,6 +297,11 @@ h5,
   font-size: 16px;
   line-height: 1.4;
 }
+.about-me-wrapper h5,
+.about-me-wrapper .uk-h5 {
+  font-weight: normal;
+  text-transform: uppercase;
+}
 h6,
 .uk-h6 {
   font-size: 0.875rem;
@@ -11808,6 +11813,8 @@ iframe.uk-cover {
   opacity: 1;
   pointer-events: all;
 }
+/* h5, .uk-h5 { ..... } */
+/* .about-me-wrapper h5, .about-me-wrapper .uk-h5 { ..... } */
 .bio-section {
   border-bottom: 1px solid lightgrey;
   padding-bottom: 60px;
