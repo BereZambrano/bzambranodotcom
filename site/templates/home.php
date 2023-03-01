@@ -29,13 +29,15 @@
                     </div>
                 </div>
 
-                <div class="">
-                    <picture>
-                        <source media="(max-width:959px)" srcset="<?= $item->home_images->size(800, 600)->url ?>">
-                        <source media="(min-width:960px)" srcset="<?= $item->home_images->size(1800, 900)->url ?>">
-                        <img class="uk-width-1-1" src='<?= $item->home_images->url ?>' loading="lazy">
-                    </picture>
-                </div>
+                <?php if($item->home_images): ?>
+                    <div class="">
+                        <picture>
+                            <source media="(max-width:959px)" srcset="<?= $item->home_images->size(800, 600)->url ?>">
+                            <source media="(min-width:960px)" srcset="<?= $item->home_images->size(1800, 900)->url ?>">
+                            <img class="uk-width-1-1" src='<?= $item->home_images->url ?>' loading="lazy">
+                        </picture>
+                    </div>
+                <?php endif ?>
 
                 <div class="uk-flex uk-margin-large uk-flex-right">
                     <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
