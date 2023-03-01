@@ -22,10 +22,10 @@
         <?php foreach($page->home_repeater as $item): ?>
 
             <div class="">
-                <div class="uk-margin-large-left uk-margin-large-bottom uk-flex uk-flex-column uk-width-1-3 " uk-grid>
+                <div class="uk-margin-large-left uk-margin-large-bottom uk-margin-large-top uk-flex uk-flex-column uk-width-1-3@ " uk-grid>
                     <div>
-                        <?php bd($item->home_titles);?>
                         <?= $item->home_titles; ?>
+                        <?= $item->home_subtitles; ?>
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@
                     </div>
                 <?php endif ?>
 
-                <div class="uk-flex uk-margin-large uk-flex-right">
+                <div class="uk-flex uk-margin-large uk-flex-right uk-height-large">
                     <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
                         <div class="uk-width-3-5@m">
                             <?= $item->home_texts; ?>
