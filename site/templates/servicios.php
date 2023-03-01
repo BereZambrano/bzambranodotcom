@@ -2,8 +2,8 @@
 
 
 <div id="main-content" class=" uk-margin-top uk-flex uk-flex-center" pw-append> 
-    <div class="service_intro uk-container uk-container-small uk-flex uk-flex-column">
-        
+    <div class="service_intro uk-container uk-flex ">
+        <div class="">
             <div class="first_title uk-margin-top uk-width-2-3@m">
                 <?= $page->first_title?>
             </div>
@@ -18,6 +18,7 @@
                     <?= $page->text?>
                 </div>  
             </div>
+        </div>
 
             <ul class="uk-list-divider" uk-accordion>
                 <?php foreach($page->children as $child) : ?>
@@ -32,5 +33,6 @@
                 <?php endforeach; ?>
                 </li>
             </ul>
-    </div> 
+    </div>
+
 </div>

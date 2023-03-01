@@ -1,111 +1,190 @@
-<?php namespace ProcessWire; ?>
-<div id="main-content" class="uk-light about-me-wrapper uk-background-secondary" pw-append>
-    <div class="uk-container uk-container-small">
-        <div class="uk-grid uk-flex-between uk-grid-small" uk-grid>
-            <div class="uk-width-2-5@m">
-                <?= $page->text ?>
+<?php
+
+namespace ProcessWire;
+
+$clientes_parent = $pages->get('/clientes/');
+
+?>
+<div id="main-content" class="about-me-wrapper" pw-append>
+
+    <!-- Intro 1 -->
+    <div class="uk-container">
+
+        <div class="uk-grid uk-flex-center uk-grid-large" uk-grid>
+            <div class="uk-flex-left uk-width-expand">
+                <?= $page->first_intro ?>
+                <?= $page->first_intro2 ?>
             </div>
 
-            <div class="uk-flex-1">
-                <div class="uk-flex uk-flex-center uk-flex-wrap">
-                    <div class="uk-text-center uk-width-1-1 bio-pic">
-                        <img src="<?= $home->image->width(200)->url ?>">
-                    </div>
-                    <ul class="uk-margin-top uk-iconnav">
-                        <?php foreach ($home->social_media as $icon): ?>
-                            <li>
-                                <a target="_blank" href="<?= $icon->url_address ?>"
-                                   uk-icon="icon: <?= $icon->title ?>"></a>
-                            </li>
-                        <?php endforeach ?>
-                    </ul>
+            <div class="uk-flex uk-flex-wrap uk-width-2-5@m">
+                <div class="uk-width-1-1 uk-flex uk-flex-center">
+                    <img class="uk-width-1-1" src="<?= $page->about_pic1->width(368)->height(471)->url ?>">
                 </div>
             </div>
         </div>
-        <hr class="uk-margin-large">
-        <div class="uk-child-width-1-2@m done-work uk-grid" uk-grid>
-            <div>
-                <div class="experiencia uk-margin-remove-last-child">
-                    <h3>Experiencia</h3>
-                    <?php foreach ($page->experiencia as $e): ?>
-                        <div class="uk-margin uk-margin-remove-last-child">
-                            <?= $e->text ?>
+
+        <!-- Intro 2-->
+        <div class="uk-flex uk-margin-large uk-flex-right">
+
+            <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+                <div class="uk-width-1-1">
+                    <img class="uk-width-1-1" src="<?= $page->about_pic2->width(806)->height(537)->url ?>">
+                </div>
+                <div class="uk-text-left uk-width-1-1@m">
+                    <?= $page->about_pic2->description ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intro text-->
+
+        <div class="uk-flex uk-margin-large uk-flex-right">
+
+            <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+
+                <div class=" uk-width-3-5@m ">
+
+                    <div class="uk-margin-large-bottom">
+                        <?= $page->experiencia_intro ?>
+                    </div>
+
+                    <!-- Service section -->
+                    <div class="uk-child-width-1-1@m uk-margin-medium-top " >
+                        <p class="uk-text-bold">Things I do</p>
+                        <?= $page->text ?>
+                    </div>
+
+                    <!-- Service button -->
+                    <div class="">
+                        <a class="button uk-button" href="">Services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--second text-->
+                    <div class="uk-grid uk-flex-center uk-grid-large" uk-grid>
+                        <div class="uk-flex-left uk-width-expand uk-container-small">
+                            <?= $page->second_intro ?>
+                            <?= $page->second_intro2 ?>
                         </div>
-                    <?php endforeach ?>
-                </div>
-            </div>
-           <div class="uk-hidden@m">
-               <hr class="uk-margin-large ">
-           </div>
-            <div>
-                <div class="publicaciones uk-margin-remove-last-child">
-                    <h3>Publicaciones</h3>
-                    <?php foreach ($page->publicaciones as $e): ?>
-                        <div class="uk-margin uk-margin-remove-last-child">
-                            <?= $e->text ?>
+
+                    <!-- Experiencia -->
+        <div class="uk-flex uk-margin-large uk-flex-right">
+             <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+                 <div class=" uk-width-3-5@m ">
+
+                    <div class="uk-child-width-1-2@m done-work uk-grid uk-margin-large-top" uk-grid>
+                        <div>
+                            <div class="experiencia uk-margin-remove-last-child">
+                                <h3 class="uk-h5">Experiencia</h3>
+                                <?php foreach ($page->experiencia as $e) : ?>
+                                    <div class="uk-margin uk-margin-remove-last-child">
+                                        <?= $e->text ?>
+                                    </div>
+                                <?php endforeach ?>
+                            </div>
                         </div>
-                    <?php endforeach ?>
+
+                        <div class="uk-hidden@m">
+                            <hr class="uk-margin-large ">
+                        </div>
+
+                        <div>
+                            <div class="publicaciones uk-margin-remove-last-child">
+                                <h3 class="uk-h5" >Publicaciones</h3>
+                                <?php foreach ($page->publicaciones as $e) : ?>
+                                    <div class="uk-margin uk-margin-remove-last-child">
+                                        <?= $e->text ?>
+                                    </div>
+                                <?php endforeach ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Last grid with research, clients and collaborators in it-->
+
+                    <div class="uk-grid uk-child-width-1-2" uk-grid>
+                        <div>
+                            <div class="uk-grid uk-child-width-1-1" uk-grid>
+
+                                <!-- Research -->
+                                <div class="research uk-margin-large">
+                                    <h3 class="uk-h5">Research</h3>
+                                    <div class="uk-grid uk-child-width-1-1 uk-grid-small" uk-grid>
+                                        <?php foreach ($page->research as $e) : ?>
+                                            <div class="uk-margin-remove-last-child">
+                                                <?= $e->text ?>
+                                            </div>
+                                        <?php endforeach ?>
+                                    </div>
+                                </div>
+
+                                <!-- Colaboradores -->
+                                <div class="uk-margin-large">
+                                    <h3 class="uk-h5"><?php echo __("Colaborador*s") ?></h3>
+                                    <div class="uk-grid-small uk-child-width-1-1 uk-grid" uk-grid>
+                                        <?php foreach ($clientes_parent->colaboradores as $colaborador) : ?>
+                                            <div class="">
+                                                <?php if ($colaborador->url_address) : ?>
+                                                    <a href="<?= $colaborador->url_address ?>">
+                                                        <?= $colaborador->name ?>
+                                                    </a>
+                                                <?php else : ?>
+                                                    <?= $colaborador->name ?>
+                                                <?php endif ?>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clientes -->
+                        <div>
+                            <h3 class="uk-h5"><?php echo __("Client*s destacad*s"); ?></h3>
+
+                            <div class="uk-grid uk-grid-small uk-child-width-1-1" uk-grid>
+                                <?php
+                                $clientes = $clientes_parent->children();
+                                ?>
+                                <?php foreach ($clientes as $cliente) : ?>
+                                    <div>
+                                        <?php if ($cliente->url_address) : ?>
+                                            <a href="<?= $cliente->url_address ?>">
+                                                <?= $cliente->title ?>
+                                            </a>
+                                        <?php else : ?>
+                                            <?= $cliente->title ?>
+                                        <?php endif ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="uk-margin-large-top">
+                         <a class="button uk-button" href="">Case Studies</a>
+                         <div class="uk-margin-top">
+                         <a class="button uk-button" href="">Portfolio</a>
+                         </div>
+                     </div>
+
                 </div>
             </div>
         </div>
-        <hr class="uk-margin-large">
-        <?php $clientes_parent = $pages->get('/clientes/'); ?>
-        <div class="">
-            <h3><?php echo __("Client*s destacad*s"); ?></h3>
-            <div class="uk-child-width-1-3@m uk-child-width-1-2 uk-grid-small uk-grid " uk-grid>
-                <!--
-                <?php foreach ($clientes_parent->clientes_logos as $logo): ?>
-                    <div>
-                        <?php if ($logo->url_address): ?>
-                            <a href="<?= $logo->url_address ?>">
-                                <img width="<?= $logo->width ?>" height="<?= $logo->height ?>"
-                                     data-src="<?= $logo->url ?>" uk-img>
-                            </a>
-                        <?php else: ?>
-                            <img width="<?= $logo->width ?>" height="<?= $logo->height ?>" data-src="<?= $logo->url ?>"
-                                 uk-img>
-                        <?php endif ?>
-                    </div>
-                <?php endforeach; ?>
-                -->
-                <?php
-                $clientes = $clientes_parent->children();
-                bd($clientes);
-                ?>
-                <?php foreach ($clientes as $cliente): ?>
-                    <div>
-                        <?php if ($cliente->url_address): ?>
-                            <a href="<?= $cliente->url_address ?>">
-                                <?= $cliente->title ?>
-                            </a>
-                        <?php else: ?>
-                            <?= $cliente->title ?>
-                        <?php endif ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <div class="uk-margin-large">
-            <h3><?php echo __("Colaborador*s") ?></h3>
-
-            <div class="uk-child-width-1-3@m  uk-grid-small uk-grid" uk-grid>
-
-                <?php foreach ($clientes_parent->colaboradores as $colaborador): ?>
-                    <div>
-                        <?php if ($colaborador->url_address): ?>
-                            <a href="<?= $colaborador->url_address ?>">
-                                <?= $colaborador->name ?>
-                            </a>
-                        <?php else: ?>
-                            <?= $colaborador->name ?>
-                        <?php endif ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-        </div>
-
     </div>
+</div>
 
 </div>
+
+
+<!--
+<ul class="uk-margin-top uk-iconnav">
+    <?php foreach ($home->social_media as $icon): ?>
+        <li>
+            <a target="_blank" href="<?= $icon->url_address ?>"
+               uk-icon="icon: <?= $icon->title ?>"></a>
+        </li>
+    <?php endforeach ?>
+</ul>
+-->

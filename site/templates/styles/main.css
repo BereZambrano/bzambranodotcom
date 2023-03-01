@@ -16,3 +16,13 @@
     font-size: 40px;
     line-height: 48px;
 }
+
+.button {
+    border-radius: 25px;
+    background-color: black;
+    color: white;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
