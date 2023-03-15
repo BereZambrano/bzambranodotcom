@@ -6,3 +6,4 @@
 /vendor
 /.idea
 /site/templates/css/build.css
+/.vsls.json

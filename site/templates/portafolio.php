@@ -5,27 +5,18 @@ namespace ProcessWire;
 <div id="main-content" pw-append>
 
     <section class="bio-section uk-margin-top">
-        <div class="uk-container uk-container-xsmall">
-            <div class="uk-flex-middle uk-grid-small uk-flex-center uk-grid" uk-grid>
-                <div class="uk-text-center bio-pic uk-width-1-5">
-                    <img src="<?= $home->image->width(120)->url ?>">
-                </div>
-
-                <div class="bio uk-width-1-2">
-                    <p> <?= $home->text ?> </p>
-                </div>
-
-            </div>
-            <div class="">
-                <div class="bio uk-flex uk-flex-center">
-                    <?= $home->quien_home ?>
+        <div class="uk-container uk-container-small">
+            <div class="uk-grid-small uk-flex-left uk-grid" uk-grid>
+                <div class=" uk-width-1-2">
+                    <p> <?= $page->first_intro ?> </p>
                 </div>
             </div>
+
         </div>
     </section>
 
     <?php $projects = $pages->find('template=proyecto, limit=5, sort=sort'); ?>
-    <div class="uk-container uk-container-small uk-margin-medium-top home-portfolio">
+    <div class="uk-container uk-container-small uk-margin-medium-top home-portfolio uk-margin-large-bottom">
         <div class="uk-grid uk-child-width-1-1" uk-grid>
             <?php foreach ($projects as $i => $project) : ?>
                 <div class="">
@@ -51,11 +42,28 @@ namespace ProcessWire;
         </div>
     </div>
 
-    <div class="uk-container">
-        <div class="uk-flex uk-flex-center">
+    <hr>
+    <?php
+    $caseStudyPage=$pages->get("template=case-studies");
+    ?>
 
-            <button class="section-button uk-button uk-button-default uk-border-circle" uk-icon="icon: plus"></button>
-
+    <div class="uk-container uk-flex-center uk-flex uk-flex-column">
+        <div class="uk-container-small">
+            <div class="uk-margin-large-left uk-margin-large-top uk-width-1-3@ " uk-grid>
+                <div>
+                    <?= $caseStudyPage->second_intro; ?>
+                </div>
+            </div>
+        </div>
+        <div class="uk-flex uk-margin-large uk-flex-right uk-height-large">
+            <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+                <div class="uk-width-3-5@m">
+                    <?= $caseStudyPage->text_large; ?>
+                    <div class="uk-margin-medium-top">
+                        <a class="button uk-button" href="">Services</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
