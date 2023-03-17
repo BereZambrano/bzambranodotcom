@@ -30,8 +30,6 @@
             </li>
         </ul>
 
-
-
         <!--First repeater-->
         <?php foreach($page->home_repeater as $item): ?>
             <div class="">
@@ -40,13 +38,15 @@
                         <?= $item->home_titles; ?>
                     </div>
                 </div>
-
-                <div class="uk-container uk-flex-right uk-flex uk-margin-large-top uk-margin-large-bottom">
-                    <div class="uk-width-1-2@m">
-                        <?= $item->home_subtitles; ?>
+                <?php if($item->home_subtitles):?>
+                    <div class="uk-container uk-flex-right uk-flex uk-margin-large-top uk-margin-large-bottom">
+                        <div class="uk-width-1-2@m">
+                            <?= $item->home_subtitles; ?>
+                        </div>
                     </div>
-                </div>
+                <?php endif ?>
             </div>
+
             <div class="">
                 <?php if($item->home_images): ?>
                     <div class="uk-flex-right">
@@ -58,13 +58,13 @@
                     </div>
                 <?php endif ?>
 
-                    <div class="uk-container uk-flex-right uk-flex uk-margin-top ">
-                        <div class="uk-margin-top uk-width-1-2@m">
-                            <?= $item->home_texts; ?>
-                        </div>
+                <div class="uk-container uk-flex-right uk-flex uk-margin-top ">
+                    <div class="uk-margin-top uk-width-1-2@m">
+                        <?= $item->home_texts; ?>
                     </div>
+                </div>
             </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
 
             <div class="uk-container uk-flex-right uk-flex ">
                 <div class="uk-width-1-2@m">

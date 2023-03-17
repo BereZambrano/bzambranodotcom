@@ -75,7 +75,7 @@ try {
             <nav class="uk-navbar">
                 <div class="uk-navbar-left">
 
-                    <a  class="bzambrano uk-navbar-item" href="<?= $home->url ?>">
+                    <a  class="bzambrano-logo uk-navbar-item" href="<?= $home->url ?>">
                         <!-- <img class="mango" style="" src="<?= $urls->templates ?>img/mango@0.5x.png">-->
                         <span>
                                     <span class="name">berenice</span><span class="apellido">zambrano</span><br>
@@ -168,7 +168,7 @@ try {
                     <div class="uk-navbar-left">
                         <ul class="uk-navbar-nav">
                             <li class="uk-flex uk-flex-middle">
-                                <a  class="bzambrano" href="<?= $home->url ?>">
+                                <a  class="bzambrano-logo" href="<?= $home->url ?>">
                                     <!-- <img class="mango" style="" src="<?= $urls->templates ?>img/mango@0.5x.png">-->
                                     <span>
                                     <span class="name">berenice</span><span class="apellido">zambrano</span><br>
