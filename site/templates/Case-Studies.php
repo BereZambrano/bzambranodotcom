@@ -59,25 +59,25 @@
             </div>
         </div>
 
-            <!--For social projects-->
+        <!--For social projects-->
         <div class="uk-container uk-flex-center uk-flex uk-flex-column">
-                <div class="uk-container-small">
-                    <div class="uk-margin-large-left uk-margin-large-top uk-width-1-3@ " uk-grid>
-                        <div>
-                            <?= $page->second_intro; ?>
+            <div class="uk-container-small">
+                <div class="uk-margin-large-left uk-margin-large-top uk-width-1-3@ " uk-grid>
+                    <div>
+                        <?= $page->second_intro; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="uk-flex uk-margin-large uk-flex-right uk-height-large">
+                <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+                    <div class="uk-width-3-5@m">
+                        <?= $page->text_large; ?>
+                        <div class="uk-margin-medium-top">
+                            <a class="button uk-button" href="">Services</a>
                         </div>
                     </div>
                 </div>
-                    <div class="uk-flex uk-margin-large uk-flex-right uk-height-large">
-                        <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
-                            <div class="uk-width-3-5@m">
-                                <?= $page->text_large; ?>
-                                <div class="uk-margin-medium-top">
-                                    <a class="button uk-button" href="">Services</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
         </div>
 
 
