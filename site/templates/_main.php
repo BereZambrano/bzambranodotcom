@@ -6,7 +6,6 @@
 //Compile UIKit
 
 $less_files = array();
-
 $uikitFile = $config->paths->templates . 'css/uikit-custom.less';
 
 $less_files = array(
@@ -15,7 +14,7 @@ $less_files = array(
 
 $uikitOptions = array('cache_dir' => $config->paths->assets . 'cache/less/',
     'output' => $config->paths->templates . 'css/build.css',
-    'relativeUrls' => false);
+    'relativeUrls' => true);
 
 
 try {
