@@ -2,13 +2,15 @@
     <!--Home_profile -->
     <section class="bio-section uk-height-large">
         <div class="uk-container uk-margin-large-top">
-            <div class="uk-grid-small uk-grid" uk-grid>
+            <div class="uk-grid-small uk-flex-right@m uk-flex-center uk-flex-middle uk-grid" uk-grid>
                 <div class="uk-flex uk-flex-right bio-pic uk-width-1-3 ">
-                    <img src="<?= $home->image->size(150)->url ?>">
+                    <div>
+                        <img src="<?= $home->image->size(150)->url ?>">
+                    </div>
                 </div>
 
-                <div class="">
-                    <div class="bio uk-flex">
+                <div class="uk-width-2-3@m">
+                    <div class="bio">
                         <?= $home->quien_home ?>
                     </div>
                 </div>
