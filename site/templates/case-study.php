@@ -32,7 +32,7 @@
                         <?= $page->text ?>
                     </div>
                 </div>
-                <hr class="uk-divider">
+                <hr class="uk-margin">
             </section>
 
             <section class="">

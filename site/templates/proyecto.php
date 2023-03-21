@@ -3,9 +3,15 @@
 $header_image = $page->getHeaderImage();
 ?>
 <div id="main-content" class="proyecto uk-background-secondary" pw-append>
-    <section class="uk-container uk-light">
-        <div>
-            <h1 class="uk-container"><?= $page->title ?></h1>
+    <section class="uk-container uk-light uk-margin">
+        <div class="uk-margin-large-top" uk-grid>
+            <div class="uk-width-4-5@m">
+                <h1 class="uk-container"><?= $page->title ?></h1>
+            </div>
+
+            <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
+                <?php echo $modules->MarkupSocialShareButtons->render(); ?>
+            </div>
         </div>
 
         <hr class="uk-margin-large">
@@ -44,27 +50,20 @@ $header_image = $page->getHeaderImage();
                     </div>
 
                 </div>
+
+                    <div class="uk-flex uk-flex-right">
+                        <div class="uk-width-3-5@m">
+                            <?= $page->text ?>
+                        </div>
+
+                    </div>
+
             </div>
 
 
 
             <div>
-                <?php
-                if ($page->show_header) {
-                    $images = $page->images->not("name=$header_image")->getValues();
 
-                } else {
-                    $images = $page->images->getValues();
-                }
-                ?>
-                <?php if ($page->text_large): ?>
-                    <div class="uk-width-1-1">
-                        <div class="uk-visible@m desktop-main-text">
-                            <?= $page->text_large ?>
-                        </div>
-
-                    </div>
-                <?php endif ?>
                 <?php if($page->content->count()):?>
                     <?php echo $page->render('content');?>
                 <?php else: ?>
