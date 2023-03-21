@@ -18,7 +18,16 @@
 
         <ul class="uk-list-divider" uk-accordion>
             <?php foreach($page->children as $child) : ?>
-            <li>
+            <?php
+            $isOpen = false;
+            $servicio = $input->get->servicio;
+            if($servicio){
+                if($servicio == $child->name){
+                    $isOpen = true;
+                }
+            }
+            ?>
+            <li class="<?=$isOpen ? "uk-open" : ""?>">
                 <a class="uk-accordion-title" href="#">
                     <?= $child->title ?>
                 </a>
