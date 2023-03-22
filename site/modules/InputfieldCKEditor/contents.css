@@ -23,24 +23,45 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  *
  */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Inter:wght@300;400&display=swap');
 
 body {
 	/* Font */
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-family: 'Inter' ,sans-serif, Arial, Verdana, "Trebuchet MS";
 	font-size: 14px;
 
 	/* Text color */
 	color: #333;
-
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
 
 	margin: 10px;
 }
 
+.uk-text-lead {
+	font-size: 20px;
+	line-height: 1.5;
+}
+
 .cke_editable {
 	font-size: 14px;
 	line-height: 1.6em;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: 'IBM Plex Sans';
+}
+h1{
+    font-size: 80px;
+}
+h2{
+    font-size: 60px;
+}
+h3{
+    font-size:52px;
+}
+h4{
+    font-size:40px;
 }
 
 blockquote {

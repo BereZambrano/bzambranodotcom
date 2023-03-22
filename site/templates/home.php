@@ -22,7 +22,7 @@
         <!--First repeater-->
         <?php foreach($page->home_repeater as $item): ?>
 
-                <div class="uk-margin-large-bottom uk-margin-large-top uk-width-1-3@">
+                <div class="uk-margin-large-bottom uk-margin-large-top uk-width-1-3@m">
                     <?php if (!empty($item->home_titles) && !empty($item->home_subtitles)): ?>
                         <div>
                             <?= $item->home_titles; ?>
