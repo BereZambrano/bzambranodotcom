@@ -23,18 +23,10 @@
         <?php foreach($page->home_repeater as $item): ?>
 
                 <div class="uk-margin-large-bottom uk-margin-large-top uk-width-1-3@m">
-                    <?php if (!empty($item->home_titles) && !empty($item->home_subtitles)): ?>
+                    <?php if ($item->home_titles || $item->home_subtitles ): ?>
                         <div>
-                            <?= $item->home_titles; ?>
-                            <?= $item->home_subtitles; ?>
-                        </div>
-                    <?php elseif (!empty($item->home_titles)): ?>
-                        <div>
-                            <?= $item->home_titles; ?>
-                        </div>
-                    <?php elseif (!empty($item->home_subtitles)): ?>
-                        <div>
-                            <?= $item->home_subtitles; ?>
+                            <?= $item->home_titles ?: ""; ?>
+                            <?= $item->home_subtitles ?: ""; ?>
                         </div>
                     <?php endif ?>
                 </div>
