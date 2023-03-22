@@ -244,6 +244,34 @@
 
 }
 
+.hook-subnav(){
+  .tags-search &{
+    margin-top: -20px;
+  }
+}
+
+.hook-subnav-item(){
+  text-decoration: none;
+  .tags-search &{
+    border: 1px solid black;
+    padding: 0 15px;
+    line-height: 2rem;
+    border-radius: 30px;
+    margin-top: 20px;
+    &:focus,
+    &:hover{
+      background-color: #000;
+      color: white;
+    }
+  }
+}
+
+.hook-subnav-item-active(){
+  .tags-search & {
+    background-color: black;
+    color:white;
+  }
+}
 
 @import "main.less";
 

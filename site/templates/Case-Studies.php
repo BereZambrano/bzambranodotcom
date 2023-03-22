@@ -61,31 +61,36 @@
             <?php endforeach; ?>
         </div>
 
-        <div class="uk-width-1-3@m">
+        <div class="tags-search uk-width-1-3@m">
             <div uk-sticky="end: true; offset: 100">
                 <p>TAG SEARCH</p>
+                <ul class="uk-subnav">
                 <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
                     <?php
                     $active_tag = ''; // initialize as empty
                     if ($input->get->tag) {
                         $active_tag = $input->get->tag; // set to tag name from URL parameter
                     }
+                    $isActive = "";
+                    bd($research_tags->name);
+                    if ($research_tags->name == $active_tag) {
+                       $isActive = 'uk-active';
+                    }
                     ?>
-                <ul class="uk-subnav">
-                    <li <?php if ($research_tags->name == $active_tag) echo 'class="uk-active"'; ?>>
+                    <li class="<?=$isActive?>">
                         <?php
                         $url = $page->url([
-                            'data' => [
-                                    'tag' => $research_tags->name
-                            ]
+                          'data' => [
+                            'tag' => $research_tags->name
+                          ]
                         ]);
                         ?>
                         <a href="<?= $url; ?>">
                             <?= $research_tags->title; ?>
                         </a>
                     </li>
-                </ul>
                 <?php endforeach; ?>
+                </ul>
             </div>
         </div>
     </div>
