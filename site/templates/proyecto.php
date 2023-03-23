@@ -5,8 +5,8 @@ $header_image = $page->getHeaderImage();
 <div id="main-content" class="proyecto uk-background-secondary" pw-append>
     <section class="uk-container uk-light uk-margin">
         <div class="uk-margin-large-top" uk-grid>
-            <div class="uk-width-4-5@m">
-                <h1 class="uk-container"><?= $page->title ?></h1>
+            <div class="uk-width-4-5@m uk-margin-large-top">
+                <h2><?= $page->title ?></h2>
             </div>
 
             <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
@@ -14,7 +14,7 @@ $header_image = $page->getHeaderImage();
             </div>
         </div>
 
-        <hr class="uk-margin-large">
+        <hr class="uk-margin-bottom>
 
         <div class="project-container uk-margin uk-container">
 
@@ -25,28 +25,28 @@ $header_image = $page->getHeaderImage();
 
                 <div class="uk-margin-medium uk-padding-small">
                     <div class="uk-margin-small-bottom">
-                        <h5 class="uk-text-bold uk-margin-remove"><?= __("Cliente") ?>:</h5>
-                        <p class="uk-margin-remove"><?= $page->cliente->title ?></p>
+                        <h5 class="uk-margin-remove"><?= __("Cliente") ?>:</h5>
+                        <h3 class="uk-margin-remove"><?= $page->cliente->title ?></h3>
                     </div>
 
                     <div class="uk-margin-small-bottom">
-                        <h5 class="uk-text-bold uk-margin-remove"><?= __("Servicios") ?>:</h5>
-                        <p class="uk-margin-remove">
+                        <h5 class="uk-margin-remove"><?= __("Servicios") ?>:</h5>
+                        <h3 class="uk-margin-remove">
                             <?php echo $page->servicios->implode("<br>", function ($item) {
                                 //bd($item->title);
                                 return "<a href='$item->url'>$item->title</a>";
                             }); ?>
-                        </p>
+                        </h3>
                     </div>
 
                     <div class="uk-margin-small-bottom">
-                        <h5 class="uk-text-bold uk-margin-remove"><?= __("Lugar") ?>:</h5>
-                        <p class="uk-margin-remove"><?= $page->lugar ?></p>
+                        <h5 class="uk-margin-remove"><?= __("Lugar") ?>:</h5>
+                        <h3 class="uk-margin-remove"><?= $page->lugar ?></h3>
                     </div>
 
                     <div class="uk-margin-small-bottom">
-                        <h5 class="uk-text-bold uk-margin-remove"><?= __("Año") ?>:</h5>
-                        <p class="uk-margin-remove"><?= $page->year ?></p>
+                        <h5 class="uk-margin-remove"><?= __("Año") ?>:</h5>
+                        <h3 class="uk-margin-remove"><?= $page->year ?></h3>
                     </div>
 
                 </div>
@@ -63,7 +63,6 @@ $header_image = $page->getHeaderImage();
 
 
             <div>
-
                 <?php if($page->content->count()):?>
                     <?php echo $page->render('content');?>
                 <?php else: ?>
@@ -112,6 +111,13 @@ $header_image = $page->getHeaderImage();
                     <?php endforeach ?>
                 </div>
             </div>
+
+            <div class="uk-flex uk-flex-right">
+                <div class="uk-width-3-5@m uk-margin-top">
+                    <?= $page->text_large ?>
+                </div>
+            </div>
+
         </div>
         <hr class="uk-margin-large">
         <div class="proyectos-relacionados uk-margin-large uk-container">

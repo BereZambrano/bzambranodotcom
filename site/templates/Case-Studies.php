@@ -107,7 +107,7 @@
                 </div>
 
             <div class=" uk-margin-large uk-flex uk-flex-right">
-                    <div class="uk-width-3-5@m">
+                    <div class="uk-width-2-5@m">
                         <?= $page->text_large; ?>
                         <div class="uk-margin-medium-top">
                             <a class="button uk-button" href="">Services</a>

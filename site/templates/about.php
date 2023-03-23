@@ -9,26 +9,24 @@ $clientes_parent = $pages->get('/clientes/');
     <!-- First container -->
     <!-- Intro 1 -->
     <div class="uk-container">
-        <div class="uk-grid uk-flex-center" uk-grid>
-            <div class="">
-                <?= $page->first_intro ?>
-            </div>
+        <div class="uk-container">
+            <div class="uk-grid" uk-grid>
+                <div class="uk-width-3-5@m">
+                    <?= $page->first_intro ?>
+                </div>
 
-            <div class="uk-flex uk-flex-wrap uk-flex-right uk-width-2-5@m">
-                <div class="uk-width-1-1 uk-flex uk-flex-center">
+                <div class="uk-width-2-5@m">
                     <img class="uk-width-1-1" src="<?= $page->about_pic1->width(368)->height(471)->url ?>">
                 </div>
             </div>
         </div>
-
         <!-- Intro 2-->
-        <div class="uk-flex uk-margin-large uk-flex-right">
-
-            <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+        <div class="uk-flex uk-margin-large-top uk-flex-right">
+            <div class="uk-flex uk-width-4-5@m uk-flex-wrap">
                 <div class="uk-width-1-1">
                     <img class="uk-width-1-1" src="<?= $page->about_pic2->width(806)->height(537)->url ?>">
                 </div>
-                <div class="uk-text-left uk-width-1-1@m">
+                <div class="uk-text-left uk-width-1-1@m uk-margin-medium-bottom">
                     <?= $page->about_pic2->description ?>
                 </div>
             </div>
@@ -38,18 +36,18 @@ $clientes_parent = $pages->get('/clientes/');
 
         <div class="uk-flex uk-margin-large uk-flex-right">
 
-            <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
+            <div class="uk-flex uk-width-3-5@m uk-flex-center uk-flex-wrap">
 
-                <div class=" uk-width-3-5@m ">
+                <div class="">
 
                     <div class="uk-margin-large-bottom">
                         <?= $page->experiencia_intro ?>
                     </div>
 
                     <!-- Service section -->
-                    <div class="uk-child-width-1-1@m uk-margin-medium-top " >
+                    <div class="uk-child-width-1-1@m uk-margin-large-top " >
                         <p class="uk-text-bold">Things I do</p>
-                        <?= $page->text ?>
+                        <p class="uk-margin-top"><?= $page->text ?></p>
                     </div>
 
                     <!-- Service button -->
@@ -64,13 +62,22 @@ $clientes_parent = $pages->get('/clientes/');
     <!-- Second container-->
     <!--second text-->
     <div class="uk-container">
-        <div class="uk-flex uk-flex-center">
-            <div class="uk-container-small uk-margin-large-top">
+        <div class="uk-flex uk-flex-left">
+            <div class="uk-width-2-5@m uk-margin-large-top">
                 <div class="">
                     <?= $page->second_intro ?>
                 </div>
             </div>
         </div>
+
+        <div class="uk-flex uk-flex-right">
+            <div class="uk-width-3-5@m uk-margin-large-top">
+                <div class="">
+                    <?= $page->text_large ?>
+                </div>
+            </div>
+        </div>
+
         <div class="uk-grid uk-grid-large" uk-grid>
             <!-- Experiencia -->
             <div class="uk-flex uk-margin-large uk-flex-right">

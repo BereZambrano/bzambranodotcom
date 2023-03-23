@@ -2,7 +2,7 @@
     <!--Home_profile -->
     <section class="bio-section uk-height-large">
         <div class="uk-container uk-margin-large-top">
-            <div class="uk-grid-small uk-flex-right@m uk-flex-center uk-flex-middle uk-grid" uk-grid>
+            <div class="uk-grid-small uk-flex-right@m uk-flex-center uk-grid" uk-grid>
                 <div class="uk-flex uk-flex-right bio-pic uk-width-1-3 ">
                     <div>
                         <img src="<?= $home->image->size(150)->url ?>">
@@ -42,7 +42,8 @@
                     </div>
                 <?php endif ?>
 
-                <div class="uk-flex uk-margin-large uk-flex-right">
+                <?php if($item->home_texts): ?>
+                <div class="uk-flex uk-margin-large-top uk-flex-right">
                     <div class=" uk-width-2-5@m  ">
                         <div class="">
                             <?= $item->home_texts; ?>
@@ -52,7 +53,9 @@
                         </div>
                     </div>
                 </div>
-
+                <?php endif ?>
+            <hr class="uk-margin-large-top">
         <?php endforeach; ?>
+
     </div>
 </div>
