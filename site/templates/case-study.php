@@ -1,7 +1,8 @@
 <?php namespace ProcessWire; ?>
 
-<div id="main-content" class="proyecto uk-light uk-background-secondary" pw-append>
-    <div class="">
+<div id="main-content" class="proyecto uk-margin-large" pw-append>
+
+    <div class="uk-light uk-background-secondary">
             <section class="uk-container">
                 <div class="uk-margin-large-top" uk-grid>
                     <div class="uk-width-4-5@m uk-margin-large-top">
@@ -49,9 +50,10 @@
                                 <?= $item->text; ?>
                             </div>
                         </div>
+                        <hr class="">
                     <?php endif ?>
 
-                    <hr class="">
+
 
                     <?php if ($item->type == "galeria_modulo"): ?>
                         <div class="uk-margin-large-top uk-width-1-1@m">
@@ -72,17 +74,15 @@
                                 <a class=" uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
                             </div>
                         </div>
+                        <hr class="">
                     <?php endif ?>
                 <?php endforeach; ?>
             </section>
     </div>
 
-    <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
-
-    <hr>
-
-    <?php echo wireRenderFile('inc/portfolio-projects-slider.php'); ?>
-
+        <section class="uk-dark uk-background-muted">
+        <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
+        </section>
 </div>
 
 

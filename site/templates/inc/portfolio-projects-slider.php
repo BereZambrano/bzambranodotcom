@@ -1,9 +1,9 @@
 <div class="uk-margin uk-container uk-container-small">
-    <div class="uk-margin">
+    <div class="uk-margin uk-margin-large-top">
         <h2>Portfolio</h2>
     </div>
 
-    <div class="uk-margin">
+    <div class="uk-margin uk-margin-large-bottom">
         <div class="uk-position-relative uk-visible-toggle" uk-slider="autoplay: true">
             <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid uk-grid-small">
                 <?php foreach($pages->find("template=proyecto, id!={$page->id}") as $project): ?>

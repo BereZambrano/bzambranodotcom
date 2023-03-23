@@ -81,4 +81,7 @@
                 </div>
             </div>
     </div>
+
+    <?php echo wireRenderFile('inc/testimonials.php'); ?>
+
 </div>
