@@ -11,6 +11,15 @@
   text-decoration: underline;
 }
 
+// hr { ...  <-inyectar lo que sigue-> }
+.hook-base-hr {
+  .testimonials & {
+    border-color: #222;
+  }
+}
+
+
+
 @base-h1-font-size-m: 2.5rem;
 @base-h2-font-size-m: 2rem;
 
@@ -274,6 +283,14 @@
   }
 }
 
+.testimonial-card .testimonial-card-main-text p{
+  font-size: @text-lead-font-size;
+}
+@media (min-width:959px){
+.testimonials-wrapper{
+  max-width: 95%;
+}
+}
 /*.tags-search .uk-subnav{
     margin-top: -20px;
 }
