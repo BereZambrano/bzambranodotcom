@@ -27,16 +27,20 @@
                 }
             }
             ?>
-            <li class="<?=$isOpen ? "uk-open" : ""?>">
-                <a class="uk-accordion-title" href="#">
-                    <?= $child->title ?>
-                </a>
-                <div class="uk-accordion-content">
-                    <?= $child->text ?>
-                </div>
-                <?php $proyectos_por_servicio = $pages->find("template=proyecto, servicios=$child, limit=6") ?>
-                <?php endforeach; ?>
-            </li>
+                <li class="<?=$isOpen ? "uk-open" : ""?>">
+                    <a class="uk-accordion-title" href="#">
+                        <?= $child->title ?>
+                    </a>
+                    <div class="uk-accordion-content">
+                        <?= $child->text ?>
+                        <?php $proyectos_por_servicio = $pages->find("template=proyecto, servicios=$child, limit=6") ?>
+                        <?php echo wireRenderFile('inc/proyectos-grid',
+                            [
+                                'projects' => $pages->find("template=proyecto, servicios={$child}, sort=sort")->getArray()
+                            ]); ?>
+                    </div>
+                </li>
+            <?php endforeach; ?>
         </ul>
 
         <!--First repeater-->
