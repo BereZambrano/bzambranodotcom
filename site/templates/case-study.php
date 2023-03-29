@@ -1,9 +1,13 @@
 <?php namespace ProcessWire; ?>
 
-<div id="main-content" class="proyecto uk-margin-large" pw-append>
-
+<div id="main-content" class="proyecto" pw-append>
     <div class="uk-light uk-background-secondary">
-            <section class="uk-container">
+        <section class="uk-container">
+
+            <div class="uk-margin-large-top">
+                <img src="/site/templates/img/Arrow1.png" alt="Arrow1">
+            </div>
+
                 <div class="uk-margin-large-top" uk-grid>
                     <div class="uk-width-4-5@m uk-margin-large-top">
                         <h2><?= $page->title ?></h2>
@@ -25,7 +29,10 @@
 
                         <div class="">
                             <h5 class="uk-margin-remove"><?= __("Research tactics") ?>:</h5>
-                            <h3 class="uk-margin-remove"><?= $page->research_tactics ?></h3>
+                            <?php foreach($page->research_tags as $item) {
+                            echo "<li><a href='$item->url'>$item->title</a></li>";
+                            }
+                            ?>
                         </div>
 
                         <div class="">
@@ -77,6 +84,40 @@
                         <hr class="">
                     <?php endif ?>
                 <?php endforeach; ?>
+
+            <div class="tags-search uk-margin-large-bottom uk-margin-large-top">
+                <div>
+                    <p>TAG SEARCH</p>
+                    <ul class="uk-subnav">
+                        <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
+                            <?php
+                            $active_tag = ''; // initialize as empty
+                            if ($input->get->tag) {
+                                $active_tag = $input->get->tag; // set to tag name from URL parameter
+                            }
+                            $isActive = "";
+                            bd($research_tags->name);
+                            if ($research_tags->name == $active_tag) {
+                                $isActive = 'uk-active';
+                            }
+                            ?>
+                            <li class="<?=$isActive?>">
+                                <?php
+                                $url = $page->url([
+                                    'data' => [
+                                        'tag' => $research_tags->name
+                                    ]
+                                ]);
+                                ?>
+                                <a href="<?= $url; ?>">
+                                    <?= $research_tags->title; ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+
             </section>
     </div>
 

@@ -9,39 +9,79 @@
                 </div>
             </div>
 
-            <div class="uk-container uk-flex-right uk-flex uk-margin-large-right uk-margin-large-top">
+            <div class="uk-container uk-flex-right uk-flex uk-margin-large-right uk-margin-large-top uk-margin-large-bottom">
                 <div class="uk-margin-top uk-width-1-2@m">
                     <?= $page->second_intro?>
                 </div>
             </div>
         </div>
-
-        <ul class="uk-list-divider" uk-accordion>
-            <?php foreach($page->children as $child) : ?>
-            <?php
-            $isOpen = false;
-            $servicio = $input->get->servicio;
-            if($servicio){
-                if($servicio == $child->name){
-                    $isOpen = true;
+        <!-- Servicios accordion -->
+        <div class="uk-margin-large-top uk-margin-large-bottom">
+            <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
+                <p>Here's part of what I do</p>
+                <h2>Research strategies and methodologies.</h2>
+            </div>
+            <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
+                <?php foreach($page->children as $child) : ?>
+                <?php
+                $isOpen = false;
+                $servicio = $input->get->servicio;
+                if($servicio){
+                    if($servicio == $child->name){
+                        $isOpen = true;
+                    }
                 }
-            }
-            ?>
-                <li class="<?=$isOpen ? "uk-open" : ""?>">
-                    <a class="uk-accordion-title" href="#">
-                        <?= $child->title ?>
-                    </a>
-                    <div class="uk-accordion-content">
-                        <?= $child->text ?>
-                        <?php $proyectos_por_servicio = $pages->find("template=proyecto, servicios=$child, limit=6") ?>
-                        <?php echo wireRenderFile('inc/proyectos-grid',
+                ?>
+                    <li class="<?=$isOpen ? "uk-open" : ""?>">
+                        <a class="uk-accordion-title" href="#">
+                            <?= $child->title ?>
+                        </a>
+                        <div class="uk-accordion-content">
+                            <?= $child->text ?>
+                            <?php echo wireRenderFile('inc/proyectos-grid',
+                                [
+                                    'projects' => $pages->find("template=proyecto, servicios={$child}, sort=sort")->getArray()
+                                ]); ?>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <!-- Research accordion -->
+        <div class="uk-margin-large-top uk-margin-large-bottom">
+            <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
+                <h2>Design services.</h2>
+            </div>
+            <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
+                <?php foreach($pages->find("template=research_tag, id!={$page->id}") as $research_tag): ?>
+                    <?php
+                    $isOpen = false;
+                    /*$research_tag = $input->get->research_tag;
+                    bd($research_tag);
+                    if($research_tag){
+                        if($research_tag == $child->name){
+                            $isOpen = true;
+                        }
+                    }*/
+                    $numResearchTag = $pages->find("template=case-study, research_tags={$research_tag}")->count();
+                    if(!$numResearchTag >= 1 )continue;
+                    bd($numResearchTag);
+                    ?>
+                    <li class="<?=$isOpen ? "uk-open" : ""?>">
+                        <a class="uk-accordion-title" href="#">
+                            <?= $research_tag->title ?>
+                        </a>
+                        <div class="uk-accordion-content">
+                            <?php echo wireRenderFile('inc/research-grid.php',
                             [
-                                'projects' => $pages->find("template=proyecto, servicios={$child}, sort=sort")->getArray()
-                            ]); ?>
-                    </div>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                                    'case_studies' => $pages->find("template=case-study, research_tags={$research_tag}, sort=sort")
+                                ]); ?>
+                        </div>
+                    </li>
+                <?php endforeach ?>
+            </ul>
+        </div>
 
         <!--First repeater-->
         <?php foreach($page->home_repeater as $item): ?>
@@ -89,3 +129,6 @@
     <?php echo wireRenderFile('inc/testimonials.php'); ?>
 
 </div>
+
+
+<!--if($research_tag) find count    if (!$numResearchTag->$numResearchTag) continue;-->
