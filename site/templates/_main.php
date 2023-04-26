@@ -181,12 +181,6 @@ try {
                     <div class="uk-navbar-center">
                         <ul class="uk-navbar-nav  uk-flex-between">
 
-                            <li class="<?= $page->id == 1 || $page->matches('template=proyecto') ? 'uk-active' : '' ?>">
-                                <a href="<?= $home->url ?>">
-                                    <?= $home->title ?>
-                                </a>
-                            </li>
-
                             <?php foreach ($home->children as $servicio): ?>
                                 <li class="<?= $servicio == $page ? 'uk-active' : '' ?>">
                                     <a href="<?= $servicio->url ?>">
