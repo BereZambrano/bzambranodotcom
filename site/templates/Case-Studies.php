@@ -34,11 +34,11 @@
                 ?>
                 <div class="uk-flex uk-flex-left">
                     <div class="uk-width-4-5@m uk-margin-large">
-                        <div class="uk-grid uk-grid-small uk-flex uk-flex-middle uk-child-width-expand@s" uk-grid>
-                            <div class="uk-width-1-2@m uk-flex uk-flex-column uk-text-small" uk-height-match>
-                                <div class="uk-text-small">
+                        <div class="uk-grid uk-grid-small uk-flex uk-child-width-expand@s" uk-grid>
+                            <div class="uk-width-1-2@m">
+                                <h3 class="uk-h4">
                                     <?= $case->title; ?>
-                                </div>
+                                </h3>
                                 <div>
                                     <?= $case->text_large; ?>
                                 </div>
@@ -65,31 +65,30 @@
             <div uk-sticky="end: true; offset: 100">
                 <p>TAG SEARCH</p>
                 <ul class="uk-subnav">
-                <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
-                    <?php
-                    $active_tag = ''; // initialize as empty
-                    if ($input->get->tag) {
-                        $active_tag = $input->get->tag; // set to tag name from URL parameter
-                    }
-                    $isActive = "";
-                    bd($research_tags->name);
-                    if ($research_tags->name == $active_tag) {
-                       $isActive = 'uk-active';
-                    }
-                    ?>
-                    <li class="<?=$isActive?>">
+                    <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
                         <?php
-                        $url = $page->url([
-                          'data' => [
-                            'tag' => $research_tags->name
-                          ]
-                        ]);
+                        $active_tag = ''; // initialize as empty
+                        if ($input->get->tag) {
+                            $active_tag = $input->get->tag; // set to tag name from URL parameter
+                        }
+                        $isActive = "";
+                        if ($research_tags->name == $active_tag) {
+                           $isActive = 'uk-active';
+                        }
                         ?>
-                        <a href="<?= $url; ?>">
-                            <?= $research_tags->title; ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+                        <li class="<?=$isActive?>">
+                            <?php
+                            $url = $page->url([
+                              'data' => [
+                                'tag' => $research_tags->name
+                              ]
+                            ]);
+                            ?>
+                            <a href="<?= $url; ?>">
+                                <?= $research_tags->title; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
