@@ -3,20 +3,22 @@
 $header_image = $page->getHeaderImage();
 ?>
 <div id="main-content" class="proyecto uk-background-secondary" pw-append>
-    <section class="uk-container uk-light uk-margin">
-        <div class="uk-margin-large-top" uk-grid>
-            <div class="uk-width-4-5@m uk-margin-large-top">
-                <h2><?= $page->title ?></h2>
+    <section class="uk-margin">
+        <div class="uk-light uk-container">
+            <div class="uk-margin-large-top" uk-grid>
+                <div class="uk-width-4-5@m uk-margin-large-top">
+                    <h2><?= $page->title ?></h2>
+                </div>
+
+                <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
+                    <?php echo $modules->MarkupSocialShareButtons->render(); ?>
+                </div>
             </div>
 
-            <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
-                <?php echo $modules->MarkupSocialShareButtons->render(); ?>
-            </div>
+            <hr class="uk-margin-bottom">
         </div>
 
-        <hr class="uk-margin-bottom>
-
-        <div class="project-container uk-margin uk-container">
+        <div class="project-container uk-light  uk-margin uk-container">
 
             <!-- Project intro and info -->
 
@@ -112,59 +114,60 @@ $header_image = $page->getHeaderImage();
                 </div>
             </div>
 
-            <div class="uk-flex uk-flex-right">
+            <!--<div class="uk-flex uk-flex-right">
                 <div class="uk-width-3-5@m uk-margin-top">
-                    <?= $page->text_large ?>
+                    <?php /*= $page->text_large */?>
                 </div>
-            </div>
+            </div>-->
 
         </div>
-        <hr class="uk-margin-large">
-        <div class="proyectos-relacionados uk-margin-large uk-container">
-            <h3><?php echo __("Más proyectos")?></h3>
-            <div class="uk-slider" uk-slider="autoplay:true;">
-                <div class="uk-position-relative">
-                    <div class="uk-slider-container">
-                        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid uk-grid-small">
-                            <?php foreach ($pages->find("template=proyecto, id!=$page") as $p): ?>
-                                <?php
-                                $related_header_image = $p->getHeaderImage();
-                                if(!$related_header_image) continue;
-                                ?>
-                                <li>
-                                    <div class="uk-position-relative">
-                                        <a href="<?=$p->url?>">
-                                            <img class="uk-width-1-1"
-                                                 data-src="<?= $related_header_image->size(300, 300)->url ?>"
-                                                 alt="" uk-img>
-                                            <div class="uk-position-cover uk-overlay slider-overlay uk-overlay-default ">
-                                                <div class="project-name uk-position-bottom-left uk-position-small">
-                                                    <h4 class="uk-text-bold text-white uk-margin-remove"><?= $p->title ?></h4>
-                                                    <p class="uk-margin-remove text-white uk-text"><?php echo $p->servicios->implode(', ', 'title'); ?></p>
+        <div class="uk-background-muted">
+            <div class="proyectos-relacionados uk-container">
+                <h3><?php echo __("Más proyectos")?></h3>
+                <div class="uk-slider" uk-slider="autoplay:true;">
+                    <div class="uk-position-relative">
+                        <div class="uk-slider-container">
+                            <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid uk-grid-small">
+                                <?php foreach ($pages->find("template=proyecto, id!=$page") as $p): ?>
+                                    <?php
+                                    $related_header_image = $p->getHeaderImage();
+                                    if(!$related_header_image) continue;
+                                    ?>
+                                    <li>
+                                        <div class="uk-position-relative">
+                                            <a href="<?=$p->url?>">
+                                                <img class="uk-width-1-1"
+                                                     data-src="<?= $related_header_image->size(300, 300)->url ?>"
+                                                     alt="" uk-img>
+                                                <div class="uk-position-cover uk-overlay slider-overlay uk-overlay-default ">
+                                                    <div class="project-name uk-position-bottom-left uk-position-small">
+                                                        <h4 class="uk-text-bold uk-margin-remove"><?= $p->title ?></h4>
+                                                        <p class="uk-margin-remove uk-text"><?php echo $p->servicios->implode(', ', 'title'); ?></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                            <?php endforeach ?>
-                        </ul>
+                                            </a>
+                                        </div>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
 
-                        <!--<ul class="uk-slider-nav uk-flex-center uk-margin  uk-hidden@s uk-dotnav"></ul>-->
+                            <!--<ul class="uk-slider-nav uk-flex-center uk-margin  uk-hidden@s uk-dotnav"></ul>-->
 
 
+                        </div>
+                        <a class="uk-position-center-left uk-light uk-hidden@m" href="#" uk-slidenav-previous  uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-light uk-hidden@m"  href="#" uk-slidenav-next uk-slider-item="next" ></a>
+
+                        <div class="uk-margin uk-flex-right uk-visible@m uk-slidenav-container">
+                            <a href="#" uk-slidenav-previous  uk-slider-item="previous"></a>
+                            <a href="#" uk-slidenav-next uk-slider-item="next" ></a>
+                        </div>
+
+                        <!--<div class="uk-visible@s">
+                            <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                            <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                        </div>-->
                     </div>
-                    <a class="uk-position-center-left uk-light uk-hidden@m" href="#" uk-slidenav-previous  uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-light uk-hidden@m"  href="#" uk-slidenav-next uk-slider-item="next" ></a>
-
-                    <div class="uk-margin uk-flex-right uk-visible@m uk-slidenav-container">
-                        <a href="#" uk-slidenav-previous  uk-slider-item="previous"></a>
-                        <a href="#" uk-slidenav-next uk-slider-item="next" ></a>
-                    </div>
-
-                    <!--<div class="uk-visible@s">
-                        <a class="uk-position-center-left-out uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                        <a class="uk-position-center-right-out uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
-                    </div>-->
                 </div>
             </div>
         </div>

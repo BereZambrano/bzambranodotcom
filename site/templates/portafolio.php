@@ -5,7 +5,7 @@ namespace ProcessWire;
 <div id="main-content" pw-append>
 
     <section class="bio-section uk-margin-top">
-        <div class="uk-container uk-container-small">
+        <div class="uk-container">
             <div class="uk-grid-small uk-flex-left uk-grid" uk-grid>
                 <div class=" uk-width-1-2">
                     <p> <?= $page->first_intro ?> </p>
@@ -16,7 +16,7 @@ namespace ProcessWire;
     </section>
 
     <?php $projects = $pages->find('template=proyecto, limit=5, sort=sort'); ?>
-    <div class="uk-container uk-container-small uk-margin-medium-top home-portfolio uk-margin-large-bottom">
+    <div class="uk-container uk-margin-medium-top home-portfolio uk-margin-large-bottom">
         <div class="uk-grid uk-child-width-1-1" uk-grid>
             <?php foreach ($projects as $i => $project) : ?>
                 <div class="">
@@ -48,11 +48,9 @@ namespace ProcessWire;
     ?>
 
     <div class="uk-container uk-flex-center uk-flex uk-flex-column">
-        <div class="uk-container-small">
-            <div class="uk-margin-large-left uk-margin-large-top uk-width-1-3@ " uk-grid>
-                <div>
-                    <?= $caseStudyPage->second_intro; ?>
-                </div>
+        <div class="uk-margin-large-top">
+            <div>
+                <?= $caseStudyPage->second_intro; ?>
             </div>
         </div>
         <div class="uk-flex uk-margin-large uk-flex-right uk-height-large">

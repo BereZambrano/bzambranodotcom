@@ -85,6 +85,7 @@
                     <?php endif ?>
                 <?php endforeach; ?>
 
+
             <div class="tags-search uk-margin-large-bottom uk-margin-large-top">
                 <div>
                     <p>TAG SEARCH</p>
@@ -96,14 +97,14 @@
                                 $active_tag = $input->get->tag; // set to tag name from URL parameter
                             }
                             $isActive = "";
-                            bd($research_tags->name);
+
                             if ($research_tags->name == $active_tag) {
                                 $isActive = 'uk-active';
                             }
                             ?>
                             <li class="<?=$isActive?>">
                                 <?php
-                                $url = $page->url([
+                                $url = $page->parent->url([
                                     'data' => [
                                         'tag' => $research_tags->name
                                     ]

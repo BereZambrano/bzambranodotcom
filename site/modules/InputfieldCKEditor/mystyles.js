@@ -20,6 +20,13 @@
 
 CKEDITOR.stylesSet.add('bere', [
     {
+        name: 'Tagline Text',
+        element: 'p',
+        attributes: {
+            'class': 'tagline'
+        }
+    },
+    {
         name: 'Lead Text',
         element: 'p',
         attributes: {

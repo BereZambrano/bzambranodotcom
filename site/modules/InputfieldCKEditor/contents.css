@@ -43,6 +43,15 @@ body {
 	line-height: 1.5;
 }
 
+.tagline{
+	margin-bottom: -1rem;
+	font-size: 0.85rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #828282;
+}
+
+
 .cke_editable {
 	font-size: 14px;
 	line-height: 1.6em;
