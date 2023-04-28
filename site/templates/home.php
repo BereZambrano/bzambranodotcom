@@ -48,9 +48,7 @@
                         <div class=" uk-width-2-5@m  ">
                             <div class="">
                                 <?= $item->home_texts; ?>
-                                <div class="uk-margin-medium-top uk-margin-large-bottom">
-                                    <a class="button uk-button" href="">Services</a>
-                                </div>
+
                             </div>
                         </div>
                     </div>

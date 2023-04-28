@@ -109,7 +109,7 @@
                     <div class="uk-width-2-5@m">
                         <?= $page->text_large; ?>
                         <div class="uk-margin-medium-top">
-                            <a class="button uk-button" href="">Services</a>
+                            <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>
                         </div>
                     </div>
             </div>

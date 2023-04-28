@@ -52,7 +52,7 @@ $clientes_parent = $pages->get('/clientes/');
 
                     <!-- Service button -->
                     <div class="">
-                        <a class="button uk-button" href="">Services</a>
+                        <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">Services</a>
                     </div>
                 </div>
             </div>
@@ -174,9 +174,9 @@ $clientes_parent = $pages->get('/clientes/');
                         </div>
 
                         <div class="uk-margin-large-top">
-                            <a class="button uk-button" href="">Case Studies</a>
+                            <a class="button uk-button" href="<?php echo $pages->get('template=case-studies')->url; ?>">Case Studies</a>
                             <div class="uk-margin-top">
-                                <a class="button uk-button" href="">Portfolio</a>
+                                <a class="button uk-button" href="<?php echo $pages->get('template=portafolio')->url; ?>">Portfolio</a>
                             </div>
                         </div>
                     </div>

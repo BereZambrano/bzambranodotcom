@@ -5,6 +5,13 @@ $header_image = $page->getHeaderImage();
 <div id="main-content" class="proyecto uk-background-secondary" pw-append>
     <section class="uk-margin">
         <div class="uk-light uk-container">
+
+            <div class="uk-margin-large-top">
+                <a href="<?= $page->parent()->url ?>">
+                    <img src="/site/templates/img/Arrow1.png" alt="Arrow1">
+                </a>
+            </div>
+
             <div class="uk-margin-large-top" uk-grid>
                 <div class="uk-width-4-5@m uk-margin-large-top">
                     <h2><?= $page->title ?></h2>

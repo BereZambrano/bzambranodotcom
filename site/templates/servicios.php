@@ -121,10 +121,13 @@
 
             <div class="uk-container uk-flex-right uk-flex ">
                 <div class="uk-width-1-2@m">
-                    <a class="button uk-button" href="">About Me</a>
+                    <a class="button uk-button" href="<?php echo $pages->get('template=about')->url; ?>">About Me</a>
                 </div>
             </div>
+
+        <hr class="uk-margin-large-top">
     </div>
+
 
     <?php echo wireRenderFile('inc/testimonials.php'); ?>
 

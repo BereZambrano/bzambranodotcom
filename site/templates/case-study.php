@@ -5,7 +5,9 @@
         <section class="uk-container">
 
             <div class="uk-margin-large-top">
-                <img src="/site/templates/img/Arrow1.png" alt="Arrow1">
+                <a href="<?= $page->parent()->url ?>">
+                    <img src="/site/templates/img/Arrow1.png" alt="Arrow1">
+                </a>
             </div>
 
                 <div class="uk-margin-large-top" uk-grid>
@@ -28,9 +30,16 @@
                         </div>
 
                         <div class="">
-                            <h5 class="uk-margin-remove"><?= __("Research tactics") ?>:</h5>
+                            <h5 class="uk-margin-remove"><?= __("Research tactics & Methodologies") ?>:</h5>
                             <?php foreach($page->research_tags as $item) {
-                            echo "<li><a href='$item->url'>$item->title</a></li>";
+
+                                $url = $page->parent->url([
+                                    'data' => [
+                                        'tag' => $item->name
+                                    ]
+                                ]);
+
+                                echo "<li><a href='$url'>$item->title</a></li>";
                             }
                             ?>
                         </div>
