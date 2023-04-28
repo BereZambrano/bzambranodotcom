@@ -36,22 +36,31 @@
                     <div class="uk-width-4-5@m uk-margin-large">
                         <div class="uk-grid uk-grid-small uk-flex uk-child-width-expand@s" uk-grid>
                             <div class="uk-width-1-2@m">
-                                <h3 class="uk-h4">
-                                    <?= $case->title; ?>
-                                </h3>
+                                <a class="uk-link-reset" href="<?=$case->url?>">
+                                    <h3 class="uk-h4">
+                                        <?= $case->title; ?>
+                                    </h3>
+                                </a>
                                 <div>
-                                    <?= $case->text_large; ?>
+                                    <?= $sanitizer->truncate($case->text_large, [
+                                        'type' => 'punctuation',
+                                        'maxLength' => 150,
+                                        'visible' => true,
+                                        'more' => '…'
+                                    ]); ?>
                                 </div>
                             </div>
 
                             <?php if($content_gallery->galeria->first()): ?>
                                 <div class="uk-width-1-2@m">
                                     <div>
-                                        <picture class="uk-height-match">
-                                            <source media="(max-width:959px)" srcset="<?= $content_gallery->galeria->first()->size(500, 500)->url ?>">
-                                            <source media="(min-width:960px)" srcset="<?= $content_gallery->galeria->first()->size(500, 500)->url ?>">
-                                            <img src='<?= $content_gallery->galeria->first->size(500, 500)->url ?>' loading="lazy">
-                                        </picture>
+                                        <a class="uk-link-reset" href="<?=$case->url?>">
+                                            <picture class="uk-height-match">
+                                                <source media="(max-width:959px)" srcset="<?= $content_gallery->galeria->first()->size(500, 500)->url ?>">
+                                                <source media="(min-width:960px)" srcset="<?= $content_gallery->galeria->first()->size(500, 500)->url ?>">
+                                                <img class="uk-width-1-1" src='<?= $content_gallery->galeria->first->size(500, 500)->url ?>' loading="lazy">
+                                            </picture>
+                                        </a>
                                     </div>
                                 </div>
                             <?php endif ?>

@@ -100,13 +100,18 @@
 
 @iconnav-item-color: @main-color;
 
-@button-primary-background: transparent;
-@button-primary-color: black;
-@button-primary-hover-background: @main-color;
+@button-primary-background: black;
+@button-primary-color: white;
+@button-primary-hover-background: transparent;
 @button-primary-hover-color: black;
 @button-primary-active-color: black;
 
 .hook-button-primary() {
+  border-radius: 25px;
+  line-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid @main-color;
 }
 
@@ -195,7 +200,7 @@
     }
   }
 }
-
+b
 
 .hook-nav-default-item-active,
 .hook-nav-default-item-hover {

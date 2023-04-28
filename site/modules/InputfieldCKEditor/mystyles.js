@@ -48,6 +48,7 @@ CKEDITOR.stylesSet.add('bere', [
         }
     },
     {name: 'Centered Photo', element: 'img', attributes: {'class': 'align_center'}},
+    {name: 'Button', element: 'a', attributes: {'class': 'uk-button uk-button-primary'}},
 
 ]);
 

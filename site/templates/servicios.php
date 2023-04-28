@@ -31,6 +31,7 @@
                         $isOpen = true;
                     }
                 }
+
                 ?>
                     <li class="<?=$isOpen ? "uk-open" : ""?>">
                         <a class="uk-accordion-title" href="#">
