@@ -5,7 +5,7 @@
             <div class="uk-grid-small uk-flex-middle uk-flex-right@m uk-flex-center uk-grid" uk-grid>
                 <div class="uk-flex uk-flex-right bio-pic uk-width-2-5 ">
                     <div>
-                        <img class="uk-margin-right" src="<?= $home->image->size(150)->url ?>">
+                        <img class="uk-margin-right" src="<?= $home->image->size(200)->url ?>">
                     </div>
                 </div>
 
@@ -33,7 +33,7 @@
                         <?php endif ?>
                     </div>
                 </div>
-                <div class="uk-container uk-container-large uk-padding-remove">
+                <div class="uk-container uk-container-large">
                     <?php if($item->home_images): ?>
                             <div>
                             <picture>
@@ -47,10 +47,9 @@
                 <?php if($item->home_texts): ?>
                 <div class="uk-container uk-container-large uk-flex-column">
                     <div class="uk-flex uk-margin-large-top uk-flex-right">
-                        <div class=" uk-width-2-3@m  ">
+                        <div class=" " style="width: 700px;">
                             <div class="">
                                 <?= $item->home_texts; ?>
-
                             </div>
                         </div>
                     </div>
