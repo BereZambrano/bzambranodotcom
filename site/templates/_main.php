@@ -37,7 +37,7 @@ try {
     <link rel="stylesheet" href="<?= $urls->templates ?>styles/main.css" class="href">
     <link rel="icon"
           type="image/png"
-          href="<?= $urls->templates ?>img/bzambrano.com-favicon.png">
+          href="<?= $urls->templates ?>img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <?php if($user->language->name == "default"):?>
         <link rel="alternate" hreflang="en" href="<?=$page->localUrl('en')?>" />
