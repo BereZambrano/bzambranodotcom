@@ -31,17 +31,19 @@
 
                         <div class="">
                             <h5 class="uk-margin-remove"><?= __("Research tactics & Methodologies") ?>:</h5>
-                            <?php foreach($page->research_tags as $item) {
+                            <ul class="uk-list">
+                                <?php foreach($page->research_tags as $item) {
 
-                                $url = $page->parent->url([
-                                    'data' => [
-                                        'tag' => $item->name
-                                    ]
-                                ]);
+                                    $url = $page->parent->url([
+                                        'data' => [
+                                            'tag' => $item->name
+                                        ]
+                                    ]);
 
-                                echo "<li><a href='$url'>$item->title</a></li>";
-                            }
-                            ?>
+                                    echo "<li><a href='$url'>$item->title</a></li>";
+                                }
+                                ?>
+                            </ul>
                         </div>
 
                         <div class="">
@@ -57,6 +59,7 @@
                     </div>
                 </div>
 
+                <hr class="uk-margin-large-top uk-margin-large-bottom">
                 <hr class="uk-margin-large-top uk-margin-large-bottom">
 
                 <?php foreach ($page->content as $item): ?>

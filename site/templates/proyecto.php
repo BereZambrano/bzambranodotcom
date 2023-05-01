@@ -40,12 +40,12 @@ $header_image = $page->getHeaderImage();
 
                     <div class="uk-margin-small-bottom">
                         <h5 class="uk-margin-remove"><?= __("Servicios") ?>:</h5>
-                        <h3 class="uk-margin-remove">
-                            <?php echo $page->servicios->implode("<br>", function ($item) {
+                        <ul class="uk-list">
+                            <?php echo $page->servicios->implode("", function ($item) {
                                 //bd($item->title);
-                                return "<a href='$item->url'>$item->title</a>";
+                                return "<li><a href='$item->url'>$item->title</a></li>";
                             }); ?>
-                        </h3>
+                        </ul>
                     </div>
 
                     <div class="uk-margin-small-bottom">
