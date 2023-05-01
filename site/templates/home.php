@@ -53,8 +53,11 @@
                         </div>
                     </div>
                 </div>
+
+            <div class="uk-container uk-container-large uk-margin-large-top">
+                <hr>
+            </div>
                 <?php endif ?>
-            <!--<hr class="uk-margin-large-top">-->
         <?php endforeach; ?>
 
     </div>
