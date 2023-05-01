@@ -30,7 +30,7 @@
             <?php
             foreach($case_studies as $case): ?>
                 <?php $case->content->find("type=galeria_modulo, galeria.count>0");
-                $content_gallery=$case->content->get("type=galeria_modulo, galeria.count>0");
+                $content_gallery = $case->content->get("type=galeria_modulo, galeria.count>0");
                 ?>
                 <div class="uk-flex uk-flex-left">
                     <div class="uk-width-4-5@m uk-margin-large">
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
 
-                            <?php if($content_gallery->galeria->first()): ?>
+                            <?php if($content_gallery->id): ?>
                                 <div class="uk-width-1-2@m">
                                     <div>
                                         <a class="uk-link-reset" href="<?=$case->url?>">

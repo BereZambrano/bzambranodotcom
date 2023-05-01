@@ -16,7 +16,9 @@ $clientes_parent = $pages->get('/clientes/');
                 </div>
 
                 <div class="uk-width-2-5@m">
-                    <img class="uk-width-1-1" src="<?= $page->about_pic1->width(368)->height(471)->url ?>">
+                    <img class="uk-width-1-1"
+                         loading="lazy"
+                         src="<?= $page->about_pic1 ? $page->about_pic1->width(368)->height(471)->url : "" ?>">
                 </div>
             </div>
         </div>
@@ -24,7 +26,7 @@ $clientes_parent = $pages->get('/clientes/');
         <div class="uk-flex uk-margin-large-top uk-flex-right">
             <div class="uk-flex uk-width-4-5@m uk-flex-wrap">
                 <div class="uk-width-1-1">
-                    <img class="uk-width-1-1" src="<?= $page->about_pic2->width(806)->height(537)->url ?>">
+                    <img class="uk-width-1-1" src="<?= $page->about_pic2 ? $page->about_pic2->width(806)->height(537)->url : "" ?>">
                 </div>
                 <div class="uk-text-left uk-width-1-1@m uk-margin-medium-bottom">
                     <?= $page->about_pic2->description ?>

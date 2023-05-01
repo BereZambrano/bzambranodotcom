@@ -16,7 +16,7 @@
                             </div>
                         </div>
 
-                        <?php if($content_gallery->galeria->first()): ?>
+                        <?php if($content_gallery->id): ?>
                             <div class="uk-width-2-5@m uk-flex uk-flex-right">
                                 <img class="uk-width-1-1" src="<?= $content_gallery->galeria->first->size(250, 250)->url ?>" loading="lazy" alt="">
                             </div>

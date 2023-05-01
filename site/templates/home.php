@@ -1,15 +1,15 @@
 <div id="main-content" pw-append>
     <!--Home_profile -->
-    <section class="bio-section uk-height-large">
+    <section  class="bio-section">
         <div class="uk-container uk-margin-large-top">
-            <div class="uk-grid-small uk-flex-right@m uk-flex-center uk-grid" uk-grid>
-                <div class="uk-flex uk-flex-right bio-pic uk-width-1-3 ">
+            <div class="uk-grid-small uk-flex-middle uk-flex-right@m uk-flex-center uk-grid" uk-grid>
+                <div class="uk-flex uk-flex-right bio-pic uk-width-2-5 ">
                     <div>
-                        <img src="<?= $home->image->size(150)->url ?>">
+                        <img class="uk-margin-right" src="<?= $home->image->size(150)->url ?>">
                     </div>
                 </div>
 
-                <div class="uk-width-2-3@m">
+                <div class="uk-width-3-5@m">
                     <div class="bio">
                         <?= $home->quien_home ?>
                     </div>
@@ -19,10 +19,10 @@
     </section>
 
 
-
+    <div>
         <?php foreach($page->home_repeater as $item): ?>
-                <div class="uk-container">
-                    <div class="uk-margin-large-bottom uk-margin-large-top uk-width-1-3@m">
+                <div class="uk-container uk-container-large">
+                    <div class="uk-margin-large-bottom uk-margin-large-top uk-width-1-2@m">
                         <?php if ($item->home_titles || $item->home_subtitles ): ?>
                             <div>
                                 <?= $item->home_titles ?: ""; ?>
@@ -43,9 +43,9 @@
                     <?php endif ?>
                 </div>
                 <?php if($item->home_texts): ?>
-                <div class="uk-container uk-flex-column">
+                <div class="uk-container uk-container-large uk-flex-column">
                     <div class="uk-flex uk-margin-large-top uk-flex-right">
-                        <div class=" uk-width-2-5@m  ">
+                        <div class=" uk-width-2-3@m  ">
                             <div class="">
                                 <?= $item->home_texts; ?>
 
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <?php endif ?>
-            <hr class="uk-margin-large-top">
+            <!--<hr class="uk-margin-large-top">-->
         <?php endforeach; ?>
 
     </div>
