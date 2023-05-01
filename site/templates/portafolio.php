@@ -17,7 +17,7 @@ namespace ProcessWire;
 
     <?php $projects = $pages->find('template=proyecto, limit=5, sort=sort'); ?>
     <div class="uk-container uk-margin-medium-top home-portfolio uk-margin-large-bottom">
-        <div class="uk-grid uk-child-width-1-1" uk-grid>
+        <div class="uk-grid uk-grid-large uk-child-width-1-1" uk-grid>
             <?php foreach ($projects as $i => $project) : ?>
                 <div class="">
                     <a href="<?= $project->url ?>">

@@ -60,9 +60,9 @@
                 </div>
 
                 <hr class="uk-margin-large-top uk-margin-large-bottom">
-                <hr class="uk-margin-large-top uk-margin-large-bottom">
 
                 <?php foreach ($page->content as $item): ?>
+
                     <?php if ($item->type == "text_modulo"): ?>
                         <div class="uk-flex uk-flex-right uk-margin-large-top">
                             <div class="uk-margin uk-width-3-5@m">
