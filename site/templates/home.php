@@ -20,7 +20,9 @@
 
 
     <div>
-        <?php foreach($page->home_repeater as $item): ?>
+        <?php
+        $last = $page->home_repeater->last();
+        foreach($page->home_repeater as $item): ?>
                 <div class="uk-container uk-container-large">
                     <div class="uk-margin-large-bottom uk-margin-large-top uk-width-1-2@m">
                         <?php if ($item->home_titles || $item->home_subtitles ): ?>
@@ -53,12 +55,12 @@
                         </div>
                     </div>
                 </div>
-
-            <div class="uk-container uk-container-large uk-margin-large-top">
-                <hr>
-            </div>
+                <?php if($item !== $last):?>
+                    <div class="uk-container uk-container-large uk-margin-large-top">
+                        <hr>
+                    </div>
                 <?php endif ?>
+            <?php endif ?>
         <?php endforeach; ?>
-
     </div>
 </div>
