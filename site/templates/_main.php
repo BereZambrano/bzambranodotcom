@@ -153,7 +153,7 @@ try {
 </div>
 
 <div class="menu-container uk-background-default" uk-sticky>
-    <div class="uk-container">
+    <div class="uk-container uk-container-large">
         <div class="uk-visible@m">
             <div class="uk-width-1-1">
                 <!--
@@ -173,7 +173,7 @@ try {
                                     <span>
                                     <span class="name">berenice</span><span class="apellido">zambrano</span><br>
                                     </span>
-                                    <span class="work">creadora visual</span>
+                                    <span class="work">[Design + Research]</span>
                                 </a>
                             </li>
                         </ul>
