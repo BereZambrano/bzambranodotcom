@@ -2,7 +2,7 @@
 <region id="main-content" pw-append>
 
     <section class="uk-container uk-container-large">
-            <div class=" uk-margin-large-bottom uk-margin-large-top">
+            <div class=" uk-margin-large-bottom uk-margin-large-top uk-width-3-5@m">
                 <div>
                     <?= $page->first_intro; ?>
                 </div>
