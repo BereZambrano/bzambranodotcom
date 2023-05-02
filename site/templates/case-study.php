@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="">
-                            <h5 class="uk-margin-remove"><?= __("Research tactics & Methodologies") ?>:</h5>
+                            <h5 class="uk-margin-remove"><?= __("Tácticas de investigación y metodologías") ?>:</h5>
                             <ul class="uk-list">
                                 <?php foreach($page->research_tags as $item) {
 
