@@ -4,9 +4,7 @@
 @base-body-color: #515151;
 @base-body-font-weight: 300;
 @container-max-width: 1000px;
-
 @base-body-font-size: 16px;
-
 @main-color: #9B9B9B;
 
 .hook-base-link() {
@@ -20,10 +18,22 @@
   }
 }
 
+@base-heading-font-family: 'IBM Plex Sans';
+@base-heading-font-weight: 300;
+@base-heading-font-weight: 400;
 
-@base-h1-font-size-m: 3.8rem;
+@base-h1-font-size-m: 5rem;
 @base-h2-font-size-m: 3.8rem;
+@base-h3-font-size: 3.25rem;
+@base-h2-line-height: 1.1em;
 @base-h4-font-size: 2.5rem;
+
+.hook-base-h2(){
+  &+h3{
+    margin-top:-0.5em;
+  }
+}
+
 
 @form-placeholder-color: #999999;
 @inverse-global-color: #fff;
@@ -37,22 +47,9 @@
 }
 
 @global-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-@base-heading-font-family: 'IBM Plex Sans';
-@base-heading-font-weight: 300;
-//@base-heading-font-family: bc-liguria, sans-serif;
-@base-heading-font-weight: 400;
-@base-h2-font-size-m: 2.5rem;
-@base-h2-line-height: 1em;
-@base-h3-font-size: 2rem;
+
 //@text-lead-font-size: 2.5rem;
 
-// .h2,.uk-h2 { ...  }
-.hook-base-h2(){
-  // h2+h3, .uk-h2+h3
-  &+h3{
-    margin-top:-0.5em;
-  }
-}
 
 //@navbar-nav-item-font-family: bc-liguria, sans-serif;
 
@@ -294,11 +291,13 @@
 .testimonial-card .testimonial-card-main-text p{
   font-size: @text-lead-font-size;
 }
+
 @media (min-width:959px){
-.testimonials-wrapper{
-  max-width: 95%;
+  .testimonials-wrapper{
+    max-width: 95%;
+  }
 }
-}
+
 /*.tags-search .uk-subnav{
     margin-top: -20px;
 }

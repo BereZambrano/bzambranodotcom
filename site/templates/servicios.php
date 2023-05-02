@@ -1,6 +1,6 @@
 <?php namespace ProcessWire; ?>
 
-<div id="main-content" class=" uk-margin-top">
+<div id="main-content" class="servicios uk-margin-top">
     <div class="uk-container uk-margin-xlarge-top">
         <div>
             <div class="uk-container">

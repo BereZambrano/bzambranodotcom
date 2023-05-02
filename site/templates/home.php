@@ -18,7 +18,6 @@
         </div>
     </section>
 
-
     <div>
         <?php
         $last = $page->home_repeater->last();
