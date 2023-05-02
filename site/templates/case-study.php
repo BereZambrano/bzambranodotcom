@@ -22,7 +22,30 @@
 
                 <hr class="uk-margin-bottom">
 
-                <div class="uk-container uk-margin-large-top">
+            <?php
+            // Get the word count of the article
+            $word_count = str_word_count($page->text);
+            bd($word_count);
+            echo $word_count;
+
+            // Calculate the estimated reading time in minutes
+            $reading_time = ceil($word_count / 250); // Assuming average reading speed of 250 words per minute
+
+            // Initialize the page before setting the reading time
+            $page->of(false);
+
+            // Save the estimated reading time in the custom field
+            $page->reading_time = $reading_time;
+            $page->save();
+            ?>
+
+            <div class="article-reading-time">
+                <?php echo $page->reading_time; ?> minutes read
+            </div>
+
+
+
+            <div class="uk-container uk-margin-large-top">
                     <div class="uk-child-width-1-2 uk-flex uk-flex-column " uk-grid>
                         <div class="">
                             <h5 class="uk-margin-remove"><?= __("Cliente") ?>:</h5>
