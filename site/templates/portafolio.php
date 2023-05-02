@@ -53,11 +53,11 @@ namespace ProcessWire;
                 <?= $caseStudyPage->second_intro; ?>
             </div>
         </div>
-        <div class="uk-flex uk-margin-large uk-flex-right uk-height-large">
+        <div class="uk-flex uk-margin-large uk-flex-right">
             <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
                 <div class="uk-width-3-5@m">
                     <?= $caseStudyPage->text_large; ?>
-                    <div class="uk-margin-medium-top">
+                    <div class="uk-margin-medium-top uk-margin-medium-bottom">
                         <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>
                     </div>
                 </div>
