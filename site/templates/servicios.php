@@ -1,16 +1,16 @@
 <?php namespace ProcessWire; ?>
 
 <div id="main-content" class="servicios uk-margin-top">
-    <div class="uk-container uk-margin-xlarge-top">
+    <div class="uk-container uk-container-large uk-margin-xlarge-top">
         <div>
-            <div class="uk-container">
+            <div class="uk-width-3-5@m">
                 <div class="uk-margin-top">
                     <?= $page->first_intro?>
                 </div>
             </div>
 
             <div class="uk-container uk-flex-right uk-flex uk-margin-large-right uk-margin-large-top uk-margin-large-bottom">
-                <div class="uk-margin-top uk-width-1-2@m">
+                <div class="uk-margin-top uk-width-3-5@m" >
                     <?= $page->second_intro?>
                 </div>
             </div>
