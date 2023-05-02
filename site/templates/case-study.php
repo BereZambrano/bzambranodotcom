@@ -22,6 +22,7 @@
 
                 <hr class="uk-margin-bottom">
 
+            <!--
             <?php
             // Get the word count of the article
             $word_count = str_word_count($page->text);
@@ -42,7 +43,7 @@
             <div class="article-reading-time">
                 <?php echo $page->reading_time; ?> minutes read
             </div>
-
+            -->
 
 
             <div class="uk-container uk-margin-large-top">
@@ -77,7 +78,7 @@
                 </div>
 
                 <div class="uk-flex uk-flex-right uk-margin-large-top">
-                    <div class="uk-margin uk-width-3-5@m">
+                    <div class="uk-margin uk-width-3-5@m uk-light">
                         <?= $page->text ?>
                     </div>
                 </div>

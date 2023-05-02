@@ -40,7 +40,12 @@ body {
 
 .uk-text-lead {
 	font-size: 20px;
-	line-height: 1.5;
+	line-height: 1.5em;
+}
+
+.uk-text-lead-large {
+	font-size: 40px;
+	line-height: 1em;
 }
 
 .tagline{

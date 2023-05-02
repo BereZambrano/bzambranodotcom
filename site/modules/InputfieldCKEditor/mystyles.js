@@ -27,6 +27,13 @@ CKEDITOR.stylesSet.add('bere', [
         }
     },
     {
+        name: 'Lead text Large',
+        element: 'p',
+        attributes: {
+            'class': 'uk-text-lead-large'
+        }
+    },
+    {
         name: 'Lead Text',
         element: 'p',
         attributes: {
