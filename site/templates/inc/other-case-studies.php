@@ -22,12 +22,16 @@
                                 <p><?=$study->text_large?></p>
                             </div>
                         </div>
+                        <?php if($study->thumbnail):?>
+                            <div class="uk-width-2-5@m uk-flex uk-flex-right">
+                                <img class="uk-width-1-1" src="<?= $study->thumbnail->size(250, 250)->url ?>" loading="lazy" alt="<?= $study->thumbnail->description ?>">
+                            </div>
+                        <?php else:?>
                         <?php if($content_gallery->id):?>
-                            <?php if($content_gallery->galeria->first()): ?>
-                                <div class="uk-width-2-5@m uk-flex uk-flex-right">
-                                    <img class="uk-width-1-1" src="<?= $content_gallery->galeria->first->size(250, 250)->url ?>" loading="lazy" alt="">
-                                </div>
-                            <?php endif ?>
+                            <div class="uk-width-2-5@m uk-flex uk-flex-right">
+                                <img class="uk-width-1-1" src="<?= $content_gallery->galeria->first->size(250, 250)->url ?>" loading="lazy" alt="">
+                            </div>
+                        <?php endif ?>
                         <?php endif ?>
                     </div>
                 </div>

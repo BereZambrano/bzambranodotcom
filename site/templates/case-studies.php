@@ -51,6 +51,19 @@
                                 </div>
                             </div>
 
+                            <?php if($case->thumbnail):?>
+                            <div class="uk-width-1-2@m">
+                                <div>
+                                    <a class="uk-link-reset" href="<?=$case->url?>">
+                                        <picture class="uk-height-match">
+                                            <source media="(max-width:959px)" srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
+                                            <source media="(min-width:960px)" srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
+                                            <img class="uk-width-1-1" src='<?= $case->thumbnail->size(500, 500)->url ?>' loading="lazy">
+                                        </picture>
+                                    </a>
+                                </div>
+                            </div>
+                            <?php else:?>
                             <?php if($content_gallery->id): ?>
                                 <div class="uk-width-1-2@m">
                                     <div>
@@ -63,6 +76,7 @@
                                         </a>
                                     </div>
                                 </div>
+                            <?php endif ?>
                             <?php endif ?>
                         </div>
                     </div>
