@@ -159,7 +159,7 @@
     </div>
 
         <section class="uk-dark uk-background-muted">
-        <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
+            <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
         </section>
 </div>
 
