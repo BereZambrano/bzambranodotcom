@@ -227,25 +227,29 @@ try {
             <div class="uk-flex-center uk-grid" uk-grid>
                 <div class="uk-width-1-1 <?= $page->template == "proyecto" ? " uk-width-1-5@m" : 'uk-width-1-3@m' ?>">
                     <p class="uk-bold">
-                        <?= __("¿Tienes alguna propuesta o comentario? ¿Te gustaría que trabajáramos juntxs?") ?>
+                        <?= __("I’m always open to hearing about new project opportunities, regardless of where you are located. Feel free to contact me and let's check if we are compatible to collaborate :)") ?>
                     </p>
+                    <hr>
+                    <div class="uk-container uk-flex uk-flex-center">
                     <ul class="uk-iconnav">
                         <?php foreach ($home->social_media as $icon): ?>
-                            <?php if ($icon->title == "telegram"): ?>
-                                <li>
-                                    <a target="_blank" class="uk-icon uk-icon-image"
-                                       style="background-image: url('/site/templates/img/telegram.png');"
-                                       href="<?= $icon->url_address ?>">
-                                    </a>
-                                </li>
-                            <?php else: ?>
-                                <li><a href="<?= $icon->url_address ?>" uk-icon="icon: <?= $icon->title ?>">
+                                <?php if ($icon->title == "telegram"): ?>
+                                    <li>
+                                        <a target="_blank" class="uk-icon uk-icon-image uk-margin-right"
+                                           style="background-image: url('/site/templates/img/telegram.png');"
+                                           href="<?= $icon->url_address ?>">
+                                        </a>
+                                    </li>
+                                <?php else: ?>
+                                    <li><a class="uk-margin-right" href="<?= $icon->url_address ?>" uk-icon="icon: <?= $icon->title ?>">
 
-                                    </a>
-                                </li>
-                            <?php endif ?>
+                                        </a>
+                                    </li>
+                                <?php endif ?>
                         <?php endforeach ?>
                     </ul>
+                    </div>
+                    <hr>
                     <p><a href="<?= $pages->get('/politica-de-privacidad/')->url ?>">
                             <?= $pages->get('/politica-de-privacidad/')->title ?>
                         </a></p>
