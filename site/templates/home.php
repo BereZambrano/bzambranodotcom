@@ -32,7 +32,7 @@
                         <?php endif ?>
                     </div>
                 </div>
-                <div class="uk-container uk-container-large">
+                <div class="uk-container uk-container-large uk-margin-large-bottom">
                     <?php if($item->home_images): ?>
                             <div>
                             <picture>
@@ -45,7 +45,7 @@
                 </div>
                 <?php if($item->home_texts): ?>
                 <div class="uk-container uk-container-large uk-flex-column">
-                    <div class="uk-flex uk-margin-large-top uk-flex-right">
+                    <div class="uk-flex uk-flex-right">
                         <div class=" " style="width: 700px;">
                             <div class="">
                                 <?= $item->home_texts; ?>
