@@ -88,7 +88,7 @@ $clientes_parent = $pages->get('/clientes/');
                         <div class="uk-child-width-1-2@m done-work uk-grid uk-margin-large-top" uk-grid>
                             <div>
                                 <div class="experiencia uk-margin-remove-last-child">
-                                    <h3 class="uk-h5">Experiencia</h3>
+                                    <h3 class="tagline uk-margin-bottom">Experiencia</h3>
                                     <?php foreach ($page->experiencia as $e) : ?>
                                         <div class="uk-margin uk-margin-remove-last-child">
                                             <?= $e->text ?>
@@ -103,7 +103,7 @@ $clientes_parent = $pages->get('/clientes/');
 
                             <div>
                                 <div class="publicaciones uk-margin-remove-last-child">
-                                    <h3 class="uk-h5" >Publicaciones</h3>
+                                    <h3 class="tagline uk-margin-bottom" >Publicaciones</h3>
                                     <?php foreach ($page->publicaciones as $e) : ?>
                                         <div class="uk-margin uk-margin-remove-last-child">
                                             <?= $e->text ?>
@@ -121,7 +121,7 @@ $clientes_parent = $pages->get('/clientes/');
 
                                     <!-- Research -->
                                     <div class="research uk-margin-large">
-                                        <h3 class="uk-h5">Research</h3>
+                                        <h3 class="tagline uk-margin-bottom">Research</h3>
                                         <div class="uk-grid uk-child-width-1-1 uk-grid-small" uk-grid>
                                             <?php foreach ($page->research as $e) : ?>
                                                 <div class="uk-margin-remove-last-child">
@@ -133,7 +133,7 @@ $clientes_parent = $pages->get('/clientes/');
 
                                     <!-- Colaboradores -->
                                     <div class="uk-margin-large">
-                                        <h3 class="uk-h5"><?php echo __("Colaborador*s") ?></h3>
+                                        <h3 class="tagline uk-margin-bottom"><?php echo __("Colaborador*s") ?></h3>
                                         <div class="uk-grid-small uk-child-width-1-1 uk-grid" uk-grid>
                                             <?php foreach ($clientes_parent->colaboradores as $colaborador) : ?>
                                                 <div class="">
@@ -153,7 +153,7 @@ $clientes_parent = $pages->get('/clientes/');
 
                             <!-- Clientes -->
                             <div>
-                                <h3 class="uk-h5"><?php echo __("Client*s destacad*s"); ?></h3>
+                                <h3 class="tagline uk-margin-bottom"><?php echo __("Client*s destacad*s"); ?></h3>
 
                                 <div class="uk-grid uk-grid-small uk-child-width-1-1" uk-grid>
                                     <?php
