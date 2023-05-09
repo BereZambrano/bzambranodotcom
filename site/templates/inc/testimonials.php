@@ -8,9 +8,9 @@
 
         <?php foreach($pages->find("template=servicios") as $project): ?>
 
-            <div class="uk-margin-large-bottom uk-margin-large-top">
+            <div class="uk-margin-large-top">
 
-                <div class="uk-slider" uk-slider>
+                <div class="uk-slider" uk-slider="autoplay: true">
 
                     <div class="uk-position-relative">
                         <div style="top: -50px;" class="uk-position-top-right">
@@ -24,7 +24,7 @@
                                 <?php foreach($project->testimonial as $item): ?>
                                     <li class="uk-width-1-1">
                                         <div class="uk-card testimonial-card uk-card-body uk-card-large uk-card-default">
-                                            <div class="uk-width-3-5@m uk-margin-auto">
+                                            <div class="uk-width-1-1@m uk-margin-auto">
                                                 <div class="uk-card-title">
                                                     <?= $item->testimonial_name ?>
                                                 </div>

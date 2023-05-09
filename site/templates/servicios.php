@@ -18,8 +18,7 @@
         <!-- Servicios accordion -->
         <div class="uk-margin-large-top uk-margin-large-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
-                <p>Here's part of what I do</p>
-                <h2>Research strategies and methodologies.</h2>
+                <?= $page->text?>
             </div>
             <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
                 <?php foreach($page->children as $child) : ?>
@@ -31,7 +30,6 @@
                         $isOpen = true;
                     }
                 }
-
                 ?>
                     <li class="<?=$isOpen ? "uk-open" : ""?>">
                         <a class="uk-accordion-title" href="#">
@@ -52,7 +50,7 @@
         <!-- Research accordion -->
         <div class="uk-margin-large-top uk-margin-large-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
-                <h2>Design services.</h2>
+                <h2>Research strategies and methodologies.</h2>
             </div>
             <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
                 <?php foreach($pages->find("template=research_tag, id!={$page->id}") as $research_tag): ?>
@@ -86,39 +84,39 @@
 
         <!--First repeater-->
         <?php foreach($page->home_repeater as $item): ?>
-            <div class="">
-                <div class="uk-margin-bottom uk-margin-large-top uk-width-1-3@ " uk-grid>
-                    <div>
-                        <?= $item->home_titles; ?>
+            <?php if($item->home_titles):?>
+            <div class="uk-width-3-5@m">
+            <div class="uk-margin-bottom uk-margin-large-top uk-width-1-3@">
+                <?= $item->home_titles; ?>
+            </div>
+            </div>
+            <?php endif ?>
+            <?php if($item->home_subtitles):?>
+                <div class="uk-container uk-flex-right uk-flex uk-margin-large-top uk-margin-large-bottom">
+                    <div class="uk-width-1-2@m">
+                        <?= $item->home_subtitles; ?>
                     </div>
                 </div>
-                <?php if($item->home_subtitles):?>
-                    <div class="uk-container uk-flex-right uk-flex uk-margin-large-top uk-margin-large-bottom">
-                        <div class="uk-width-1-2@m">
-                            <?= $item->home_subtitles; ?>
-                        </div>
-                    </div>
-                <?php endif ?>
-            </div>
+            <?php endif ?>
 
-            <div class="">
-                <?php if($item->home_images): ?>
-                    <div class="uk-flex-right">
-                        <picture>
-                            <source media="(max-width:959px)" srcset="<?= $item->home_images->size(800, 600)->url ?>">
-                            <source media="(min-width:960px)" srcset="<?= $item->home_images->size(1200, 600)->url ?>">
-                            <img alt="<?= $item->home_images->description ?>" class="uk-width-1-1" src='<?= $item->home_images->url ?>' loading="lazy">
-                        </picture>
-                    </div>
-                <?php endif ?>
+            <?php if($item->home_images): ?>
+                <div class="uk-flex-right">
+                    <picture>
+                        <source media="(max-width:959px)" srcset="<?= $item->home_images->size(800, 600)->url ?>">
+                        <source media="(min-width:960px)" srcset="<?= $item->home_images->size(1200, 600)->url ?>">
+                        <img alt="<?= $item->home_images->description ?>" class="uk-width-1-1" src='<?= $item->home_images->url ?>' loading="lazy">
+                    </picture>
+                </div>
+            <?php endif ?>
 
-                <div class="uk-container uk-flex-right uk-flex uk-margin-top ">
-                    <div class="uk-margin-top uk-width-1-2@m">
-                        <?= $item->home_texts; ?>
-                    </div>
+            <?php if($item->home_texts): ?>
+            <div class="uk-container uk-flex-right uk-flex uk-margin-top ">
+                <div class="uk-margin-top uk-width-1-2@m">
+                    <?= $item->home_texts; ?>
                 </div>
             </div>
-            <?php endforeach; ?>
+            <?php endif ?>
+        <?php endforeach; ?>
 
             <div class="uk-container uk-flex-right uk-flex ">
                 <div class="uk-width-1-2@m">
