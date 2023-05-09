@@ -5,23 +5,23 @@ namespace ProcessWire;
 $clientes_parent = $pages->get('/clientes/');
 
 ?>
-<div id="main-content" class="about-me-wrapper" pw-append>
+<div id="main-content" class=" uk-container uk-container-large uk-margin-remove-bottom" pw-append>
     <!-- First container -->
     <!-- Intro 1 -->
-    <div class="uk-container">
-        <div class="uk-container">
-            <div class="uk-grid" uk-grid>
-                <div class="uk-width-3-5@m">
-                    <?= $page->first_intro ?>
-                </div>
 
-                <div class="uk-width-2-5@m">
-                    <img class="uk-width-1-1"
-                         loading="lazy"
-                         src="<?= $page->about_pic1 ? $page->about_pic1->width(368)->height(471)->url : "" ?>">
-                </div>
+    <div class="uk-container uk-container-large uk-margin-large-top">
+        <div class="uk-grid" uk-grid>
+            <div class="uk-width-3-5@m">
+                <?= $page->first_intro ?>
+            </div>
+
+            <div class="uk-width-2-5@m">
+                <img class="uk-width-1-1"
+                     loading="lazy"
+                     src="<?= $page->about_pic1 ? $page->about_pic1->width(368)->height(471)->url : "" ?>">
             </div>
         </div>
+
         <!-- Intro 2-->
         <div class="uk-flex uk-margin-large-top uk-flex-right">
             <div class="uk-flex uk-width-4-5@m uk-flex-wrap">
@@ -36,24 +36,23 @@ $clientes_parent = $pages->get('/clientes/');
 
         <!-- Intro text-->
 
-        <div class="uk-flex uk-margin-large uk-flex-right">
+        <div class="uk-container uk-flex uk-flex-right" >
 
-            <div class="uk-flex uk-width-3-5@m uk-flex-center uk-flex-wrap">
+            <div class="uk-flex uk-width-3-5@m uk-flex-wrap" style="width: 700px;>
 
                 <div class="">
 
-                    <div class="uk-margin-large-bottom">
+                    <div class="">
                         <?= $page->experiencia_intro ?>
                     </div>
 
                     <!-- Service section -->
-                    <div class="uk-child-width-1-1@m uk-margin-large-top " >
-                        <p class="uk-text-bold">Things I do</p>
-                        <p class="uk-margin-top"><?= $page->text ?></p>
+                    <div class="uk-margin-large-top" >
+                        <?= $page->text ?></p>
                     </div>
 
                     <!-- Service button -->
-                    <div class="">
+                    <div class="uk-width-1-1@m">
                         <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">Services</a>
                     </div>
                 </div>
@@ -63,17 +62,17 @@ $clientes_parent = $pages->get('/clientes/');
 
     <!-- Second container-->
     <!--second text-->
-    <div class="uk-container">
+    <div class="uk-container uk-container-large">
         <div class="uk-flex uk-flex-left">
-            <div class="uk-width-2-5@m uk-margin-large-top">
+            <div class="uk-width-3-5@m uk-margin-large-top" style="width: 700px;>
                 <div class="">
                     <?= $page->second_intro ?>
                 </div>
             </div>
         </div>
 
-        <div class="uk-flex uk-flex-right">
-            <div class="uk-width-3-5@m uk-margin-large-top">
+        <div class="uk-container uk-flex uk-flex-right" >
+            <div class="uk-width-3-5@m uk-margin-large-top" style="width: 700px;>
                 <div class="">
                     <?= $page->text_large ?>
                 </div>
