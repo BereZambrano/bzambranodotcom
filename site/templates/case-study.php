@@ -2,7 +2,7 @@
 
 <div id="main-content" class="proyecto" pw-append>
     <div class="uk-light uk-background-secondary">
-        <section class="uk-container">
+        <section class="uk-container uk-container-large">
 
             <div class="uk-margin-large-top">
                 <a href="<?= $page->parent()->url ?>">
@@ -46,7 +46,7 @@
             -->
 
 
-            <div class="uk-container uk-margin-large-top">
+            <div class="uk-container uk-container-large uk-margin-large-top">
                     <div class="uk-child-width-1-2 uk-flex uk-flex-column " uk-grid>
                         <div class="">
                             <h5 class="uk-margin-remove"><?= __("Cliente") ?>:</h5>
