@@ -16,7 +16,7 @@
 
 .button {
     border-radius: 25px;
-    background-color: black;
+    background-color: #333333;
     color: white;
     height: 50px;
     display: flex;
