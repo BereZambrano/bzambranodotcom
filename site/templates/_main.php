@@ -273,6 +273,8 @@ try {
         classname: 'my-class',
         id: 'my-id'
     };
+    var util = UIkit.util;
+
     window.bereBar = new Nanobar( options );
     htmx.on("htmx:beforeSend",function(e){
         function getRandomInt(min, max) {
@@ -302,7 +304,6 @@ try {
     contactMobile.addEventListener("click", function () {
         UIkit.offcanvas("#offcanvas-menu").hide();
     });
-    var util = UIkit.util;
     UIkit.util.on(document, 'load', 'img', e => {
         if (!e.target.currentSrc.startsWith('data:')) {
             e.target.classList.add('is-loaded');
@@ -331,6 +332,34 @@ try {
             gallery.show(index);
         })
     }
+
+    var social = document.querySelectorAll('.MarkupSocialShareButtons');
+
+    social.forEach( (item, index) => {
+            util.append(item, "<li uk-tooltip=\"Click to copy\"  class=\"copy-action mssb-item\"><span uk-icon=\"link\"></span></li>");
+            var copy = util.$(".copy-action", item);
+            var currentPage = document.location.href;
+            function setClipboard(text) {
+                const type = "text/plain";
+                const blob = new Blob([text], { type });
+                const data = [new ClipboardItem({ [type]: blob })];
+
+                navigator.clipboard.write(data).then(
+                    () => {
+                        /*util.attr(copy, 'uk-tooltip', 'Copied!');
+                        UIkit.tooltip(copy).show();*/
+                    },
+                    () => {
+                        /* failure */
+                        console.log("failed!");
+                    }
+                );
+            }
+
+            util.on(copy, 'click', (e) => {
+                setClipboard(currentPage);
+            })
+        });
 
 </script>
 </body>
