@@ -336,7 +336,7 @@ try {
     var social = document.querySelectorAll('.MarkupSocialShareButtons');
 
     social.forEach( (item, index) => {
-            util.append(item, "<li uk-tooltip=\"Click to copy\"  class=\"copy-action mssb-item\"><span uk-icon=\"link\"></span></li>");
+            util.append(item, "<li uk-tooltip=\"Click to copy\"  class=\"copy-action mssb-item\" style='color:#9B9B9B'><span uk-icon=\"link\"></span></li>");
             var copy = util.$(".copy-action", item);
             var currentPage = document.location.href;
             function setClipboard(text) {
