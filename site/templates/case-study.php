@@ -2,7 +2,7 @@
 
 <div id="main-content" class="proyecto" pw-append>
     <div class="uk-light uk-background-secondary">
-        <section class="uk-container uk-container-large">
+        <section class="uk-container contenido uk-container-large">
 
             <div class="uk-margin-large-top">
                 <a href="<?= $page->parent()->url ?>">
@@ -122,45 +122,50 @@
                 <?php endforeach; ?>
 
 
-            <div class="tags-search uk-margin-large-bottom uk-margin-large-top">
-                <div>
-                    <p>TAG SEARCH</p>
-                    <ul class="uk-subnav">
-                        <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
-                            <?php
-                            $active_tag = ''; // initialize as empty
-                            if ($input->get->tag) {
-                                $active_tag = $input->get->tag; // set to tag name from URL parameter
-                            }
-                            $isActive = "";
 
-                            if ($research_tags->name == $active_tag) {
-                                $isActive = 'uk-active';
-                            }
-                            ?>
-                            <li class="<?=$isActive?>">
-                                <?php
-                                $url = $page->parent->url([
-                                    'data' => [
-                                        'tag' => $research_tags->name
-                                    ]
-                                ]);
-                                ?>
-                                <a href="<?= $url; ?>">
-                                    <?= $research_tags->title; ?>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            </div>
 
             </section>
+        <section class="uk-section">
+            <div class="uk-container-large uk-container">
+                <div class="tags-search">
+                    <div>
+                        <p>TAG SEARCH</p>
+                        <ul class="uk-margin-remove-bottom uk-subnav">
+                            <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
+                                <?php
+                                $active_tag = ''; // initialize as empty
+                                if ($input->get->tag) {
+                                    $active_tag = $input->get->tag; // set to tag name from URL parameter
+                                }
+                                $isActive = "";
+
+                                if ($research_tags->name == $active_tag) {
+                                    $isActive = 'uk-active';
+                                }
+                                ?>
+                                <li class="<?= $isActive ?>">
+                                    <?php
+                                    $url = $page->parent->url([
+                                      'data' => [
+                                        'tag' => $research_tags->name
+                                      ]
+                                    ]);
+                                    ?>
+                                    <a href="<?= $url; ?>">
+                                        <?= $research_tags->title; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-        <section class="uk-dark uk-background-muted">
-            <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
-        </section>
+    <section class="uk-section uk-dark uk-background-muted">
+        <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
+    </section>
 </div>
 
 
