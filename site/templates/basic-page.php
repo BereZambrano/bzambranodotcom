@@ -1,5 +1,7 @@
 <div id="main-content" pw-append>
     <div class="uk-container uk-container-small uk-margin uk-margin-top">
+
+        <?php if($page->content->count >= 1): ?>
         <?php foreach ($page->content as $item): ?>
 
             <?php if ($item->type == "text_modulo"): ?>
@@ -34,6 +36,11 @@
                 <hr class="">
             <?php endif ?>
         <?php endforeach; ?>
+
+        <?php else: ?>
+            <?= $page->text ?>
+
+        <?php endif; ?>
 
     </div>
 </div>
