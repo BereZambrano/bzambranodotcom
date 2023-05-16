@@ -46,7 +46,7 @@
                 <?php if($item->home_texts): ?>
                 <div class="uk-container uk-container-large uk-flex-column">
                     <div class="uk-flex uk-flex-right">
-                        <div class=" " style="width: 700px;">
+                        <div class="uk-width-1-2@m" style="">
                             <div class="">
                                 <?= $item->home_texts; ?>
                             </div>
