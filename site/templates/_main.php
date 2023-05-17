@@ -221,7 +221,7 @@ try {
 
 </main>
 
-<footer id="footer" class="<?= $page->matches('template=about') ? "uk-margin-large-bottom" : "uk-margin-large-top uk-margin-large" ?>">
+<footer id="footer" class="<?= $page->matches('template=about') ? "uk-margin-xlarge-bottom" : "uk-margin-xlarge-top uk-margin-xlarge" ?>">
     <div class="uk-container <?= $page->template != "proyecto" ? "uk-container-small" : '' ?>">
         <div class="uk-padding-large uk-padding-remove-left uk-padding-remove-bottom uk-padding-remove-right">
             <div class="uk-flex-center uk-grid" uk-grid>

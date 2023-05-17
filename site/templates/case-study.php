@@ -87,6 +87,16 @@
 
                 <?php foreach ($page->content as $item): ?>
 
+                    <?php if ($item->type == "headline"): ?>
+                        <div class="uk-flex uk-flex-right uk-margin-large-top">
+                            <div class="uk-margin uk-width-3-5@m">
+                                <h2><?= $item->title; ?></h2>
+                            </div>
+                        </div>
+                        <hr class="">
+                    <?php endif ?>
+
+
                     <?php if ($item->type == "text_modulo"): ?>
                         <div class="uk-flex uk-flex-right uk-margin-large-top">
                             <div class="uk-margin uk-width-3-5@m">

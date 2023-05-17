@@ -148,7 +148,7 @@ $header_image = $page->getHeaderImage();
                                                      alt="" uk-img>
                                                 <div class="uk-position-cover uk-overlay slider-overlay uk-overlay-default ">
                                                     <div class="project-name uk-position-bottom-left uk-position-small">
-                                                        <h4 class="uk-text-bold uk-margin-remove"><?= $p->title ?></h4>
+                                                        <h5 class="uk-text-bold uk-margin-remove"><?= $p->title ?></h5>
                                                         <p class="uk-margin-remove uk-text"><?php echo $p->servicios->implode(', ', 'title'); ?></p>
                                                     </div>
                                                 </div>
@@ -162,12 +162,22 @@ $header_image = $page->getHeaderImage();
 
 
                         </div>
-                        <a class="uk-position-center-left uk-light uk-hidden@m" href="#" uk-slidenav-previous  uk-slider-item="previous"></a>
-                        <a class="uk-position-center-right uk-light uk-hidden@m"  href="#" uk-slidenav-next uk-slider-item="next" ></a>
 
-                        <div class="uk-margin uk-flex-right uk-visible@m uk-slidenav-container">
-                            <a href="#" uk-slidenav-previous  uk-slider-item="previous"></a>
-                            <a href="#" uk-slidenav-next uk-slider-item="next" ></a>
+
+                        <a class="uk-visible@l uk-position-small uk-position-center-left-out" href="#" uk-slider-item="previous">
+                            <span class="uk-icon-button" uk-icon="icon: chevron-left; ratio:1.2;"></span>
+                        </a>
+                        <a class="uk-visible@l uk-position-small uk-position-center-right-out" href="#" uk-slider-item="next">
+                            <span class="uk-icon-button" uk-icon="icon: chevron-right; ratio:1.2;"></span>
+                        </a>
+
+                        <div class="uk-margin-right uk-margin uk-flex-right uk-hidden@l uk-slidenav-container">
+                            <a class="uk-margin-small-right" href="#" uk-slider-item="previous">
+                                <span class="uk-icon-button" uk-icon="icon: chevron-left; ratio:1.2;"></span>
+                            </a>
+                            <a class="" href="#" uk-slider-item="next" >
+                                <span class="uk-icon-button" uk-icon="icon: chevron-right; ratio:1.2;"></span>
+                            </a>
                         </div>
 
                         <!--<div class="uk-visible@s">

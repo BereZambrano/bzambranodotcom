@@ -129,7 +129,7 @@
                 </div>
 
             <div class=" uk-margin-large uk-flex uk-flex-right">
-                    <div class="uk-width-2-5@m">
+                    <div class="text-column-wrapper">
                         <?= $page->text_large; ?>
                         <div class="uk-margin-medium-top">
                             <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>

@@ -26,7 +26,11 @@ namespace ProcessWire;
 
                         if ($header_image) :
                             ?>
-                            <img width="600" height="337" class="uk-width-1-1" src="<?= $header_image->size(600, 337)->url ?>" oading="lazy">
+                            <img width="600" height="337"
+                                 class="uk-width-1-1"
+                                 alt="<?=$header_image->description?>"
+                                 src="<?= $header_image->size(1400, 786)->url ?>"
+                                 loading="lazy">
                         <?php endif ?>
                     </a>
                     <div class="uk-margin-small project-name">
@@ -42,7 +46,7 @@ namespace ProcessWire;
         </div>
     </div>
 
-    <hr>
+    <hr class="uk-margin-xlarge-top">
     <?php
     $caseStudyPage=$pages->get("template=case-studies");
     ?>

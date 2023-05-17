@@ -32,21 +32,22 @@
                         <?php endif ?>
                     </div>
                 </div>
-                <div class="uk-container uk-container-large uk-margin-large-bottom">
-                    <?php if($item->home_images): ?>
-                            <div>
+                <?php if($item->home_images->count > 0): ?>
+                    <div class="uk-container uk-container-large uk-margin-large-bottom">
+                        <div>
                             <picture>
                                 <source media="(max-width:959px)" srcset="<?= $item->home_images->size(800, 600)->url ?>">
                                 <source media="(min-width:960px)" srcset="<?= $item->home_images->size(1800, 900)->url ?>">
                                 <img alt="<?= $item->home_images->description ?>" class="uk-width-1-1" src='<?= $item->home_images->url ?>' loading="lazy">
                             </picture>
                         </div>
-                    <?php endif ?>
-                </div>
-                <?php if($item->home_texts): ?>
+                    </div>
+                <?php endif ?>
+
+            <?php if($item->home_texts): ?>
                 <div class="uk-container uk-container-large uk-flex-column">
                     <div class="uk-flex uk-flex-right">
-                        <div class="uk-width-1-2@m" style="">
+                        <div class="text-column-wrapper">
                             <div class="">
                                 <?= $item->home_texts; ?>
                             </div>

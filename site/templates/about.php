@@ -5,7 +5,7 @@ namespace ProcessWire;
 $clientes_parent = $pages->get('/clientes/');
 
 ?>
-<div id="main-content" class=" uk-container uk-container-large uk-margin-remove-bottom" pw-append>
+<div id="main-content" class="about-me uk-container uk-container-large uk-margin-remove-bottom" pw-append>
     <!-- First container -->
     <!-- Intro 1 -->
 

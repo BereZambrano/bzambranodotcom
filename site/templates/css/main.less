@@ -59,6 +59,7 @@
 
 .sidebar-info,
 .servicios,
+.about-me,
 .proyecto .contenido {
   font-size: 24px;
 
@@ -289,22 +290,8 @@ footer {
     border: 1px solid #404040;
   }
 }
-.about-me-wrapper {
-  padding: 60px 0;
-}
-@media(max-width:959px) {
-  .about-me-wrapper {
-    h3{
-      margin-top: 20px;
-    }
-  }
-}
-@media(min-width:960px) {
 
-  .about-me-wrapper {
-    padding: 100px 0;
-  }
-}
+
 @media(min-width:960px) {
   .experiencia {
     padding-right: 20px;
@@ -466,4 +453,12 @@ footer {
 
 .copy-action{
   cursor: pointer;
+}
+
+.text-column-wrapper{
+  width:100%;
+  @media(min-width:960px) {
+    width: 600px;
+    margin: 0 100px;
+  }
 }

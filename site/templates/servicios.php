@@ -16,7 +16,7 @@
             </div>
         </div>
         <!-- Servicios accordion -->
-        <div class="uk-margin-large-top uk-margin-large-bottom">
+        <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
                 <?= $page->text?>
             </div>
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Research accordion -->
-        <div class="uk-margin-large-top uk-margin-large-bottom">
+        <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
                 <h2>Research strategies and methodologies.</h2>
             </div>
@@ -65,7 +65,6 @@
                     }*/
                     $numResearchTag = $pages->find("template=case-study, research_tags={$research_tag}")->count();
                     if(!$numResearchTag >= 1 )continue;
-                    bd($numResearchTag);
                     ?>
                     <li class="<?=$isOpen ? "uk-open" : ""?>">
                         <a class="uk-accordion-title" href="#">
@@ -86,14 +85,14 @@
         <?php foreach($page->home_repeater as $item): ?>
             <?php if($item->home_titles):?>
             <div class="uk-width-3-5@m">
-            <div class="uk-margin-bottom uk-margin-large-top uk-width-1-3@">
-                <?= $item->home_titles; ?>
-            </div>
+                <div class="uk-margin-bottom uk-margin-large-top uk-width-1-3@">
+                    <?= $item->home_titles; ?>
+                </div>
             </div>
             <?php endif ?>
             <?php if($item->home_subtitles):?>
-                <div class="uk-container uk-flex-right uk-flex uk-margin-large-top uk-margin-large-bottom">
-                    <div class="uk-width-1-2@m">
+                <div class="uk-flex uk-flex-right">
+                    <div class="uk-margin-top text-column-wrapper">
                         <?= $item->home_subtitles; ?>
                     </div>
                 </div>
@@ -110,19 +109,19 @@
             <?php endif ?>
 
             <?php if($item->home_texts): ?>
-            <div class="uk-container uk-flex-right uk-flex uk-margin-top ">
-                <div class="uk-margin-top uk-width-1-2@m">
+            <div class="uk-flex uk-flex-right">
+                <div class="uk-margin-top text-column-wrapper">
                     <?= $item->home_texts; ?>
                 </div>
             </div>
             <?php endif ?>
         <?php endforeach; ?>
 
-            <div class="uk-container uk-flex-right uk-flex ">
-                <div class="uk-width-1-2@m">
-                    <a class="button uk-button" href="<?php echo $pages->get('template=about')->url; ?>">About Me</a>
-                </div>
+        <div class="uk-flex-right uk-flex ">
+            <div class="uk-margin-top text-column-wrapper">
+                <a class="button uk-button" href="<?php echo $pages->get('template=about')->url; ?>">About Me</a>
             </div>
+        </div>
 
         <hr class="uk-margin-large-top">
     </div>

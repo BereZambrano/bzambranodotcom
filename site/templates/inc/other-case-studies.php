@@ -1,6 +1,6 @@
 <?php namespace ProcessWire;?>
-<div class="uk-margin uk-container">
-    <div class="uk-margin-large-bottom uk-margin-large-top">
+<div class="uk-margin-large-bottom uk-margin-large-top uk-container">
+    <div class="">
         <h2>More case studies</h2>
     </div>
 
@@ -14,8 +14,11 @@
                 <div class="testimonials-wrapper uk-margin-auto">
                     <div class="testimonial-card" uk-grid>
                         <div class="uk-width-3-5@m">
-                            <div class="uk-card-title">
-                                <h3><?=$study->title?></h3>
+                            <div class="uk-link-reset uk-card-title">
+                                <a href="<?=$study->url?>">
+
+                                    <h3><?=$study->title?></h3>
+                                </a>
                             </div>
 
                             <div class="">
