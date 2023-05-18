@@ -15,41 +15,11 @@
                 </div>
             </div>
         </div>
-        <!-- Servicios accordion -->
-        <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom">
-            <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
-                <?= $page->text?>
-            </div>
-            <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
-                <?php foreach($page->children as $child) : ?>
-                <?php
-                $isOpen = false;
-                $servicio = $input->get->servicio;
-                if($servicio){
-                    if($servicio == $child->name){
-                        $isOpen = true;
-                    }
-                }
-                ?>
-                    <li class="<?=$isOpen ? "uk-open" : ""?>">
-                        <a class="uk-accordion-title" href="#">
-                            <?= $child->title ?>
-                        </a>
-                        <div class="uk-accordion-content">
-                            <?= $child->text ?>
-                            <?php echo wireRenderFile('inc/proyectos-grid',
-                                [
-                                    'projects' => $pages->find("template=proyecto, servicios={$child}, sort=sort")->getArray()
-                                ]); ?>
-                        </div>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
 
         <!-- Research accordion -->
         <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom">
-            <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top">
+            <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-large-bottom">
+                <p class="tagline">Here's part of what I do</p>
                 <h2>Research strategies and methodologies.</h2>
             </div>
             <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
@@ -81,11 +51,43 @@
             </ul>
         </div>
 
+        <!-- Servicios accordion -->
+        <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom">
+            <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-large-bottom">
+                <h2>Design services</h2>
+            </div>
+            <ul class="uk-list-divider  uk-margin-large-bottom" uk-accordion>
+                <?php foreach($page->children as $child) : ?>
+                    <?php
+                    $isOpen = false;
+                    $servicio = $input->get->servicio;
+                    if($servicio){
+                        if($servicio == $child->name){
+                            $isOpen = true;
+                        }
+                    }
+                    ?>
+                    <li class="<?=$isOpen ? "uk-open" : ""?>">
+                        <a class="uk-accordion-title" href="#">
+                            <?= $child->title ?>
+                        </a>
+                        <div class="uk-accordion-content">
+                            <?= $child->text ?>
+                            <?php echo wireRenderFile('inc/proyectos-grid',
+                                [
+                                    'projects' => $pages->find("template=proyecto, servicios={$child}, sort=sort")->getArray()
+                                ]); ?>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
         <!--First repeater-->
         <?php foreach($page->home_repeater as $item): ?>
             <?php if($item->home_titles):?>
             <div class="uk-width-3-5@m">
-                <div class="uk-margin-bottom uk-margin-large-top uk-width-1-3@">
+                <div class="uk-margin-bottom uk-margin-xlarge-top uk-width-1-3@">
                     <?= $item->home_titles; ?>
                 </div>
             </div>
