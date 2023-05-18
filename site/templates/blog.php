@@ -1,6 +1,6 @@
 <div id="main-content" class="blog" pw-append>
 
-    <div class="posts-container uk-margin-large-top uk-container">
+    <div class="posts-container uk-margin-large-top uk-container-large uk-container">
         <div class="uk-grid uk-grid-small" uk-grid="masonry:true;">
             <?php
             $limit = 6;
@@ -14,7 +14,7 @@
                         <a class="uk-link-reset" href="<?= $post->url ?>">
                             <img alt="<?= $image->description ?>"
                                  class="uk-width-1-1" width="500"
-                                 data-src="<?= $image->url ?>" uk-img>
+                                 src="<?= $image->url ?>" loading="lazy" uk-img>
                             <!-- <div class="uk-margin-small uk-text-center">
                                 <h4><? /*= $post->title */ ?></h4>
                             </div>-->

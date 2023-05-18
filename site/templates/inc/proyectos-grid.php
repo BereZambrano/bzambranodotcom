@@ -1,7 +1,7 @@
 <?php namespace ProcessWire;?>
 
 <section class="projects">
-    <div class="uk-container uk-margin-large-top  uk-margin-large">
+    <div class="uk-container uk-margin-medium-top">
         <?php
         $slices = array_chunk($projects, 4);
         ?>
@@ -21,8 +21,8 @@
                             <?php endif ?>
                         </a>
                         <div class="uk-margin-small project-name">
-                            <a href="<?= $item->url ?>">
-                                <h4 class="uk-text-bold uk-margin-remove"><?= $item->title ?></h4>
+                            <a class="uk-link-reset" href="<?= $item->url ?>">
+                                <h4 class="uk-h5 uk-text-bold uk-margin-remove"><?= $item->title ?></h4>
                             </a>
                             <p class="uk-margin-remove uk-text-primary uk-text-small">
                                 <?php echo $item->servicios->implode(', ', 'title'); ?>

@@ -9,25 +9,23 @@ $less_files = array();
 $uikitFile = $config->paths->templates . 'css/uikit-custom.less';
 
 $less_files = array(
-    $uikitFile => $config->path->templates . 'css/uikit-custom.css'
+  $uikitFile => $config->path->templates . 'css/uikit-custom.css'
 );
 
-$uikitOptions = array('cache_dir' => $config->paths->assets . 'cache/less/',
-    'output' => $config->paths->templates . 'css/build.css',
-    'relativeUrls' => true);
+$uikitOptions = array(
+  'cache_dir'    => $config->paths->assets . 'cache/less/',
+  'output'       => $config->paths->templates . 'css/build.css',
+  'relativeUrls' => true
+);
 
 
-try {
-    $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
-    //$log->save("less", $uikitCustomFilename);\
-} catch (\Exception $e) {
-    //$log->save("less", $e);
-}
+$uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
+//$log->save("less", $uikitCustomFilename);\
 
 
 ?>
 <!DOCTYPE html>
-<html lang="<?=$user->language->name == "default" ? "es": "en"?>">
+<html lang="<?= $user->language->name == "default" ? "es" : "en" ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,23 +37,29 @@ try {
           type="image/png"
           href="<?= $urls->templates ?>img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <?php if($user->language->name == "default"):?>
-        <link rel="alternate" hreflang="en" href="<?=$page->localUrl('en')?>" />
-    <?php else:?>
-        <link rel="alternate" hreflang="es" href="<?=$page->localUrl('es')?>" />
+    <?php if ($user->language->name == "default"): ?>
+        <link rel="alternate" hreflang="en" href="<?= $page->localUrl('en') ?>"/>
+    <?php else: ?>
+        <link rel="alternate" hreflang="es" href="<?= $page->localUrl('es') ?>"/>
     <?php endif ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Inter:wght@300;400&display=swap"
+          rel="stylesheet">
 
     <?php $page->getOpenGraphImage(); ?>
     <?php echo $page->seo ? $page->seo->render() : ''; ?>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async  data-type="text/javascript" data-category="statistics" data-src="https://www.googletagmanager.com/gtag/js?id=G-24ME372RVR"></script>
+    <script async data-type="text/javascript" data-category="statistics"
+            data-src="https://www.googletagmanager.com/gtag/js?id=G-24ME372RVR"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'G-24ME372RVR');
@@ -65,8 +69,10 @@ try {
 <body>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDC3Z6G"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDC3Z6G"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <div uk-sticky>
@@ -75,13 +81,15 @@ try {
             <nav class="uk-navbar">
                 <div class="uk-navbar-left">
 
-                    <a  class="bzambrano-logo uk-navbar-item" href="<?= $home->url ?>">
-                        <!-- <img class="mango" style="" src="<?= $urls->templates ?>img/mango@0.5x.png">-->
-                        <span>
-                                    <span class="name">berenice</span><span class="apellido">zambrano</span><br>
-                                </span>
-                        <span class="work">creadora visual</span>
-                    </a>
+                    <div class="uk-navbar-item">
+                        <a class="uk-link-reset bzambrano-logo" href="<?= $home->url ?>">
+                            <!-- <img class="mango" style="" src="<?= $urls->templates ?>img/mango@0.5x.png">-->
+                            <span>
+                            <span class="name">berenice</span><span class="apellido">zambrano</span><br>
+                        </span>
+                            <span class="work">[Design + Research]</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="uk-navbar-right">
                     <div>
@@ -163,12 +171,12 @@ try {
                      hx-select="main"
                      hx-oob="true"
                 -->
-                <nav  class="uk-navbar-container uk-flex-center uk-navbar-transparent uk-navbar"
+                <nav class="uk-navbar-container uk-flex-center uk-navbar-transparent uk-navbar"
                      uk-navbar>
                     <div class="uk-navbar-left">
                         <ul class="uk-navbar-nav">
                             <li class="uk-flex uk-flex-middle">
-                                <a  class="bzambrano-logo" href="<?= $home->url ?>">
+                                <a class=" bzambrano-logo" href="<?= $home->url ?>">
                                     <!-- <img class="mango" style="" src="<?= $urls->templates ?>img/mango@0.5x.png">-->
                                     <span>
                                     <span class="name">berenice</span><span class="apellido">zambrano</span><br>
@@ -222,7 +230,8 @@ try {
 </main>
 
 <hr class="uk-margin-xlarge">
-<footer id="footer" class="<?= $page->matches('template=about') ? "uk-margin-xlarge-bottom" : "uk-margin-large-top uk-margin-large" ?>">
+<footer id="footer"
+        class="<?= $page->matches('template=about') ? "uk-margin-xlarge-bottom" : "uk-margin-large-top uk-margin-large" ?>">
     <div class="uk-container <?= $page->template != "proyecto" ? "uk-container-small" : '' ?>">
         <div class="">
             <div class="uk-flex-center uk-grid" uk-grid>
@@ -232,8 +241,8 @@ try {
                     </p>
                     <hr>
                     <div class="uk-container uk-flex uk-flex-center">
-                    <ul class="uk-iconnav">
-                        <?php foreach ($home->social_media as $icon): ?>
+                        <ul class="uk-iconnav">
+                            <?php foreach ($home->social_media as $icon): ?>
                                 <?php if ($icon->title == "telegram"): ?>
                                     <li>
                                         <a target="_blank" class="uk-icon uk-icon-image uk-margin-right"
@@ -242,13 +251,14 @@ try {
                                         </a>
                                     </li>
                                 <?php else: ?>
-                                    <li><a class="uk-margin-right" href="<?= $icon->url_address ?>" uk-icon="icon: <?= $icon->title ?>">
+                                    <li><a class="uk-margin-right" href="<?= $icon->url_address ?>"
+                                           uk-icon="icon: <?= $icon->title ?>">
 
                                         </a>
                                     </li>
                                 <?php endif ?>
-                        <?php endforeach ?>
-                    </ul>
+                            <?php endforeach ?>
+                        </ul>
                     </div>
                     <hr>
                     <p><a href="<?= $pages->get('/politica-de-privacidad/')->url ?>">
@@ -276,25 +286,26 @@ try {
     };
     var util = UIkit.util;
 
-    window.bereBar = new Nanobar( options );
-    htmx.on("htmx:beforeSend",function(e){
+    window.bereBar = new Nanobar(options);
+    htmx.on("htmx:beforeSend", function (e) {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+
         var el = e.detail.elt;
-        if(el.classList.contains('transition-link')){
-            bereBar.go( getRandomInt(20,70) ); // size bar 76%6
+        if (el.classList.contains('transition-link')) {
+            bereBar.go(getRandomInt(20, 70)); // size bar 76%6
         }
     });
-    htmx.on("htmx:beforeSwap",function(){
-        bereBar.go( 100 );
+    htmx.on("htmx:beforeSwap", function () {
+        bereBar.go(100);
     });
 
-    htmx.onLoad(function(){
-        UIkit.util.on('#services-list li a','click',  function(e){
-            document.querySelectorAll('#services-list li a').forEach(function (item){
+    htmx.onLoad(function () {
+        UIkit.util.on('#services-list li a', 'click', function (e) {
+            document.querySelectorAll('#services-list li a').forEach(function (item) {
                 item.parentElement.classList.remove('uk-active');
             })
             this.parentElement.classList.add('uk-active');
@@ -336,31 +347,32 @@ try {
 
     var social = document.querySelectorAll('.MarkupSocialShareButtons');
 
-    social.forEach( (item, index) => {
-            util.append(item, "<li uk-tooltip=\"Click to copy\"  class=\"copy-action mssb-item\" style='color:#9B9B9B'><span uk-icon=\"link\"></span></li>");
-            var copy = util.$(".copy-action", item);
-            var currentPage = document.location.href;
-            function setClipboard(text) {
-                const type = "text/plain";
-                const blob = new Blob([text], { type });
-                const data = [new ClipboardItem({ [type]: blob })];
+    social.forEach((item, index) => {
+        util.append(item, "<li uk-tooltip=\"Click to copy\"  class=\"copy-action mssb-item\" style='color:#9B9B9B'><span uk-icon=\"link\"></span></li>");
+        var copy = util.$(".copy-action", item);
+        var currentPage = document.location.href;
 
-                navigator.clipboard.write(data).then(
-                    () => {
-                        /*util.attr(copy, 'uk-tooltip', 'Copied!');
-                        UIkit.tooltip(copy).show();*/
-                    },
-                    () => {
-                        /* failure */
-                        console.log("failed!");
-                    }
-                );
-            }
+        function setClipboard(text) {
+            const type = "text/plain";
+            const blob = new Blob([text], {type});
+            const data = [new ClipboardItem({[type]: blob})];
 
-            util.on(copy, 'click', (e) => {
-                setClipboard(currentPage);
-            })
-        });
+            navigator.clipboard.write(data).then(
+                () => {
+                    /*util.attr(copy, 'uk-tooltip', 'Copied!');
+                    UIkit.tooltip(copy).show();*/
+                },
+                () => {
+                    /* failure */
+                    console.log("failed!");
+                }
+            );
+        }
+
+        util.on(copy, 'click', (e) => {
+            setClipboard(currentPage);
+        })
+    });
 
 </script>
 </body>

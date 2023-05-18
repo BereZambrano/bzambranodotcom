@@ -30,6 +30,7 @@
 @base-h3-font-size: 3.25rem;
 @base-h2-line-height: 1.1em;
 @base-h4-font-size: 2.5rem;
+@base-h4-line-height: 1.2;
 @base-h5-font-size: 1.5rem;
 
 .hook-base-h2(){
@@ -307,11 +308,14 @@
   font-size: @text-lead-font-size;
 }
 
-@media (min-width:959px){
+/*@media (min-width:959px){
   .testimonials-wrapper{
     max-width: 95%;
   }
-}
+}*/
+
+
+@accordion-title-font-size: 24px;
 
 /*.tags-search .uk-subnav{
     margin-top: -20px;
@@ -340,11 +344,17 @@
   color:white;
 }*/
 
+.hook-accordion-content{
+  font-size: 16px;
+}
+
 .hook-icon-button{
   .proyectos-relacionados &{
     border: 1px solid darkgrey;
   }
 }
+
+@container-padding-horizontal-m: 60px;
 
 @import "main.less";
 

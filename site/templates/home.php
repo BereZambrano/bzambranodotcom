@@ -1,11 +1,11 @@
 <div id="main-content" pw-append>
     <!--Home_profile -->
-    <section  class="bio-section">
+    <section  class="uk-margin-large uk-margin-xlarge-top bio-section">
         <div class="uk-container uk-margin-large-top">
             <div class="uk-grid-small uk-flex-middle uk-flex-right@m uk-flex-center uk-grid" uk-grid>
                 <div class="uk-flex uk-flex-right bio-pic uk-width-2-5 ">
                     <div>
-                        <img class="uk-margin-right" src="<?= $home->image->size(200)->url ?>">
+                        <img class="uk-margin-right" src="<?= $home->image->url ?>">
                     </div>
                 </div>
 

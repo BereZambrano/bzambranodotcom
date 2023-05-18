@@ -116,9 +116,9 @@
                                         <li>
                                             <img src="<?= $image->url ?>" alt="<?= $image->description ?>"
                                                  loading="lazy" uk-cover>
-                                            <div class="uk-overlay uk-overlay-primary uk-position-bottom-center uk-text-center">
-                                                <p class="uk-margin-remove"><?= $image->description ?></p>
-                                            </div>
+                                           <!-- <div class="uk-overlay uk-overlay-primary uk-position-bottom-center uk-text-center">
+                                                <p class="uk-margin-remove"><?php /*= $image->description */?></p>
+                                            </div>-->
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
