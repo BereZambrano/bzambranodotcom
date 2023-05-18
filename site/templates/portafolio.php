@@ -51,22 +51,22 @@ namespace ProcessWire;
     $caseStudyPage=$pages->get("template=case-studies");
     ?>
 
-    <div class="uk-container uk-container-large uk-flex-center uk-flex uk-flex-column">
-        <div class="uk-margin-large-top">
+    <div class="large-paragraph uk-container uk-container-large">
+
+        <div class="uk-margin-large-top uk-width-1-3@ ">
             <div>
                 <?= $caseStudyPage->second_intro; ?>
             </div>
         </div>
-        <div class="uk-flex uk-margin-large uk-flex-right">
-            <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
-                <div class="uk-width-3-5@m">
-                    <?= $caseStudyPage->text_large; ?>
-                    <div class="uk-margin-medium-top uk-margin-medium-bottom">
-                        <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>
-                    </div>
+
+        <div class=" uk-margin-large uk-flex uk-flex-right">
+            <div class="text-column-wrapper">
+                <?= $caseStudyPage->text_large; ?>
+                <div class="uk-margin-medium-top">
+                    <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>
                 </div>
             </div>
         </div>
     </div>
-
+    
 </div>

@@ -81,7 +81,7 @@ $clientes_parent = $pages->get('/clientes/');
 
         <div class="uk-grid uk-grid-large" uk-grid>
             <!-- Experiencia -->
-            <div class="uk-flex uk-margin-large uk-flex-right">
+            <div class="uk-flex uk-flex-right">
                 <div class="uk-flex uk-width-4-5@m uk-flex-center uk-flex-wrap">
                     <div class=" uk-width-3-5@m ">
 

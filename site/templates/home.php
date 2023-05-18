@@ -32,7 +32,7 @@
                         <?php endif ?>
                     </div>
                 </div>
-                <?php if($item->home_images->count > 0): ?>
+                <?php if($item->home_images): ?>
                     <div class="uk-container uk-container-large uk-margin-large-bottom">
                         <div>
                             <picture>

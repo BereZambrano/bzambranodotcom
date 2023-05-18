@@ -120,7 +120,7 @@
 </section>
 
         <!--For social projects-->
-        <div class="uk-container uk-container-large">
+        <div class="large-paragraph uk-container uk-container-large">
 
                 <div class="uk-margin-large-top uk-width-1-3@ ">
                     <div>

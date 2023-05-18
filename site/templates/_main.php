@@ -221,9 +221,10 @@ try {
 
 </main>
 
-<footer id="footer" class="<?= $page->matches('template=about') ? "uk-margin-xlarge-bottom" : "uk-margin-xlarge-top uk-margin-xlarge" ?>">
+<hr class="uk-margin-xlarge">
+<footer id="footer" class="<?= $page->matches('template=about') ? "uk-margin-xlarge-bottom" : "uk-margin-large-top uk-margin-large" ?>">
     <div class="uk-container <?= $page->template != "proyecto" ? "uk-container-small" : '' ?>">
-        <div class="uk-padding-large uk-padding-remove-left uk-padding-remove-bottom uk-padding-remove-right">
+        <div class="">
             <div class="uk-flex-center uk-grid" uk-grid>
                 <div class="uk-width-1-1 <?= $page->template == "proyecto" ? " uk-width-1-5@m" : 'uk-width-1-3@m' ?>">
                     <p class="uk-bold">
