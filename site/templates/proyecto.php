@@ -8,13 +8,13 @@ $header_image = $page->getHeaderImage();
 
             <div class="uk-margin-large-top">
                 <a href="<?= $page->parent()->url ?>">
-                    <img src="/site/templates/img/Arrow1.png" alt="Arrow1">
+                    <img class="back-arrow" src="/site/templates/img/Arrow1.png" alt="Arrow1">
                 </a>
             </div>
 
             <div class="uk-margin-large-top" uk-grid>
                 <div class="uk-width-4-5@m uk-margin-large-top">
-                    <h2><?= $page->title ?></h2>
+                    <h1 class="uk-h2"><?= $page->title ?></h1>
                 </div>
 
                 <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
@@ -25,7 +25,7 @@ $header_image = $page->getHeaderImage();
             <hr class="uk-margin-bottom">
         </div>
 
-        <div class="project-container uk-light  uk-margin uk-container">
+        <div class="project-container contenido uk-light  uk-margin uk-container">
 
             <!-- Project intro and info -->
 

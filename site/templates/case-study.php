@@ -6,7 +6,7 @@
 
             <div class="uk-margin-large-top">
                 <a href="<?= $page->parent()->url ?>">
-                    <img src="/site/templates/img/Arrow1.png" alt="Arrow1">
+                    <img class="back-arrow" src="/site/templates/img/Arrow1.png" alt="Arrow1">
                 </a>
             </div>
 
@@ -47,14 +47,14 @@
 
 
             <div class="uk-container uk-container-large uk-margin-large-top">
-                    <div class="uk-child-width-1-2 uk-flex uk-flex-column " uk-grid>
+                    <div class="uk-child-width-1-2@m uk-flex uk-flex-column " uk-grid>
                         <div class="">
-                            <h5 class="uk-margin-remove"><?= __("Cliente") ?>:</h5>
-                            <h3 class="uk-margin-remove"><?= $page->cliente->title ?></h3>
+                            <p class="uk-h5 uk-margin-remove"><?= __("Cliente") ?>:</p>
+                            <p class="uk-h3 uk-margin-remove"><?= $page->cliente->title ?></p>
                         </div>
 
                         <div class="">
-                            <h5 class="uk-margin-remove"><?= __("Tácticas de investigación y metodologías") ?>:</h5>
+                            <p class="uk-h5 uk-margin-remove"><?= __("Tácticas de investigación y metodologías") ?>:</p>
                             <ul class="uk-list">
                                 <?php foreach($page->research_tags as $item) {
 
@@ -71,8 +71,8 @@
                         </div>
 
                         <div class="">
-                            <h5 class="uk-margin-remove"><?= __("Año") ?>:</h5>
-                            <h3 class="uk-margin-remove"><?= $page->year ?></h3>
+                            <p class="uk-h5 uk-margin-remove"><?= __("Año") ?>:</p>
+                            <p class="uk-h3 uk-margin-remove"><?= $page->year ?></p>
                         </div>
                     </div>
                 </div>
