@@ -12,7 +12,7 @@ $header_image = $page->getHeaderImage();
                 </a>
             </div>
 
-            <div class="uk-margin-large-top" uk-grid>
+            <div class="" uk-grid>
                 <div class="uk-width-4-5@m uk-margin-large-top">
                     <h1 class="uk-h2"><?= $page->title ?></h1>
                 </div>
