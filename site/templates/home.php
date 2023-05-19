@@ -33,12 +33,12 @@
                     </div>
                 </div>
                 <?php if($item->home_images): ?>
-                    <div class="uk-container uk-container-large uk-margin-large-bottom">
+                    <div class="uk-container uk-container-large uk-margin-large-bottom ">
                         <div>
                             <picture>
                                 <source media="(max-width:959px)" srcset="<?= $item->home_images->size(800, 600)->url ?>">
                                 <source media="(min-width:960px)" srcset="<?= $item->home_images->size(1800, 900)->url ?>">
-                                <img alt="<?= $item->home_images->description ?>" class="uk-width-1-1" src='<?= $item->home_images->url ?>' loading="lazy">
+                                <img alt="<?= $item->home_images->description ?>" class="uk-width-1-1 uk-border-rounded" src='<?= $item->home_images->url ?>' loading="lazy">
                             </picture>
                         </div>
                     </div>

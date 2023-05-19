@@ -20,7 +20,7 @@
         <div class="uk-margin-large-top uk-margin-large-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-bottom">
                 <p class="tagline">Here's part of what I do</p>
-                <h2>Research strategies and methodologies.</h2>
+                <h2>Research strategies and methodologies</h2>
             </div>
             <div class=" uk-margin uk-flex uk-flex-right">
                 <div class="accordion-column-wrapper">

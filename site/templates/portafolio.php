@@ -65,7 +65,7 @@ namespace ProcessWire;
             <div class="text-column-wrapper">
                 <?= $caseStudyPage->text_large; ?>
                 <div class="uk-margin-medium-top">
-                    <a class="button uk-button" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>
+                    <a class="uk-button uk-button-primary" href="<?php echo $pages->get('template=servicios')->url; ?>">See all services here</a>
                 </div>
             </div>
         </div>

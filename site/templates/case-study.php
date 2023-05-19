@@ -2,7 +2,7 @@
 
 <div id="main-content" class="proyecto" pw-append>
     <div class="uk-light uk-background-secondary">
-        <section class="uk-container contenido uk-container-large">
+        <section class="uk-container contenido uk-container">
 
             <div class="uk-margin-large-top">
                 <a href="<?= $page->parent()->url ?>">
@@ -110,11 +110,11 @@
 
                     <?php if ($item->type == "galeria_modulo"): ?>
                         <div class="uk-margin-large-top uk-width-1-1@m">
-                            <div uk-slideshow>
+                            <div uk-slideshow="autoplay: true">
                                 <ul class="uk-slideshow-items">
                                     <?php foreach ($item->galeria as $image): ?>
                                         <li>
-                                            <img src="<?= $image->url ?>" alt="<?= $image->description ?>"
+                                            <img class="uk-border-rounded" src="<?= $image->url ?>" alt="<?= $image->description ?>"
                                                  loading="lazy" uk-cover>
                                            <!-- <div class="uk-overlay uk-overlay-primary uk-position-bottom-center uk-text-center">
                                                 <p class="uk-margin-remove"><?php /*= $image->description */?></p>
@@ -122,8 +122,7 @@
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
-                                <a class=" uk-position-small" href="#" uk-slidenav-previous
-                                   uk-slideshow-item="previous"></a>
+                                <a class="uk-position-small" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
                                 <a class=" uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
                             </div>
                         </div>
@@ -136,7 +135,7 @@
 
             </section>
         <section class="uk-section">
-            <div class="uk-container-large uk-container">
+            <div class="uk-container uk-container">
                 <div class="tags-search">
                     <div>
                         <p>TAG SEARCH</p>

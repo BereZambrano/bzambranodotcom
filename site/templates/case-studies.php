@@ -62,7 +62,7 @@
                                                             srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
                                                     <source media="(min-width:960px)"
                                                             srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
-                                                    <img class="uk-width-1-1"
+                                                    <img class="uk-width-1-1 "
                                                          src='<?= $case->thumbnail->size(500, 500)->url ?>'
                                                          loading="lazy">
                                                 </picture>
@@ -81,7 +81,7 @@
                                                         <source media="(min-width:960px)"
                                                                 srcset="<?= $content_gallery->galeria->first()->size(500,
                                                                   500)->url ?>">
-                                                        <img class="uk-width-1-1"
+                                                        <img class="uk-width-1-1 uk-border-rounded"
                                                              src='<?= $content_gallery->galeria->first->size(500,
                                                                500)->url ?>' loading="lazy">
                                                     </picture>
