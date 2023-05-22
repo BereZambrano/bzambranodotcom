@@ -47,35 +47,37 @@
 
 
             <div class="uk-container uk-container-large uk-margin-large-top">
-                    <div class="uk-child-width-1-2@m uk-flex uk-flex-column " uk-grid>
-                        <div class="">
-                            <p class="uk-h5 uk-margin-remove"><?= __("Cliente") ?>:</p>
-                            <p class="uk-h3 uk-margin-remove"><?= $page->cliente->title ?></p>
-                        </div>
+                <div class="uk-child-width-1-2@m uk-flex uk-flex-column " uk-grid>
 
-                        <div class="">
-                            <p class="uk-h5 uk-margin-remove"><?= __("Tácticas de investigación y metodologías") ?>:</p>
-                            <ul class="uk-list">
-                                <?php foreach($page->research_tags as $item) {
-
-                                    $url = $page->parent->url([
-                                        'data' => [
-                                            'tag' => $item->name
-                                        ]
-                                    ]);
-
-                                    echo "<li><a href='$url'>$item->title</a></li>";
-                                }
-                                ?>
-                            </ul>
-                        </div>
-
-                        <div class="">
-                            <p class="uk-h5 uk-margin-remove"><?= __("Año") ?>:</p>
-                            <p class="uk-h3 uk-margin-remove"><?= $page->year ?></p>
-                        </div>
+                    <div class="">
+                        <p class="uk-h5 uk-margin-remove"><?= __("Cliente") ?>:</p>
+                        <p class="uk-h3 uk-margin-remove"><?= $page->cliente->title ?></p>
                     </div>
+
+                    <div class="">
+                        <p class="uk-h5 uk-margin-remove"><?= __("Tácticas de investigación y metodologías") ?>:</p>
+                        <ul class="uk-list">
+                            <?php foreach($page->research_tags as $item) {
+
+                                $url = $page->parent->url([
+                                    'data' => [
+                                        'tag' => $item->name
+                                    ]
+                                ]);
+
+                                echo "<li><a href='$url'>$item->title</a></li>";
+                            }
+                            ?>
+                        </ul>
+                    </div>
+
+                    <div class="">
+                        <p class="uk-h5 uk-margin-remove"><?= __("Año") ?>:</p>
+                        <p class="uk-h3 uk-margin-remove"><?= $page->year ?></p>
+                    </div>
+
                 </div>
+            </div>
 
                 <div class="uk-flex uk-flex-right uk-margin-large-top">
                     <div class="uk-margin uk-width-3-5@m uk-light">
@@ -85,50 +87,79 @@
 
                 <hr class="uk-margin-large-top uk-margin-large-bottom">
 
-                <?php foreach ($page->content as $item): ?>
+            <?php foreach ($page->content as $item): ?>
 
-                    <?php if ($item->type == "headline"): ?>
-                        <div class="uk-flex uk-flex-right uk-margin-large-top">
-                            <div class="uk-margin uk-width-3-5@m">
-                                <h2><?= $item->title; ?></h2>
-                            </div>
+                <?php if ($item->type == "headline"): ?>
+                    <div class="uk-flex uk-flex-right uk-margin-large-top">
+                        <div class="uk-margin uk-width-3-5@m">
+                            <h2><?= $item->title; ?></h2>
                         </div>
-                        <hr class="">
-                    <?php endif ?>
+                    </div>
+                    <hr class="">
+                <?php endif ?>
 
 
-                    <?php if ($item->type == "text_modulo"): ?>
-                        <div class="uk-flex uk-flex-right uk-margin-large-top">
-                            <div class="uk-margin uk-width-3-5@m">
-                                <?= $item->text; ?>
-                            </div>
+                <?php if ($item->type == "text_modulo"): ?>
+                    <div class="uk-flex uk-flex-right uk-margin-large-top">
+                        <div class="uk-margin uk-width-3-5@m">
+                            <?= $item->text; ?>
                         </div>
-                        <hr class="">
-                    <?php endif ?>
+                    </div>
+                    <hr class="">
+                <?php endif ?>
 
 
 
-                    <?php if ($item->type == "galeria_modulo"): ?>
-                        <div class="uk-margin-large-top uk-width-1-1@m">
-                            <div uk-slideshow="autoplay: true">
+                <?php if ($item->type == "galeria_modulo"): ?>
+                    <div class="uk-margin-large-top uk-container uk-container-small">
+                        <div uk-slideshow="autoplay: true">
+
+                            <div class="uk-position-relative">
+
+                                <a class="uk-visible@l uk-position-small uk-position-center-left-out" href="#"
+                                   uk-slideshow-item="previous">
+                                    <span class="uk-icon-button" uk-icon="icon: chevron-left; ratio:1.2;"></span>
+                                </a>
+                                <a class="uk-visible@l uk-position-small uk-position-center-right-out" href="#"
+                                   uk-slideshow-item="next">
+                                    <span class="uk-icon-button" uk-icon="icon: chevron-right; ratio:1.2;"></span>
+                                </a>
+
+
                                 <ul class="uk-slideshow-items">
                                     <?php foreach ($item->galeria as $image): ?>
                                         <li>
                                             <img class="uk-border-rounded" src="<?= $image->url ?>" alt="<?= $image->description ?>"
                                                  loading="lazy" uk-cover>
-                                           <!-- <div class="uk-overlay uk-overlay-primary uk-position-bottom-center uk-text-center">
-                                                <p class="uk-margin-remove"><?php /*= $image->description */?></p>
-                                            </div>-->
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
+                                <!--
                                 <a class="uk-position-small" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
                                 <a class=" uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+                                -->
+                                <div class="uk-slider-container uk-margin uk-hidden@l">
+
+                                    <div class=" uk-position-z-index">
+                                        <div class="uk-flex-right uk-slidenav-container">
+                                            <a class="uk-margin-small-right" href="#" uk-slideshow-item="previous">
+                                            <span class="uk-icon-button"
+                                                  uk-icon="icon: chevron-left; ratio:1.2;"></span>
+                                            </a>
+                                            <a class="" href="#" uk-slideshow-item="next">
+                                            <span class="uk-icon-button"
+                                                  uk-icon="icon: chevron-right; ratio:1.2;"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                            </div>
                             </div>
                         </div>
-                        <hr class="">
-                    <?php endif ?>
-                <?php endforeach; ?>
+                    </div>
+                    <hr class="">
+                <?php endif ?>
+            <?php endforeach; ?>
 
 
 
