@@ -4,7 +4,7 @@
 
         <div class="uk-width-3-5@m">
             <h2>
-                <?=__("Testimonials and mentions.")?>
+                <?=__("Testimonials and mentions")?>
             </h2>
         </div>
 

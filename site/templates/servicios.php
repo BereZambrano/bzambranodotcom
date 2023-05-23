@@ -19,8 +19,8 @@
         <!-- Research accordion -->
         <div class="uk-margin-large-top uk-margin-large-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-bottom">
-                <p class="tagline">Here's part of what I do</p>
-                <h2>Research strategies and methodologies</h2>
+                <p class="tagline">Aquí, parte de lo que hago</p>
+                <h2><?= __("Estrategias de investigación y metodologías");?></h2>
             </div>
             <div class=" uk-margin uk-flex uk-flex-right">
                 <div class="accordion-column-wrapper">
@@ -59,7 +59,7 @@
         <!-- Servicios accordion -->
         <div class="uk-margin-large-top uk-margin-large-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-bottom">
-                <h2><?=__("Design services");?></h2>
+                <h2><?=__("Servicios de diseño");?></h2>
             </div>
             <div class=" uk-margin  uk-flex uk-flex-right">
                 <div class="accordion-column-wrapper">
