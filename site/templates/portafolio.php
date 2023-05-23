@@ -4,21 +4,20 @@ namespace ProcessWire;
 
 <div id="main-content" pw-append>
 
-    <section class="uk-margin-xlarge-top bio-section">
-        <div class="uk-container uk-container-large">
-            <div class="uk-grid-small uk-flex-left uk-grid" uk-grid>
-                <div class="uk-margin-remove-large-child uk-width-1-2">
-                    <?= $page->first_intro ?>
-                </div>
+    <section class="uk-container uk-container-large">
+        <div class="uk-margin-xlarge-bottom uk-margin-xlarge-top uk-width-1-2@m">
+            <div class="uk-margin-remove-last-child">
+                <?= $page->first_intro; ?>
             </div>
-
         </div>
+        <hr>
     </section>
 
-    <hr class="uk-margin-large uk-margin-xlarge-top">
 
+<!--    <hr class="uk-margin-large uk-margin-xlarge-top">
+-->
     <?php $projects = $pages->find('template=proyecto, limit=5, sort=sort'); ?>
-    <div class="uk-container uk-container-large uk-margin-medium-top home-portfolio uk-margin-large-bottom">
+    <div class="uk-container uk-container-large uk-margin-large-top home-portfolio uk-margin-large-bottom">
         <div class="uk-grid uk-grid-large uk-child-width-1-1" uk-grid>
             <?php foreach ($projects as $i => $project) : ?>
                 <div class="">

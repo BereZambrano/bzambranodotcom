@@ -2,7 +2,7 @@
 <region id="main-content" pw-append>
 
     <section class="uk-container uk-container-large">
-        <div class="uk-margin-xlarge-bottom uk-margin-xlarge-top uk-width-3-5@m">
+        <div class="uk-margin-xlarge-bottom uk-margin-xlarge-top uk-width-1-2@m">
             <div class="uk-margin-remove-last-child">
                 <?= $page->first_intro; ?>
             </div>
@@ -35,7 +35,7 @@
                     <div class="uk-flex uk-flex-left">
                         <div class="uk-margin-large">
                             <div class="uk-grid uk-flex uk-child-width-expand@s" uk-grid>
-                                <div class="uk-width-1-2@m">
+                                <div class="uk-width-2-3@m">
                                     <a class="uk-link-reset" href="<?= $case->url ?>">
                                         <h3 class="uk-h4">
                                             <?= $case->title; ?>
@@ -54,7 +54,7 @@
                                 </div>
 
                                 <?php if ($case->thumbnail): ?>
-                                    <div class="uk-width-1-2@m">
+                                    <div class="uk-width-1-3@m">
                                         <div>
                                             <a class="uk-link-reset" href="<?= $case->url ?>">
                                                 <picture class="uk-height-match">
@@ -62,7 +62,7 @@
                                                             srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
                                                     <source media="(min-width:960px)"
                                                             srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
-                                                    <img class="uk-width-1-1 "
+                                                    <img class="uk-border-rounded uk-width-1-1 "
                                                          src='<?= $case->thumbnail->size(500, 500)->url ?>'
                                                          loading="lazy">
                                                 </picture>

@@ -75,7 +75,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<div uk-sticky>
+<div class="mobile-navbar" uk-sticky>
     <div class="uk-background-default uk-container">
         <div class="uk-hidden@m">
             <nav class="uk-navbar">

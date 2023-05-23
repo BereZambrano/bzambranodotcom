@@ -134,14 +134,16 @@
 @button-primary-hover-color: black;
 @button-primary-active-color: black;
 
-
 .hook-button-primary() {
   border-radius: 25px;
   line-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  @media(max-width: 320px){
+    line-height: 1.5;
+    padding: 10px 20px;
+  }
 }
 
 //@overlay-default-background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(13, 36, 162, 1) 100%);
@@ -373,6 +375,13 @@
   }
 }
 
+.mobile-navbar{
+  .uk-navbar-item{
+    padding:0;
+  }
+}
+
+@container-padding-horizontal: 30px;
 @container-padding-horizontal-m: 60px;
 
 @import "main.less";

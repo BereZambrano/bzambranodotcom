@@ -100,7 +100,8 @@ blockquote {
 }
 
 a {
-	color: #0782C1;
+	color: #000;
+	text-underline-offset: 2px;
 }
 
 ol,ul,dl {
@@ -202,6 +203,8 @@ a > img {
 }
 
 .uk-button{
+	text-decoration: none;
+	color:black;
 	border-radius: 100px;
 	border: 1px solid black;
 	padding: 10px 20px;
