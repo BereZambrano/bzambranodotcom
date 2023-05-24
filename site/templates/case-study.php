@@ -47,15 +47,17 @@
 
 
             <div class="uk-container uk-container-large uk-margin-large-top">
-                <div class="uk-child-width-1-2@m uk-flex uk-flex-column " uk-grid>
 
-                    <div class="">
-                        <p class="uk-h5 uk-margin-remove"><?= __("Cliente") ?>:</p>
-                        <p class="uk-h3 uk-margin-remove"><?= $page->cliente->title ?></p>
+                <div class=" uk-child-width-1-2@m uk-flex uk-flex-column " uk-grid>
+
+                <div class="proyecto-data">
+                    <div class="uk-margin-bottom">
+                        <p class="tagline "><?= __("Cliente") ?>:</p>
+                        <h3 class="uk-margin-remove"><?= $page->cliente->title ?></h3>
                     </div>
 
-                    <div class="">
-                        <p class="uk-h5 uk-margin-remove"><?= __("Tácticas de investigación y metodologías") ?>:</p>
+                    <div class="uk-margin-bottom">
+                        <p class="tagline"><?= __("Tácticas de investigación y metodologías") ?>:</p>
                         <ul class="uk-list">
                             <?php foreach($page->research_tags as $item) {
 
@@ -71,11 +73,11 @@
                         </ul>
                     </div>
 
-                    <div class="">
-                        <p class="uk-h5 uk-margin-remove"><?= __("Año") ?>:</p>
-                        <p class="uk-h3 uk-margin-remove"><?= $page->year ?></p>
+                    <div class="uk-margin-bottom">
+                        <p class="tagline"><?= __("Año") ?>:</p>
+                        <h3 class="uk-margin-remove"><?= $page->year ?></h3>
                     </div>
-
+                </div>
                 </div>
             </div>
 
