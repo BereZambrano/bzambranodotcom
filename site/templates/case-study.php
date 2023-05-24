@@ -10,17 +10,17 @@
                 </a>
             </div>
 
-                <div class="" uk-grid>
-                    <div class="uk-width-4-5@m uk-margin-large-top">
-                        <h2><?= $page->title ?></h2>
-                    </div>
-
-                    <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
-                        <?php echo $modules->MarkupSocialShareButtons->render(); ?>
-                    </div>
+            <div class="" uk-grid>
+                <div class="uk-width-4-5@m uk-margin-large-top">
+                    <h2><?= $page->title ?></h2>
                 </div>
 
-                <hr class="uk-margin-bottom">
+                <div class="uk-margin-small-bottom uk-width-1-5@m uk-flex uk-flex-right uk-flex-bottom">
+                    <?php echo $modules->MarkupSocialShareButtons->render(); ?>
+                </div>
+            </div>
+
+            <hr class="uk-margin-bottom">
 
             <!--
             <?php
@@ -110,7 +110,7 @@
                 <?php endif ?>
                 <?php if ($item->type == "galeria_modulo"): ?>
                     <div class="uk-margin-large-top uk-container uk-container-small">
-                        <div uk-slideshow="autoplay: true">
+                        <div uk-slideshow="autoplay: false">
 
                             <div class="uk-position-relative">
 
@@ -201,7 +201,85 @@
     </div>
 
     <section class="uk-section uk-dark uk-background-muted">
-        <?php echo wireRenderFile('inc/other-case-studies.php'); ?>
+      <div class="uk-container">
+          <?php
+          $selector = "template=case-study, id!={$page->id} limit=3";
+          $case_studies = $pages->find($selector);
+          ?>
+          <?php
+          foreach ($case_studies as $case): ?>
+              <?php $case->content->find("type=galeria_modulo, galeria.count>0");
+              $content_gallery = $case->content->get("type=galeria_modulo, galeria.count>0");
+              ?>
+              <div class="uk-flex uk-flex-left">
+                  <div class="">
+                      <div class="uk-grid uk-flex uk-child-width-expand@s" uk-grid>
+                          <div class="uk-width-2-3@m">
+                              <a class="uk-link-reset" href="<?= $case->url ?>">
+                                  <h3 class="uk-h4">
+                                      <?= $case->title; ?>
+                                  </h3>
+                                  <div class="large-paragraph">
+                                      <p>
+                                          <?= $sanitizer->truncate($case->text_large, [
+                                            'type'      => 'punctuation',
+                                            'maxLength' => 180,
+                                            'visible'   => true,
+                                            'more'      => '…'
+                                          ]); ?>
+                                      </p>
+                                  </div>
+                              </a>
+
+                          </div>
+
+                          <?php if ($case->thumbnail): ?>
+                              <div class="uk-width-1-3@m">
+                                  <div>
+                                      <a class="uk-link-reset" href="<?= $case->url ?>">
+                                          <picture class="uk-height-match">
+                                              <source media="(max-width:959px)"
+                                                      srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
+                                              <source media="(min-width:960px)"
+                                                      srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
+                                              <img class="uk-border-rounded uk-width-1-1 "
+                                                   src='<?= $case->thumbnail->size(500, 500)->url ?>'
+                                                   loading="lazy">
+                                          </picture>
+                                      </a>
+                                  </div>
+                              </div>
+                          <?php else: ?>
+                              <?php if ($content_gallery->id): ?>
+                                  <div class="uk-width-1-2@m">
+                                      <div>
+                                          <a class="uk-link-reset" href="<?= $case->url ?>">
+                                              <picture class="uk-height-match">
+                                                  <source media="(max-width:959px)"
+                                                          srcset="<?= $content_gallery->galeria->first()->size(500,
+                                                            500)->url ?>">
+                                                  <source media="(min-width:960px)"
+                                                          srcset="<?= $content_gallery->galeria->first()->size(500,
+                                                            500)->url ?>">
+                                                  <img class="uk-width-1-1 uk-border-rounded"
+                                                       src='<?= $content_gallery->galeria->first->size(500,
+                                                         500)->url ?>' loading="lazy">
+                                              </picture>
+                                          </a>
+                                      </div>
+                                  </div>
+                              <?php endif ?>
+                          <?php endif ?>
+                      </div>
+                  </div>
+              </div>
+          <?php endforeach; ?>
+          <!--<div class="uk-flex uk-flex-center">
+              <div class="uk-width-1-3@m">
+                  <a class="" href=""><?php /*= __("Ver mas") */?></a>
+              </div>
+          </div>-->
+      </div>
     </section>
 </div>
 

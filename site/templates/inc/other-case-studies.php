@@ -1,5 +1,5 @@
 <?php namespace ProcessWire;?>
-<div class="uk-margin-large-bottom uk-margin-large-top uk-container">
+<div class="uk-container">
     <div class="uk-margin-large-bottom">
         <h2><?=__("More case studies")?></h2>
     </div>
@@ -22,7 +22,7 @@
 
                             <div class="large-paragraph">
                                 <p>
-                                <?= $sanitizer->truncate($case->text_large, [
+                                <?= $sanitizer->truncate($study->text_large, [
                                   'type'      => 'punctuation',
                                   'maxLength' => 130,
                                   'visible'   => true,

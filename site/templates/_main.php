@@ -230,8 +230,11 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
 <main id="main-content">
 
 </main>
-
-<hr class="uk-margin-xlarge">
+<?php if($page->template == "case-study"):?>
+    <hr class="uk-margin-bottom-xlarge uk-margin-remove-top">
+<?php else: ?>
+    <hr class="uk-margin-xlarge">
+<?php endif ?>
 <footer id="footer"
         class="<?= $page->matches('template=about') ? "uk-margin-xlarge-bottom" : "uk-margin-large-top uk-margin-large" ?>">
     <div class="uk-container <?= $page->template != "proyecto" ? "uk-container-small" : '' ?>">

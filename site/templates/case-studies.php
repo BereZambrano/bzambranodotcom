@@ -40,17 +40,18 @@
                                         <h3 class="uk-h4">
                                             <?= $case->title; ?>
                                         </h3>
+                                        <div class="large-paragraph">
+                                            <p>
+                                                <?= $sanitizer->truncate($case->text_large, [
+                                                  'type'      => 'punctuation',
+                                                  'maxLength' => 180,
+                                                  'visible'   => true,
+                                                  'more'      => '…'
+                                                ]); ?>
+                                            </p>
+                                        </div>
                                     </a>
-                                    <div class="large-paragraph">
-                                        <p>
-                                        <?= $sanitizer->truncate($case->text_large, [
-                                          'type'      => 'punctuation',
-                                          'maxLength' => 180,
-                                          'visible'   => true,
-                                          'more'      => '…'
-                                        ]); ?>
-                                        </p>
-                                    </div>
+
                                 </div>
 
                                 <?php if ($case->thumbnail): ?>
