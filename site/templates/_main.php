@@ -378,7 +378,20 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
             setClipboard(currentPage);
         })
     });
+    // TODO: Implement intersection observer
 
+    // https://developer.mozilla.org/es/docs/Web/API/Document/querySelectorAll
+    let slider = document.querySelectorAll('[uk-slideshow]');
+
+    // https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+    slider.forEach(function(item){
+        // Item es de "tipo" Element
+        // https://developer.mozilla.org/en-US/docs/Web/API/Element
+        let current_slideshow = UIkit.slideshow(item);
+        /*  TODO: Implement IntersectionObserver to play the current slideshow
+         Docs: https://getuikit.com/docs/slideshow#startautoplay
+         */
+    });
 </script>
 </body>
 </html>
