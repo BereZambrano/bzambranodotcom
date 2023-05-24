@@ -29,17 +29,17 @@ $header_image = $page->getHeaderImage();
 
             <!-- Project intro and info -->
 
-            <div class="uk-margin-large">
+            <div class="proyecto-data uk-margin-large">
                 <img src="<?= $page->portada_proyecto->url ?>" alt="<?= $page->portada_proyecto->description ?>">
 
                 <div class="uk-margin-medium uk-padding-small">
                     <div class="uk-margin-bottom">
-                        <p class="uk-margin-remove tagline"><?= __("Cliente") ?>:</p>
+                        <p class="tagline"><?= __("Cliente") ?>:</p>
                         <h3 class="uk-margin-remove"><?= $page->cliente->title ?></h3>
                     </div>
 
                     <div class="uk-margin-bottom">
-                        <p class="uk-margin-remove tagline"><?= __("Servicios") ?>:</p>
+                        <p class=" tagline"><?= __("Servicios") ?>:</p>
                         <ul class="uk-list">
                             <?php echo $page->servicios->implode("", function ($item) {
                                 //bd($item->title);
@@ -49,23 +49,23 @@ $header_image = $page->getHeaderImage();
                     </div>
 
                     <div class="uk-margin-bottom">
-                        <p class="uk-margin-remove tagline"><?= __("Lugar") ?>:</p>
+                        <p class="tagline"><?= __("Lugar") ?>:</p>
                         <h3 class="uk-margin-remove"><?= $page->lugar ?></h3>
                     </div>
 
                     <div class="uk-margin-bottom">
-                        <p class="uk-margin-remove tagline"><?= __("Año") ?>:</p>
+                        <p class="tagline"><?= __("Año") ?>:</p>
                         <h3 class="uk-margin-remove"><?= $page->year ?></h3>
                     </div>
 
                 </div>
 
-                    <div class="uk-flex uk-flex-right">
-                        <div class="uk-width-3-5@m">
-                            <?= $page->text ?>
-                        </div>
-
+                <div class="uk-flex uk-flex-right">
+                    <div class="uk-width-3-5@m">
+                        <?= $page->text ?>
                     </div>
+
+                </div>
 
             </div>
 

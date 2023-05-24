@@ -95,7 +95,6 @@
                             <h2><?= $item->title; ?></h2>
                         </div>
                     </div>
-                    <hr class="">
                 <?php endif ?>
 
 
@@ -105,11 +104,10 @@
                             <?= $item->text; ?>
                         </div>
                     </div>
-                    <hr class="">
                 <?php endif ?>
-
-
-
+                <?php if ($item->type == "divider"): ?>
+                    <hr class="uk-margin-large">
+                <?php endif ?>
                 <?php if ($item->type == "galeria_modulo"): ?>
                     <div class="uk-margin-large-top uk-container uk-container-small">
                         <div uk-slideshow="autoplay: true">
@@ -157,7 +155,6 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="">
                 <?php endif ?>
             <?php endforeach; ?>
 

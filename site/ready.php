@@ -35,18 +35,21 @@ $wire->addHookMethod("Page::getPostImage", function ($e) {
 
 $wire->addHookMethod("Page::getOpenGraphImage", function ($e) {
     $page = $e->object;
-    //d($page);
-    $seoImage = "";
-
+    /** TODO */
+    $page->of(true);
     if (!$page->seo->opengraph->image) {
-        if ($page->hasField('content')) {
-            $galeria = $page->content->get("type=galeria_modulo");
-            //bd($hero);
+        if($page->thumbnail){
+            $seoImage = $page->thumbnail->size(1200, 630);
+        }else{
+            if ($page->hasField('content')) {
+                $galeria = $page->content->get("type=galeria_modulo");
+                //bd($hero);
 
-            if ($galeria) {
-                $seoImage = $galeria->galeria->first();
-                if($seoImage){
-                    $seoImage->size(1200,630);
+                if ($galeria) {
+                    $seoImage = $galeria->galeria->first();
+                    if($seoImage){
+                        $seoImage->size(1200,630);
+                    }
                 }
             }
         }

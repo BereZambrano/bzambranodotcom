@@ -47,7 +47,9 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&family=Inter:wght@300;400&display=swap"
           rel="stylesheet">
 
-    <?php $page->getOpenGraphImage(); ?>
+    <?php
+    $page->getOpenGraphImage();
+    ?>
     <?php echo $page->seo ? $page->seo->render() : ''; ?>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
