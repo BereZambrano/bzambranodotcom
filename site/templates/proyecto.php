@@ -71,36 +71,8 @@ $header_image = $page->getHeaderImage();
 
 
         <div>
-            <?php if($page->content->count()):?>
-                <?php echo $page->render('content');?>
-            <?php else: ?>
-                <div class="uk-hidden@m uk-margin-top mobile-main-text">
-                    <?=$page->text?>
-                </div>
-                <div class="uk-width-1-1"  uk-lightbox>
-                    <div uk-grid>
-                        <?php foreach ($images as $i => $image): ?>
-                            <?php $i++; ?>
-                            <div class="uk-width-1-1">
-                                <div class="uk-position-relative">
-                                    <a data-caption="<?= $image->description ?>" href="<?= $image->url ?>">
-                                        <?php if($image->ext == "gif"): ?>
-                                            <img width="<?=$image->width?>" height="<?=$image->height?>"  data-src="<?= $image->url ?>"
-                                                 alt="<?= $image->description ?>" uk-img>
-                                        <?php else: ?>
-                                            <img width="<?=$image->width?>" height="<?=$image->height?>"  data-src="<?= $image->url ?>"
-                                                 alt="<?= $image->description ?>"
-                                                 data-srcset="<?= $image->srcset ?>"
-                                                 uk-img>
-                                        <?php endif ?>
-                                    </a>
-                                    <p class="caption"><?= $image->description ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            <?php endif ?>
+
+            <?php echo $page->render('content');?>
 
             <div class="uk-grid uk-margin-large-top uk-child-width-1-<?= $page->columnas->title ?>@m" uk-grid
                  uk-lightbox>
