@@ -123,7 +123,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
                 </a>
             </li>
             <?php foreach ($home->children() as $item): ?>
-                <?php if ($item->name == "portafolio"): ?>
+                <?php if ($item->if("template=case-studies|portafolio", true)): ?>
                     <li class="uk-parent">
                         <a href="<?= $item->url ?>"><?= $item->title ?></a>
                         <ul class="uk-nav-sub">
@@ -230,7 +230,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
 <main id="main-content">
 
 </main>
-<?php if($page->template == "case-study"):?>
+<?php if( $page->if( "template=case-study|proyecto", true ) ):?>
     <hr class="uk-margin-bottom-xlarge uk-margin-remove-top">
 <?php else: ?>
     <hr class="uk-margin-xlarge">
@@ -240,7 +240,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
     <div class="uk-container <?= $page->template != "proyecto" ? "uk-container-small" : '' ?>">
         <div class="">
             <div class="uk-flex-center uk-grid" uk-grid>
-                <div class="uk-width-1-1 <?= $page->template == "proyecto" ? " uk-width-1-5@m" : 'uk-width-1-3@m' ?>">
+                <div class="uk-width-1-1 uk-width-1-3@m">
                     <p class="uk-bold">
                         <?= __("I’m always open to hearing about new project opportunities, regardless of where you are located. Feel free to contact me and let's check if we are compatible to collaborate :)") ?>
                     </p>

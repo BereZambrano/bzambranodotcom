@@ -13,6 +13,8 @@
 .hook-base-link() {
   text-decoration: underline;
 }
+@base-link-color: #9c9575;
+@base-link-hover-color: darken(#9c9575, 10%);
 
 // hr { ...  <-inyectar lo que sigue-> }
 .hook-base-hr {
@@ -28,6 +30,9 @@
 @base-h1-font-size-m: 5rem;
 @base-h1-font-size: @base-h1-font-size-m * 0.6;
 
+@base-selection-background: #9c9575;
+
+@base-h1-line-height: 1.1;
 
 @base-h2-font-size-m: 3.8rem;
 @base-h2-font-size: @base-h2-font-size-m * 0.6;
@@ -383,6 +388,8 @@
 
 @container-padding-horizontal: 30px;
 @container-padding-horizontal-m: 60px;
+
+@base-em-color: inherit;
 
 @import "main.less";
 

@@ -99,7 +99,7 @@
 
             <div class="tags-search uk-width-1-3@m">
                 <div uk-sticky="end: true; offset: 100">
-                    <p>TAG SEARCH</p>
+                    <p><?=__("TAG SEARCH")?></p>
                     <ul class="uk-subnav">
                         <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
                             <?php
@@ -144,11 +144,11 @@
         <div class=" uk-margin-large uk-flex uk-flex-right">
             <div class="text-column-wrapper">
                 <?= $page->text_large; ?>
-                <div class="uk-margin-medium-top">
+                <!-- <div class="uk-margin-medium-top">
                     <a class="uk-button-primary uk-button"
-                       href="<?php echo $pages->get('template=servicios')->url; ?>">
-                        <?=__("See all services here")?></a>
-                </div>
+                       href="<?php /*echo $pages->get('template=servicios')->url; */?>">
+                        <?php /*=__("See all services here")*/?></a>
+                </div>-->
             </div>
         </div>
     </div>

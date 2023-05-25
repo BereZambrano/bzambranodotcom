@@ -2,7 +2,8 @@
     <!--Home_profile -->
     <section  class="uk-margin-large uk-margin-xlarge-top bio-section">
         <div class="uk-container uk-margin-large-top">
-            <div class="uk-grid-small uk-flex-middle uk-flex-right@m uk-flex-center uk-grid" uk-grid>
+            <div uk-scrollspy="cls: uk-animation-slide-top-small; target: > div; delay: 300; repeat: true"
+                 class="uk-grid-small uk-flex-middle uk-flex-right@m uk-flex-center uk-grid" uk-grid>
                 <div class="uk-flex uk-flex-right bio-pic uk-width-2-5 ">
                     <div>
                         <img class="uk-margin-right" src="<?= $home->image->url ?>">

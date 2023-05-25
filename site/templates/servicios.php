@@ -128,13 +128,13 @@
             <?php endif ?>
         <?php endforeach; ?>
 
-        <div class="uk-flex-right uk-flex ">
+       <!-- <div class="uk-flex-right uk-flex ">
             <div class="uk-margin-top text-column-wrapper">
-                <a class="uk-button-primary button uk-button" href="<?php echo $pages->get('template=about')->url; ?>">
-                    <?=__("About Me");?>
+                <a class="uk-button-primary button uk-button" href="<?php /*echo $pages->get('template=about')->url; */?>">
+                    <?php /*=__("About Me");*/?>
                 </a>
             </div>
-        </div>
+        </div>-->
 
         <hr class="uk-margin-xlarge-top">
     </div>

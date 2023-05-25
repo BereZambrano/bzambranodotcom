@@ -168,7 +168,7 @@
             <div class="uk-container uk-container">
                 <div class="tags-search">
                     <div>
-                        <p>TAG SEARCH</p>
+                        <p><?=__("TAG SEARCH")?></p>
                         <ul class="uk-margin-remove-bottom uk-subnav">
                             <?php foreach ($pages->find('template=research_tag') as $research_tags): ?>
                                 <?php
