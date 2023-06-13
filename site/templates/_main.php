@@ -166,13 +166,6 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
     <div class="uk-container uk-container-large">
         <div class="uk-visible@m">
             <div class="uk-width-1-1">
-                <!--
-                hx-boost="true"
-                     hx-target="main"
-                     hx-swap="outerHTML"
-                     hx-select="main"
-                     hx-oob="true"
-                -->
                 <nav class="uk-navbar-container uk-flex-center uk-navbar-transparent uk-navbar"
                      uk-navbar>
                     <div class="uk-navbar-left">
