@@ -80,11 +80,13 @@ namespace ProcessWire;
 
         <div class=" uk-margin-large uk-flex uk-flex-right">
             <div class="text-column-wrapper">
+                <div class="uk-margin-remove-last-child">
                 <?= $caseStudyPage->text_large; ?>
                 <!--<div class="uk-margin-medium-top">
                     <a class="uk-button uk-button-primary" href="<?php /*echo $pages->get('template=servicios')->url; */
                 ?>">See all services here</a>
                 </div>-->
+                </div>
             </div>
         </div>
     </div>

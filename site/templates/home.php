@@ -48,8 +48,8 @@
             <?php if($item->home_texts): ?>
                 <div class="uk-container uk-container-large uk-flex-column">
                     <div class="uk-flex uk-flex-right">
-                        <div class="text-column-wrapper">
-                            <div class="">
+                        <div class="uk-margin-remove-last-child text-column-wrapper">
+                            <div class="uk-margin-remove-last-child">
                                 <?= $item->home_texts; ?>
                             </div>
                         </div>

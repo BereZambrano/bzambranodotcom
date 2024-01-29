@@ -75,7 +75,7 @@ $clientes_parent = $pages->get('/clientes/');
 
         <div class="uk-flex uk-flex-right">
             <div class=" text-column-wrapper uk-margin-large-top">
-                <div class="">
+                <div class="uk-margin-remove-last-child">
                     <?= $page->text_large ?>
                 </div>
             </div>
@@ -84,7 +84,7 @@ $clientes_parent = $pages->get('/clientes/');
         <!-- Experiencia -->
         <div class="uk-flex uk-flex-right">
             <div class="text-column-wrapper uk-flex-center uk-flex-wrap">
-                <div class="listado-publicaciones">
+                <div class="uk-margin-remove-last-child listado-publicaciones">
 
                     <div class="uk-child-width-1-2@m done-work uk-grid uk-margin-large-top" uk-grid>
                         <div>

@@ -104,7 +104,9 @@
             <?php if($item->home_subtitles):?>
                 <div class="uk-flex uk-flex-right">
                     <div class="uk-margin-top <?=$item->home_images ? "uk-margin-large-bottom" : ""?> uk-margin-remove-last-child text-column-wrapper">
-                        <?= $item->home_subtitles; ?>
+                        <div class="uk-margin-remove-last-child">
+                            <?= $item->home_subtitles; ?>
+                        </div>
                     </div>
                 </div>
             <?php endif ?>
@@ -122,7 +124,9 @@
             <?php if($item->home_texts): ?>
             <div class="uk-flex uk-flex-right">
                 <div class="uk-margin-large-top  uk-margin-remove-last-child text-column-wrapper">
+                    <div class="uk-margin-remove-last-child">
                     <?= $item->home_texts; ?>
+                    </div>
                 </div>
             </div>
             <?php endif ?>
