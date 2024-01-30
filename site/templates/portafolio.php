@@ -22,7 +22,7 @@ namespace ProcessWire;
     if ($servicio) {
         $selector .= ", servicios=$servicio";
     } else {
-        $selector .= ", limit=6";
+        //$selector .= ", limit=6";
     }
     $projects = $pages->find($selector);
     ?>
