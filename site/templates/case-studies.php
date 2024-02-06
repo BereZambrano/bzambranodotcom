@@ -7,14 +7,13 @@
                 <?= $page->first_intro; ?>
             </div>
         </div>
-        <hr>
     </section>
 
 
 
-    <section id="research_tags_nav" class="uk-container uk-container-large uk-margin-large-top">
-        <div class="uk-grid uk-grid-large" uk-grid>
-            <div class="uk-width-2-3@m">
+    <section id="research_tags_nav" class="uk-container uk-container-large uk-background-secondary uk-light uk-padiing">
+        <div class="uk-grid uk-grid-large uk-margin-xlarge-top uk-margin-xlarge-bottom" uk-grid>
+            <div class="uk-width-2-3@m uk-margin-top">
                 <?php
                 /** @var $input WireInput $tag */
                 $tag = $input->get->text("tag");
@@ -129,7 +128,6 @@
                 </div>
             </div>
         </div>
-        <hr class="uk-margin-large-bottom">
     </section>
 
     <!--For social projects-->

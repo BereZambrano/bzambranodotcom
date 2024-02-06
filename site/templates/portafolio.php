@@ -10,7 +10,6 @@ namespace ProcessWire;
                 <?= $page->first_intro; ?>
             </div>
         </div>
-        <hr>
     </section>
 
 
@@ -26,9 +25,9 @@ namespace ProcessWire;
     }
     $projects = $pages->find($selector);
     ?>
-    <div class="uk-container uk-container-large uk-margin-large-top home-portfolio uk-margin-large-bottom">
+    <div class="uk-container uk-container-large home-portfolio uk-light uk-background-secondary uk-padding">
 
-        <div class="uk-grid uk-grid-large uk-child-width-1-2@m" uk-grid>
+        <div class="uk-grid uk-grid-large uk-child-width-1-2@m uk-margin-large-bottom uk-margin-large-top "  uk-grid>
             <?php foreach ($projects as $i => $project) : ?>
                 <div class="">
                     <a href="<?= $project->url ?>">
@@ -65,7 +64,6 @@ namespace ProcessWire;
         </div>
     </div>
 
-    <hr class="uk-margin-xlarge-top">
     <?php
     $caseStudyPage = $pages->get("template=case-studies");
     ?>

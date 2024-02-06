@@ -63,7 +63,7 @@ $clientes_parent = $pages->get('/clientes/');
 
     <!-- Second container-->
     <!--second text-->
-    <div class="uk-container uk-margin-xlarge uk-container-large">
+    <div class="uk-container uk-margin-xlarge uk-container-large uk-padding uk-background-secondary uk-light">
 
         <div class="uk-flex uk-flex-left">
             <div class="uk-width-3-5@m uk-margin-large-top">
