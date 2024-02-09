@@ -15,11 +15,13 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="uk-background-secondary uk-light uk-container uk-container-large">
         <!-- Research accordion -->
-        <div class="uk-margin-large-top uk-margin-large-bottom">
+        <div class="uk-margin-xlarge-top uk-margin-large-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-bottom">
-                <p class="tagline"><?= __("Aquí, parte de lo que hago");?></p>
+                <p class="tagline2"><?= __("Aquí, parte de lo que hago");?></p>
                 <h2><?= __("Estrategias de investigación y metodologías");?></h2>
             </div>
             <div class=" uk-margin uk-flex uk-flex-right">
@@ -57,7 +59,7 @@
         </div>
 
         <!-- Servicios accordion -->
-        <div class="uk-margin-large-top uk-margin-large-bottom">
+        <div class="uk-margin-large-top uk-margin-xlarge-bottom">
             <div class="uk-width-3-5@m uk-flex uk-flex-left uk-flex-column uk-margin-large-top uk-margin-bottom">
                 <h2><?=__("Servicios de diseño");?></h2>
             </div>
@@ -91,6 +93,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
         <!--First repeater-->
         <?php foreach($page->home_repeater as $item): ?>
@@ -140,11 +143,6 @@
             </div>
         </div>-->
 
-        <hr class="uk-margin-xlarge-top">
-    </div>
-
-
-    <?php echo wireRenderFile('inc/testimonials.php'); ?>
 
 </div>
 

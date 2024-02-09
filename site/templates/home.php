@@ -12,10 +12,10 @@ use function ProcessWire\wireRenderFile;
             <div uk-scrollspy="cls: uk-animation-slide-top-small; target: > div; delay: 300; repeat: true"
                  class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="bio-pic">
-                    <div class="uk-flex uk-flex-center uk-margin-small-bottom">
+                    <div class="uk-flex uk-flex-center uk-margin-large-bottom">
                         <img class="" src="<?= $home->image->url ?>">
                     </div>
-                    <div class="bio uk-text-center">
+                    <div class="bio uk-text-center uk-margin-large-bottom">
                         <?= $home->quien_home ?>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ use function ProcessWire\wireRenderFile;
 
         <div class="uk-container uk-container-large">
             <div class="uk-flex uk-flex-left">
-                <div class="uk-width-4-5@m uk-margin-large-top">
+                <div class="uk-width-3-5@m uk-margin-xlarge-top">
                     <div class="uk-light">
                         <?= $page->first_intro ?>
                     </div>
@@ -42,8 +42,7 @@ use function ProcessWire\wireRenderFile;
             </div>
         </div>
 
-        <div class="uk-container uk-margin-large-top home-portfolio uk-margin-large-bottom">
-
+        <div class="uk-container uk-container-large uk-margin-large-top home-portfolio uk-margin-large-bottom">
             <div class="uk-grid uk-grid-large uk-child-width-1-2@m" uk-grid>
                 <?php foreach ($projects as $i => $project) : ?>
                     <div class="uk-light">
@@ -55,7 +54,7 @@ use function ProcessWire\wireRenderFile;
                                 ?>
                                 <img class="uk-width-1-1 uk-border-rounded" width="250" height="250"
                                      alt="<?= $header_image->description ?>"
-                                     src="<?= $header_image->size(500, 500)->url ?>"
+                                     src="<?= $header_image->size(800, 500)->url ?>"
                                      loading="lazy">
                             <?php endif ?>
                         </a>
@@ -80,9 +79,9 @@ use function ProcessWire\wireRenderFile;
                 <?php endforeach ?>
             </div>
 
-            <div class="uk-flex uk-flex-right uk-padding-small">
-                <div class="uk-width-3-5@m uk-margin-large-top uk-margin-xlarge-bottom">
-                    <div class="uk-width-1-1@m">
+            <div class="uk-flex uk-flex-right">
+                <div class="uk-width-3-5@m uk-margin-large-top uk-margin-large-bottom uk-flex uk-flex-right">
+                    <div class="uk-width-4-5@m">
                         <a class="white-button uk-button" href="<?php echo $pages->get('template=portafolio')->url; ?>">See my Portfolio</a>
                     </div>
                 </div>
@@ -111,13 +110,14 @@ use function ProcessWire\wireRenderFile;
                     $selector = "template=case-study, limit=3";
                 }
                 $case_studies = $pages->find($selector);
+                $case_studies_count = count($case_studies);
+                $case_index = 0;
                 ?>
                 <?php
                 foreach ($case_studies as $case): ?>
                     <?php $case->content->find("type=galeria_modulo, galeria.count>0");
                     $content_gallery = $case->content->get("type=galeria_modulo, galeria.count>0");
                     ?>
-                    <div class="uk-flex uk-flex-left">
                         <div class="uk-margin-large">
                             <div class="uk-grid uk-flex uk-child-width-expand@s" uk-grid>
                                 <div class="uk-width-2-3@m">
@@ -136,24 +136,21 @@ use function ProcessWire\wireRenderFile;
                                             </p>
                                         </div>
                                     </a>
-
                                 </div>
 
                                 <?php if ($case->thumbnail): ?>
                                     <div class="uk-width-1-3@m">
-                                        <div>
                                             <a class="uk-link-reset" href="<?= $case->url ?>">
-                                                <picture class="uk-height-match">
+                                                <picture class="uk-height-match uk-flex uk-flex-right">
                                                     <source media="(max-width:959px)"
                                                             srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
                                                     <source media="(min-width:960px)"
                                                             srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
-                                                    <img class="uk-border-rounded  "
+                                                    <img class="uk-border-rounded uk-width-2-3@m "
                                                          src='<?= $case->thumbnail->size(500, 500)->url ?>'
                                                          loading="lazy">
                                                 </picture>
                                             </a>
-                                        </div>
                                     </div>
                                 <?php else: ?>
                                     <?php if ($content_gallery->id): ?>
@@ -178,14 +175,16 @@ use function ProcessWire\wireRenderFile;
                                 <?php endif ?>
                             </div>
                         </div>
-                    </div>
+                    <?php if (++$case_index < $case_studies_count): ?>
+                        <hr>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
 
-            <div class="uk-container uk-flex uk-flex-right uk-padding-small">
-                <div class="uk-width-3-5@m uk-margin-xlarge-bottom">
-                    <div class="uk-width-1-1@m">
-                        <a class="white-button uk-button" href="<?php echo $pages->get('template=portafolio')->url; ?>">See Case Studies</a>
+            <div class="uk-flex uk-flex-right">
+                <div class="uk-width-3-5@m uk-margin-large-top uk-margin-large-bottom uk-flex uk-flex-right">
+                    <div class="uk-width-4-5@m">
+                        <a class="white-button uk-button" href="<?php echo $pages->get('template=case-studies')->url; ?>">See Case Studies</a>
                     </div>
                 </div>
             </div>
@@ -194,7 +193,7 @@ use function ProcessWire\wireRenderFile;
 
     <div class="uk-container uk-container-large">
         <div class="uk-flex uk-flex-left">
-            <div class="uk-width-4-5@m uk-margin-large-top">
+            <div class="uk-width-4-5@m uk-margin-xlarge-top">
                 <div class="">
                     <h3>What I bring to the table</h3>
                 </div>
@@ -205,11 +204,11 @@ use function ProcessWire\wireRenderFile;
         <?php
         $skillSetPage=$pages->get('template=skill');
         ?>
-        <div class="uk-container uk-container-xsmall uk-padding">
-            <div class="uk-grid-small uk-child-width-auto uk-flex-center" uk-grid>
+        <div class="uk-container uk-container-large uk-margin-large">
+            <div class="uk-grid-small uk-child-width-auto uk-flex-left" uk-grid>
                 <?php foreach ($skillSetPage->skills as $skill): ?>
                     <div>
-                        <div class="uk-card uk-card-default uk-card-body uk-border-pill tag-card">
+                        <div class="uk-card uk-card-body uk-border-pill tag-card ">
                             <?= $skill->text; ?>
                         </div>
                     </div>
@@ -217,10 +216,10 @@ use function ProcessWire\wireRenderFile;
             </div>
         </div>
 
-    <div class="uk-container uk-flex uk-flex-right uk-padding-small">
-        <div class="uk-width-3-5@m uk-margin-xlarge-bottom">
-            <div class="uk-width-1-1@m">
-                <a class="uk-button-primary uk-button" href="<?php echo $pages->get('template=portafolio')->url; ?>">See More About Me</a>
+    <div class="uk-container uk-container-large uk-flex uk-flex-right">
+        <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-flex uk-flex-right">
+            <div class="uk-width-4-5@m">
+                <a class="uk-button-primary uk-button" href="<?php echo $pages->get('template=about')->url; ?>">See More About Me</a>
             </div>
         </div>
     </div>
@@ -228,7 +227,7 @@ use function ProcessWire\wireRenderFile;
 
     <div class="uk-container uk-container-large section-white uk-padding">
         <div class="uk-flex uk-flex-left">
-            <div class="uk-width-4-5@m">
+            <div class="uk-width-3-5@m">
                 <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom ">
                     <h2>As a fractional design strategist and collaborator,
                         I love working part-time or per project with diverse groups around the world,
@@ -245,21 +244,21 @@ use function ProcessWire\wireRenderFile;
     <div class="uk-background-secondary uk-width-1-1@m uk-padding-small">
 
         <div class="uk-container uk-container-large uk-light">
-            <div class="uk-flex uk-flex-left">
-                <div class="uk-width-4-5@m uk-margin-xlarge-top">
-                    <h2>
+            <div class="uk-flex uk-flex-left uk-margin-large-top">
+                <div class="uk-width-4-5@m uk-margin-small">
+                    <h2 class="uk-margin-large-bottom">
                         Let’s collaborate!
                     </h2>
-                    <p>
+                    <h5>
                         If this resonates with you, let’s talk!
-                    </p>
+                    </h5>
                 </div>
             </div>
 
-            <div class="uk-container uk-flex uk-flex-right uk-padding-small">
-                <div class="uk-width-3-5@m uk-margin-xlarge-bottom">
-                    <div class="uk-width-1-1@m">
-                        <a class="uk-button-primary uk-button" href="<?php echo $pages->get('template=portafolio')->url; ?>">Say hello! 👋</a>
+            <div class=" uk-flex uk-flex-right">
+                <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-flex uk-flex-right">
+                    <div class="uk-width-4-5@m">
+                        <a class="uk-button-primary uk-button" href="#footer-contact">Say hello! 👋</a>
                     </div>
                 </div>
             </div>

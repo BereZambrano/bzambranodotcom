@@ -1,6 +1,6 @@
 <?php namespace ProcessWire;?>
 
-<section class="testimonials uk-container uk-container-large uk-margin-xlarge-top">
+<section class="testimonials uk-container uk-container-large uk-margin-xlarge">
 
         <div class="uk-width-3-5@m">
             <h2>

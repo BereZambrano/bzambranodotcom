@@ -1,7 +1,7 @@
 <?php namespace ProcessWire; ?>
 <region id="main-content" pw-append>
 
-    <section class="uk-container uk-container-large">
+    <section class=" uk-container uk-container-large">
         <div class="uk-margin-xlarge-bottom uk-margin-xlarge-top uk-width-1-2@m">
             <div class="uk-margin-remove-last-child">
                 <?= $page->first_intro; ?>
@@ -133,7 +133,7 @@
     <!--For social projects-->
     <div class="large-paragraph uk-container uk-container-large">
 
-        <div class="uk-margin-large-top uk-width-1-3@ ">
+        <div class="uk-margin-xlarge-top uk-width-1-3@ ">
             <div>
                 <?= $page->second_intro; ?>
             </div>

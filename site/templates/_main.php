@@ -162,7 +162,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
 
 </div>
 
-<div class="menu-container uk-background-default" uk-sticky>
+<div class="menu-container uk-background-default " uk-sticky>
     <div class="uk-container uk-container-large">
         <div class="uk-visible@m">
             <div class="uk-width-1-1">
@@ -223,8 +223,8 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
 <main id="main-content">
 
 </main>
-<?php if( $page->if( "template=case-study|proyecto", true ) ):?>
-    <hr class="uk-margin-bottom-xlarge uk-margin-remove-top">
+<?php if( $page->if( "template=case-study|proyecto|about|home|servicios", true ) ):?>
+    <hr class="uk-margin-xlarge-bottom uk-margin-remove-top">
 <?php else: ?>
     <hr class="uk-margin-xlarge">
 <?php endif ?>
