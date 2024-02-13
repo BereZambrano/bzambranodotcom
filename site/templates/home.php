@@ -1,8 +1,9 @@
 <?php
-
+namespace ProcessWire;
 use ProcessWire\WireInput;
 use function ProcessWire\wire;
 use function ProcessWire\wireRenderFile;
+
 
 ?>
 <div id="main-content" pw-append>
@@ -89,6 +90,10 @@ use function ProcessWire\wireRenderFile;
         </div>
 
         <div class="uk-container uk-container-large">
+            <hr>
+        </div>
+
+        <div class="uk-container uk-container-large uk-margin-large-top">
 
                 <div class="uk-flex uk-flex-left">
                     <div class="uk-width-3-5@m uk-margin-top">
@@ -129,7 +134,7 @@ use function ProcessWire\wireRenderFile;
                                             <p>
                                                 <?= $sanitizer->truncate($case->text_large, [
                                                     'type'      => 'punctuation',
-                                                    'maxLength' => 180,
+                                                    'maxLength' => 350,
                                                     'visible'   => true,
                                                     'more'      => '…'
                                                 ]); ?>
@@ -143,11 +148,11 @@ use function ProcessWire\wireRenderFile;
                                             <a class="uk-link-reset" href="<?= $case->url ?>">
                                                 <picture class="uk-height-match uk-flex uk-flex-right">
                                                     <source media="(max-width:959px)"
-                                                            srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
+                                                            srcset="<?= $case->thumbnail->size(800, 500)->url ?>">
                                                     <source media="(min-width:960px)"
-                                                            srcset="<?= $case->thumbnail->size(500, 500)->url ?>">
-                                                    <img class="uk-border-rounded uk-width-2-3@m "
-                                                         src='<?= $case->thumbnail->size(500, 500)->url ?>'
+                                                            srcset="<?= $case->thumbnail->size(800, 500)->url ?>">
+                                                    <img class="uk-border-rounded uk-width-2-4@m "
+                                                         src='<?= $case->thumbnail->size(800, 500)->url ?>'
                                                          loading="lazy">
                                                 </picture>
                                             </a>
@@ -159,13 +164,13 @@ use function ProcessWire\wireRenderFile;
                                                 <a class="uk-link-reset" href="<?= $case->url ?>">
                                                     <picture class="uk-height-match">
                                                         <source media="(max-width:959px)"
-                                                                srcset="<?= $content_gallery->galeria->first()->size(500,
+                                                                srcset="<?= $content_gallery->galeria->first()->size(800,
                                                                     500)->url ?>">
                                                         <source media="(min-width:960px)"
-                                                                srcset="<?= $content_gallery->galeria->first()->size(500,
+                                                                srcset="<?= $content_gallery->galeria->first()->size(800,
                                                                     500)->url ?>">
                                                         <img class="uk-width-1-1 uk-border-rounded"
-                                                             src='<?= $content_gallery->galeria->first->size(500,
+                                                             src='<?= $content_gallery->galeria->first->size(800,
                                                                  500)->url ?>' loading="lazy">
                                                     </picture>
                                                 </a>
@@ -175,15 +180,15 @@ use function ProcessWire\wireRenderFile;
                                 <?php endif ?>
                             </div>
                         </div>
-                    <?php if (++$case_index < $case_studies_count): ?>
+                    <?php /*if (++$case_index < $case_studies_count): */?><!--
                         <hr>
-                    <?php endif; ?>
+                    --><?php /*endif; */?>
                 <?php endforeach; ?>
             </div>
 
             <div class="uk-flex uk-flex-right">
-                <div class="uk-width-3-5@m uk-margin-large-top uk-margin-large-bottom uk-flex uk-flex-right">
-                    <div class="uk-width-4-5@m">
+                <div class="uk-width-3-5@m uk-margin-large-top uk-margin-bottom uk-flex uk-flex-right">
+                    <div class="uk-width-4-5@m uk-margin-xlarge-bottom">
                         <a class="white-button uk-button" href="<?php echo $pages->get('template=case-studies')->url; ?>">See Case Studies</a>
                     </div>
                 </div>
@@ -225,21 +230,102 @@ use function ProcessWire\wireRenderFile;
     </div>
 
 
-    <div class="uk-container uk-container-large section-white uk-padding">
+    <section class="testimonials section-white uk-container uk-container-large">
+
+        <div class="uk-width-3-5@m uk-margin-xlarge-top">
+            <h2>
+                <?=__("Testimonials and mentions")?>
+            </h2>
+        </div>
+
+        <?php foreach($pages->find("template=servicios") as $project): ?>
+
+            <div class="uk-width-4-5@m uk-margin-auto uk-margin-large-top">
+
+                <div class="uk-flex">
+                    <div class="uk-margin-top uk-width-1-1 uk-slider" uk-slider="autoplay: true">
+
+                        <div class="uk-position-relative">
+
+                            <a class="uk-visible@l uk-position-small uk-position-center-left-out" href="#"
+                               uk-slider-item="previous">
+                                <span class="uk-icon-button" uk-icon="icon: chevron-left; ratio:1.2;"></span>
+                            </a>
+                            <a class="uk-visible@l uk-position-small uk-position-center-right-out" href="#"
+                               uk-slider-item="next">
+                                <span class="uk-icon-button" uk-icon="icon: chevron-right; ratio:1.2;"></span>
+                            </a>
+
+
+                            <div class="uk-slider-container uk-margin-xlarge-bottom">
+
+                                <div class="uk-position-top-right uk-position-small uk-position-z-index">
+                                    <div class="uk-flex-right uk-hidden@l uk-slidenav-container">
+                                        <a class="uk-margin-small-right" href="#" uk-slider-item="previous">
+                                            <span class="uk-icon-button"
+                                                  uk-icon="icon: chevron-left; ratio:1.2;"></span>
+                                        </a>
+                                        <a class="" href="#" uk-slider-item="next">
+                                            <span class="uk-icon-button"
+                                                  uk-icon="icon: chevron-right; ratio:1.2;"></span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <ul class="uk-grid uk-slider-items">
+                                    <?php foreach ($project->testimonial as $item): ?>
+                                        <li class="uk-width-1-1">
+                                            <div class="uk-card testimonial-card uk-card-body uk-card-large uk-card-default">
+                                                <div class="uk-width-1-1@m uk-margin-auto">
+                                                    <div class="uk-card-title">
+                                                        <?= $item->testimonial_name ?>
+                                                    </div>
+                                                    <hr class="uk-margin-small">
+                                                    <div>
+                                                        <?= $item->testimonial_detail ?>
+                                                    </div>
+                                                    <div class="testimonial-card-main-text">
+                                                        <?= $item->testimonial_tweet ?>
+                                                    </div>
+                                                    <?php if ($item->mention_link): ?>
+                                                        <div class="uk-margin-auto">
+                                                            <a href="<?= $item->mention_link ?>">
+                                                                <button class="uk-button uk-button-text"><?= $item->mention_link ?></button>
+                                                            </a>
+                                                        </div>
+                                                    <?php endif ?>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        <?php endforeach; ?>
+    </section>
+
+
+
+    <div class="uk-container uk-container-large uk-padding">
         <div class="uk-flex uk-flex-left">
             <div class="uk-width-3-5@m">
-                <div class="uk-margin-xlarge-top uk-margin-xlarge-bottom ">
-                    <h2>As a fractional design strategist and collaborator,
-                        I love working part-time or per project with diverse groups around the world,
-                        including organizations, non-profit companies, public institutions, foundations,
-                        collectives and so on.
+                <div class="uk-margin-large-top uk-margin-large-bottom ">
+                    <h2><?=
+                        __("Como estratega y colaboradora de diseño fraccionario,
+                        me encanta trabajar a tiempo parcial o por proyecto con diversos grupos alrededor del mundo.
+                        Incluyendo organizaciones, empresas sin fines de lucro, instituciones públicas, fundaciones,
+                        colectivos, etc.");
+                        ?>
                     </h2>
                 </div>
             </div>
         </div>
     </div>
-
-    <?php echo wireRenderFile('inc/testimonials.php'); ?>
 
     <div class="uk-background-secondary uk-width-1-1@m uk-padding-small">
 
