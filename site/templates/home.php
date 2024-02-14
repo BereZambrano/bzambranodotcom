@@ -120,13 +120,13 @@ use function ProcessWire\wireRenderFile;
                 $case_studies_count = count($case_studies);
                 $case_index = 0;
                 ?>
-                <div class="uk-grid-large" uk-grid>
+                <div class="uk-grid-large uk-margin-top" uk-grid>
                     <?php
                     foreach ($case_studies as $case): ?>
                         <?php $case->content->find("type=galeria_modulo, galeria.count>0");
                         $content_gallery = $case->content->get("type=galeria_modulo, galeria.count>0");
                         ?>
-                        <div class="">
+                        <div class="uk-margin-large-bottom">
                             <div class="uk-grid uk-flex uk-grid-large uk-child-width-expand@s" uk-grid>
                                 <div class="uk-width-2-3@m">
                                     <a class="uk-link-reset" href="<?= $case->url ?>">
@@ -211,20 +211,57 @@ use function ProcessWire\wireRenderFile;
         </div>
     </div>
 
-        <?php
-        $skillSetPage=$pages->get('template=skill');
-        ?>
-        <div class="uk-container uk-container-large uk-margin-large">
-            <div class="uk-grid-small uk-child-width-auto uk-flex-left" uk-grid>
-                <?php foreach ($skillSetPage->skills as $skill): ?>
-                    <div>
-                        <div class="uk-card uk-card-body uk-border-pill tag-card ">
-                            <?= $skill->text; ?>
-                        </div>
+        <div class="uk-margin-large">
+            <div class="uk-grid uk-grid-small uk-text-center" uk-grid>
+                <div class="uk-width-1-1">
+                    <div class="text-animate">
+                        <span class="uk-h1">
+                            <span>· Branding & Visual identity Expertise · Research-Oriented Design</span>
+                            <span>· Branding & Visual identity Expertise · Research-Oriented Design</span>
+                        </span>
                     </div>
-                <?php endforeach; ?>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="text-animate">
+                        <span class="uk-h1">
+                            <span>· Radical Collaboration · Proactivity · Social Impact Focus</span>
+                            <span>· Radical Collaboration · Proactivity · Social Impact Focus</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="text-animate">
+                        <span class="uk-h1">
+                        <span>· Creative Strategies · Self-Organization · Communication Skills</span>
+                        <span>· Creative Strategies · Self-Organization · Communication Skills</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="uk-width-1-1">
+                    <div class="text-animate">
+                        <span class="uk-h1">
+                        <span>· Critical Thinking · Collective Process Approach</span>
+                        <span>· Critical Thinking · Collective Process Approach</span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
+
+      <!--  <?php
+/*        $skillSetPage=$pages->get('template=skill');
+        */?>
+        <div class="uk-container uk-container-large uk-margin-large">
+            <div class="uk-grid-small uk-child-width-auto uk-flex-left" uk-grid>
+                <?php /*foreach ($skillSetPage->skills as $skill): */?>
+                    <div>
+                        <div class="uk-card uk-card-body uk-border-pill tag-card ">
+                            <?php /*= $skill->text; */?>
+                        </div>
+                    </div>
+                <?php /*endforeach; */?>
+            </div>
+        </div>-->
 
     <div class="uk-container uk-container-large uk-flex uk-flex-right">
         <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-flex uk-flex-right">
@@ -321,10 +358,7 @@ use function ProcessWire\wireRenderFile;
             <div class="uk-width-1-1@m">
                 <div class="uk-margin-large-top uk-margin-large-bottom ">
                     <h2><?=
-                        __("Como estratega y colaboradora de diseño fraccionario,
-                        me encanta trabajar a tiempo parcial o por proyecto con diversos grupos alrededor del mundo.
-                        Incluyendo organizaciones, empresas sin fines de lucro, instituciones públicas, fundaciones,
-                        colectivos, etc.");
+                       $home->second_intro;
                         ?>
                     </h2>
                 </div>
