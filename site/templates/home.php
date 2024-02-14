@@ -8,8 +8,8 @@ use function ProcessWire\wireRenderFile;
 ?>
 <div id="main-content" pw-append>
     <!--Home_profile -->
-    <section  class="uk-margin-large uk-margin-xlarge-top bio-section">
-        <div class="uk-container uk-margin-large-top">
+    <section  class="uk-margin-large uk-margin-large-top bio-section">
+        <div class="uk-container">
             <div uk-scrollspy="cls: uk-animation-slide-top-small; target: > div; delay: 300; repeat: true"
                  class="uk-flex uk-flex-middle uk-flex-center">
                 <div class="bio-pic">
@@ -44,7 +44,9 @@ use function ProcessWire\wireRenderFile;
         </div>
 
         <div class="uk-container uk-container-large uk-margin-large-top home-portfolio uk-margin-large-bottom">
-            <div class="uk-grid uk-grid-large uk-child-width-1-2@m" uk-grid>
+            <div class="uk-grid uk-grid-large uk-child-width-1-2@m"
+                 uk-scrollspy="target: > div; cls:uk-animation-slide-bottom-small; delay:300ms"
+                 uk-grid>
                 <?php foreach ($projects as $i => $project) : ?>
                     <div class="uk-light">
                         <a href="<?= $project->url ?>">
@@ -118,13 +120,14 @@ use function ProcessWire\wireRenderFile;
                 $case_studies_count = count($case_studies);
                 $case_index = 0;
                 ?>
-                <?php
-                foreach ($case_studies as $case): ?>
-                    <?php $case->content->find("type=galeria_modulo, galeria.count>0");
-                    $content_gallery = $case->content->get("type=galeria_modulo, galeria.count>0");
-                    ?>
-                        <div class="uk-margin-large">
-                            <div class="uk-grid uk-flex uk-child-width-expand@s" uk-grid>
+                <div class="uk-grid-large" uk-grid>
+                    <?php
+                    foreach ($case_studies as $case): ?>
+                        <?php $case->content->find("type=galeria_modulo, galeria.count>0");
+                        $content_gallery = $case->content->get("type=galeria_modulo, galeria.count>0");
+                        ?>
+                        <div class="">
+                            <div class="uk-grid uk-flex uk-grid-large uk-child-width-expand@s" uk-grid>
                                 <div class="uk-width-2-3@m">
                                     <a class="uk-link-reset" href="<?= $case->url ?>">
                                         <h3 class="uk-h4">
@@ -133,10 +136,10 @@ use function ProcessWire\wireRenderFile;
                                         <div class="large-paragraph">
                                             <p>
                                                 <?= $sanitizer->truncate($case->text_large, [
-                                                    'type'      => 'punctuation',
-                                                    'maxLength' => 350,
-                                                    'visible'   => true,
-                                                    'more'      => '…'
+                                                  'type'      => 'punctuation',
+                                                  'maxLength' => 200,
+                                                  'visible'   => true,
+                                                  'more'      => '…'
                                                 ]); ?>
                                             </p>
                                         </div>
@@ -145,17 +148,17 @@ use function ProcessWire\wireRenderFile;
 
                                 <?php if ($case->thumbnail): ?>
                                     <div class="uk-width-1-3@m">
-                                            <a class="uk-link-reset" href="<?= $case->url ?>">
-                                                <picture class="uk-height-match uk-flex uk-flex-right">
-                                                    <source media="(max-width:959px)"
-                                                            srcset="<?= $case->thumbnail->size(800, 500)->url ?>">
-                                                    <source media="(min-width:960px)"
-                                                            srcset="<?= $case->thumbnail->size(800, 500)->url ?>">
-                                                    <img class="uk-border-rounded uk-width-2-4@m "
-                                                         src='<?= $case->thumbnail->size(800, 500)->url ?>'
-                                                         loading="lazy">
-                                                </picture>
-                                            </a>
+                                        <a class="uk-link-reset" href="<?= $case->url ?>">
+                                            <picture class="uk-height-match uk-flex uk-flex-right">
+                                                <source media="(max-width:959px)"
+                                                        srcset="<?= $case->thumbnail->size(800, 500)->url ?>">
+                                                <source media="(min-width:960px)"
+                                                        srcset="<?= $case->thumbnail->size(800, 500)->url ?>">
+                                                <img class="uk-border-rounded uk-width-2-4@m "
+                                                     src='<?= $case->thumbnail->size(800, 500)->url ?>'
+                                                     loading="lazy">
+                                            </picture>
+                                        </a>
                                     </div>
                                 <?php else: ?>
                                     <?php if ($content_gallery->id): ?>
@@ -165,13 +168,13 @@ use function ProcessWire\wireRenderFile;
                                                     <picture class="uk-height-match">
                                                         <source media="(max-width:959px)"
                                                                 srcset="<?= $content_gallery->galeria->first()->size(800,
-                                                                    500)->url ?>">
+                                                                  500)->url ?>">
                                                         <source media="(min-width:960px)"
                                                                 srcset="<?= $content_gallery->galeria->first()->size(800,
-                                                                    500)->url ?>">
+                                                                  500)->url ?>">
                                                         <img class="uk-width-1-1 uk-border-rounded"
                                                              src='<?= $content_gallery->galeria->first->size(800,
-                                                                 500)->url ?>' loading="lazy">
+                                                               500)->url ?>' loading="lazy">
                                                     </picture>
                                                 </a>
                                             </div>
@@ -180,14 +183,16 @@ use function ProcessWire\wireRenderFile;
                                 <?php endif ?>
                             </div>
                         </div>
-                    <?php /*if (++$case_index < $case_studies_count): */?><!--
+                        <?php /*if (++$case_index < $case_studies_count): */?><!--
                         <hr>
                     --><?php /*endif; */?>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+
             </div>
 
             <div class="uk-flex uk-flex-right">
-                <div class="uk-width-3-5@m uk-margin-large-top uk-margin-bottom uk-flex uk-flex-right">
+                <div class="uk-width-3-5@m uk-margin-large-top uk-flex uk-flex-right">
                     <div class="uk-width-4-5@m uk-margin-xlarge-bottom">
                         <a class="white-button uk-button" href="<?php echo $pages->get('template=case-studies')->url; ?>">See Case Studies</a>
                     </div>
@@ -313,7 +318,7 @@ use function ProcessWire\wireRenderFile;
 
     <div class="uk-container uk-container-large uk-padding">
         <div class="uk-flex uk-flex-left">
-            <div class="uk-width-3-5@m">
+            <div class="uk-width-1-1@m">
                 <div class="uk-margin-large-top uk-margin-large-bottom ">
                     <h2><?=
                         __("Como estratega y colaboradora de diseño fraccionario,
@@ -344,7 +349,7 @@ use function ProcessWire\wireRenderFile;
             <div class=" uk-flex uk-flex-right">
                 <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-flex uk-flex-right">
                     <div class="uk-width-4-5@m">
-                        <a class="uk-button-primary uk-button" href="#footer-contact">Say hello! 👋</a>
+                        <a class="uk-button-primary uk-button" uk-scroll="offset: 100" href="#footer-contact">Say hello! 👋</a>
                     </div>
                 </div>
             </div>

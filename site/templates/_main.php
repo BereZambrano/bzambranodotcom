@@ -145,7 +145,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
                 <?php endif ?>
             <?php endforeach ?>
             <li class="">
-                <a class="mobile-contact-link" href="#footer-contact" uk-scroll><?= __("Contacto") ?></a>
+                <a class="mobile-contact-link" href="#footer-contact" uk-scroll="offset:100;"><?= __("Contacto") ?></a>
             </li>
 
             <li class="language-switcher">
@@ -192,7 +192,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
                                 </li>
                             <?php endforeach ?>
                             <li class="">
-                                <a href="#footer-contact" uk-scroll><?= __("Contacto") ?></a>
+                                <a uk-scroll="offset:100;" href="#footer-contact" uk-scroll><?= __("Contacto") ?></a>
                             </li>
 
                         </ul>

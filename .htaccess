@@ -423,6 +423,15 @@ DirectoryIndex index.php index.html index.htm
   # ----------------------------------------------------------------------------------------------- 
 
   RewriteCond %{REQUEST_URI} "^/~?[-_.a-zA-Z0-9/]*$"
+
+  # PROCACHE v89b4cbf0979048b4656f38ef9a2dbee7
+  RewriteCond %{REQUEST_METHOD} !=POST
+  RewriteCond %{QUERY_STRING} !.*=.*
+  RewriteCond %{HTTP_COOKIE} !^.*(wire_challenge|wires_challenge).*$
+  RewriteCond %{DOCUMENT_ROOT}/site/assets/ProCache-8eac512e3602a815615ff032d4e9/$1/index.html -f
+  RewriteRule ^(.*) %{DOCUMENT_ROOT}/site/assets/ProCache-8eac512e3602a815615ff032d4e9/$1/index.html [L]
+  # /PROCACHE
+  RewriteCond %{REQUEST_URI} "^/~?[-_.a-zA-Z0-9/]*$"
   
   # ----------------------------------------------------------------------------------------------- 
   # 16B. Alternative name-format specification for UTF8 page name support. (O)
