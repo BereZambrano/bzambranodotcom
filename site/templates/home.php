@@ -271,8 +271,20 @@ use function ProcessWire\wireRenderFile;
         </div>
     </div>
 
+    <div class="uk-container uk-container-large uk-padding section-white">
+        <div class="uk-flex uk-flex-left uk-padding">
+            <div class="uk-width-1-1@m">
+                <div class="uk-margin-large-top uk-margin-large-bottom ">
+                    <h2><?=
+                        $home->second_intro;
+                        ?>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <section class="testimonials section-white uk-container uk-container-large">
+    <section class="testimonials uk-container uk-container-large">
 
         <div class="uk-width-3-5@m uk-margin-xlarge-top">
             <h2>
@@ -351,37 +363,22 @@ use function ProcessWire\wireRenderFile;
         <?php endforeach; ?>
     </section>
 
-
-
-    <div class="uk-container uk-container-large uk-padding">
-        <div class="uk-flex uk-flex-left">
-            <div class="uk-width-1-1@m">
-                <div class="uk-margin-large-top uk-margin-large-bottom ">
-                    <h2><?=
-                       $home->second_intro;
-                        ?>
-                    </h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="uk-background-secondary uk-width-1-1@m uk-padding-small">
 
         <div class="uk-container uk-container-large uk-light">
-            <div class="uk-flex uk-flex-left uk-margin-large-top">
-                <div class="uk-width-4-5@m uk-margin-small">
-                    <h2 class="uk-margin-large-bottom">
+            <div class="uk-flex uk-flex-center uk-margin-large-top">
+                <div class="uk-margin-small uk-text-center">
+                    <h2 class="uk-margin-bottom">
                         Let’s collaborate!
                     </h2>
-                    <h5>
+                    <p class="uk-h5">
                         If this resonates with you, let’s talk!
-                    </h5>
+                    </p>
                 </div>
             </div>
 
-            <div class=" uk-flex uk-flex-right">
-                <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-flex uk-flex-right">
+            <div class=" uk-flex uk-flex-center">
+                <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-margin-top uk-flex uk-flex-center">
                     <div class="uk-width-4-5@m">
                         <a class="uk-button-primary uk-button" uk-scroll="offset: 100" href="#footer-contact">Say hello! 👋</a>
                     </div>
