@@ -535,13 +535,13 @@ footer {
 
 
 
+testimonial-card-link a{
+  text-decoration: none;
+}
 
-
-
-
-
-
-
+.testimonial-card a:hover {
+  text-decoration: underline;
+}
 
 .text-animate .uk-h1 {
   white-space: nowrap;
@@ -552,7 +552,7 @@ footer {
 
 .text-animate .uk-h1 span {
   display: inline-block;
-  padding-left: 3%; /* Ensure this is enough to have the text off-screen initially */
+  padding-left: 3%;
   animation: marquee 50s linear infinite;
 }
 
@@ -566,5 +566,10 @@ footer {
     font-size: 2.17em; /* Typical browser default for h3 */
     /* Add any other styles you want to change for mobile here */
   }
+}
+
+.uk-position-small{
+  z-index: 1000;
+  background-color: #F8F8F8;
 }
 

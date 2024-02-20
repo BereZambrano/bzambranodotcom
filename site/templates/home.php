@@ -282,18 +282,18 @@ use function ProcessWire\wireRenderFile;
 
         <?php foreach($pages->find("template=servicios") as $project): ?>
 
-            <div class="uk-width-4-5@m uk-margin-auto uk-margin-large-top">
+            <div class="uk-width-4-5@m uk-margin-auto uk-margin-large-top uk-border-rounded">
 
                 <div class="uk-flex">
                     <div class="uk-margin-top uk-width-1-1 uk-slider" uk-slider="autoplay: true">
 
                         <div class="uk-position-relative">
 
-                            <a class="uk-visible@l uk-position-small uk-position-center-left-out" href="#"
+                            <a class="uk-visible@l uk-position-small uk-position-center-left section-white" href="#"
                                uk-slider-item="previous">
                                 <span class="uk-icon-button" uk-icon="icon: chevron-left; ratio:1.2;"></span>
                             </a>
-                            <a class="uk-visible@l uk-position-small uk-position-center-right-out" href="#"
+                            <a class="uk-visible@l uk-position-small uk-position-center-right section-white" href="#"
                                uk-slider-item="next">
                                 <span class="uk-icon-button" uk-icon="icon: chevron-right; ratio:1.2;"></span>
                             </a>
@@ -326,7 +326,7 @@ use function ProcessWire\wireRenderFile;
                                                     <div>
                                                         <?= $item->testimonial_detail ?>
                                                     </div>
-                                                    <div class="testimonial-card-main-text">
+                                                    <div class="testimonial-card-main-text testimonial-card-link">
                                                         <?= $item->testimonial_tweet ?>
                                                     </div>
                                                     <?php if ($item->mention_link): ?>
