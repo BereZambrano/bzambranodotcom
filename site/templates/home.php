@@ -85,7 +85,7 @@ use function ProcessWire\wireRenderFile;
             <div class="uk-flex uk-flex-right">
                 <div class="uk-width-3-5@m uk-margin-large-top uk-margin-large-bottom uk-flex uk-flex-right">
                     <div class="uk-width-4-5@m">
-                        <a class="white-button uk-button" href="<?php echo $pages->get('template=portafolio')->url; ?>">See my Portfolio</a>
+                        <a class="white-button uk-button home-button" href="<?php echo $pages->get('template=portafolio')->url; ?>"><?=$page->button_text1?></a>
                     </div>
                 </div>
             </div>
@@ -100,7 +100,7 @@ use function ProcessWire\wireRenderFile;
                 <div class="uk-flex uk-flex-left">
                     <div class="uk-width-3-5@m uk-margin-top">
                         <div class="uk-light">
-                            <h3>With Social Impact Focus</h3>
+                            <?= $page->third_intro ?>
                         </div>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ use function ProcessWire\wireRenderFile;
             <div class="uk-flex uk-flex-right">
                 <div class="uk-width-3-5@m uk-margin-large-top uk-flex uk-flex-right">
                     <div class="uk-width-4-5@m uk-margin-xlarge-bottom">
-                        <a class="white-button uk-button" href="<?php echo $pages->get('template=case-studies')->url; ?>">See Case Studies</a>
+                        <a class="white-button uk-button home-button" href="<?php echo $pages->get('template=case-studies')->url; ?>"><?=$page->button_text2?></a>
                     </div>
                 </div>
             </div>
@@ -205,48 +205,66 @@ use function ProcessWire\wireRenderFile;
         <div class="uk-flex uk-flex-left">
             <div class="uk-width-4-5@m uk-margin-xlarge-top">
                 <div class="">
-                    <h3>What I bring to the table</h3>
+                    <?= $page->fourth_intro ?>
                 </div>
             </div>
         </div>
     </div>
 
-        <div class="uk-margin-large">
-            <div class="uk-grid uk-grid-small uk-text-center" uk-grid>
+    <div class="uk-margin-large">
+        <div class="uk-grid uk-grid-small uk-text-center" uk-grid>
+            <?php
+            foreach ($page->skills as $skillItem): ?>
                 <div class="uk-width-1-1">
                     <div class="text-animate">
-                        <span class="uk-h1">
-                            <span>· Branding & Visual identity Expertise · Research-Oriented Design</span>
-                            <span>· Branding & Visual identity Expertise · Research-Oriented Design</span>
-                        </span>
+                    <span class="uk-h1">
+                        <?php foreach ($skillItem->skillset as $skill): ?>
+                            <span><?= $sanitizer->entities($skill) ?></span>
+                        <?php endforeach; ?>
+                    </span>
                     </div>
                 </div>
-                <div class="uk-width-1-1">
-                    <div class="text-animate">
-                        <span class="uk-h1">
-                            <span>· Radical Collaboration · Proactivity · Social Impact Focus</span>
-                            <span>· Radical Collaboration · Proactivity · Social Impact Focus</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="uk-width-1-1">
-                    <div class="text-animate">
-                        <span class="uk-h1">
-                        <span>· Creative Strategies · Self-Organization · Communication Skills</span>
-                        <span>· Creative Strategies · Self-Organization · Communication Skills</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="uk-width-1-1">
-                    <div class="text-animate">
-                        <span class="uk-h1">
-                        <span>· Critical Thinking · Collective Process Approach</span>
-                        <span>· Critical Thinking · Collective Process Approach</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
+    </div>
+
+
+    <!-- <div class="uk-margin-large">
+         <div class="uk-grid uk-grid-small uk-text-center" uk-grid>
+             <div class="uk-width-1-1">
+                 <div class="text-animate">
+                     <span class="uk-h1">
+                         <span>· Branding & Visual identity Expertise · Research-Oriented Design</span>
+                         <span>· Branding & Visual identity Expertise · Research-Oriented Design</span>
+                     </span>
+                 </div>
+             </div>
+             <div class="uk-width-1-1">
+                 <div class="text-animate">
+                     <span class="uk-h1">
+                         <span>· Radical Collaboration · Proactivity · Social Impact Focus</span>
+                         <span>· Radical Collaboration · Proactivity · Social Impact Focus</span>
+                     </span>
+                 </div>
+             </div>
+             <div class="uk-width-1-1">
+                 <div class="text-animate">
+                     <span class="uk-h1">
+                     <span>· Creative Strategies · Self-Organization · Communication Skills</span>
+                     <span>· Creative Strategies · Self-Organization · Communication Skills</span>
+                     </span>
+                 </div>
+             </div>
+             <div class="uk-width-1-1">
+                 <div class="text-animate">
+                     <span class="uk-h1">
+                     <span>· Critical Thinking · Collective Process Approach</span>
+                     <span>· Critical Thinking · Collective Process Approach</span>
+                     </span>
+                 </div>
+             </div>
+         </div>
+     </div>-->
 
       <!--  <?php
 /*        $skillSetPage=$pages->get('template=skill');
@@ -266,7 +284,7 @@ use function ProcessWire\wireRenderFile;
     <div class="uk-container uk-container-large uk-flex uk-flex-right">
         <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-flex uk-flex-right">
             <div class="uk-width-4-5@m">
-                <a class="uk-button-primary uk-button" href="<?php echo $pages->get('template=about')->url; ?>">See More About Me</a>
+                <a class="uk-button-primary uk-button home-button" href="<?php echo $pages->get('template=about')->url; ?>"><?=$page->button_text3?></a>
             </div>
         </div>
     </div>
@@ -368,19 +386,14 @@ use function ProcessWire\wireRenderFile;
         <div class="uk-container uk-container-large uk-light">
             <div class="uk-flex uk-flex-center uk-margin-large-top">
                 <div class="uk-margin-small uk-text-center">
-                    <h2 class="uk-margin-bottom">
-                        Let’s collaborate!
-                    </h2>
-                    <p class="uk-h5">
-                        If this resonates with you, let’s talk!
-                    </p>
+                    <p> <?=$page->fifth_intro?> </p>
                 </div>
             </div>
 
             <div class=" uk-flex uk-flex-center">
                 <div class="uk-width-3-5@m uk-margin-xlarge-bottom uk-margin-top uk-flex uk-flex-center">
                     <div class="uk-width-4-5@m">
-                        <a class="uk-button-primary uk-button" uk-scroll="offset: 100" href="#footer-contact">Say hello! 👋</a>
+                        <a class="uk-button-primary uk-button home-button" uk-scroll="offset: 100" href="#footer-contact"><?=$page->button_text4 . '&nbsp;&nbsp;👋'?></a>
                     </div>
                 </div>
             </div>
