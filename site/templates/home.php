@@ -31,7 +31,8 @@ use function ProcessWire\wireRenderFile;
     $projects =$selector->proyectos_seleccionados;
     ?>
 
-    <div class="uk-background-secondary uk-width-1-1@m">
+    <div uk-scrollspy="cls:uk-animation-slide-bottom-small;"
+         class="delay uk-background-secondary uk-width-1-1@m">
 
         <div class="uk-container uk-container-large">
             <div class="uk-flex uk-flex-left">
@@ -289,18 +290,20 @@ use function ProcessWire\wireRenderFile;
         </div>
     </div>
 
-    <div class="uk-container uk-container-large uk-padding section-white">
-        <div class="uk-flex uk-flex-left uk-padding">
-            <div class="uk-width-1-1@m">
-                <div class="uk-margin-large-top uk-margin-large-bottom ">
-                    <h2><?=
-                        $home->second_intro;
-                        ?>
-                    </h2>
+    <section class="section-white uk-padding">
+        <div class="uk-container uk-container-large ">
+            <div class="uk-flex uk-flex-left uk-padding">
+                <div class="uk-width-1-1@m">
+                    <div class="uk-margin-large-top uk-margin-large-bottom ">
+                        <h2><?=
+                            $home->second_intro;
+                            ?>
+                        </h2>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <section class="testimonials uk-container uk-container-large">
 
@@ -312,18 +315,18 @@ use function ProcessWire\wireRenderFile;
 
         <?php foreach($pages->find("template=servicios") as $project): ?>
 
-            <div class="uk-width-4-5@m uk-margin-auto uk-margin-large-top uk-border-rounded">
+            <div class="uk-container uk-container-expand uk-margin-large-top">
 
                 <div class="uk-flex">
                     <div class="uk-margin-top uk-width-1-1 uk-slider" uk-slider="autoplay: true">
 
                         <div class="uk-position-relative">
 
-                            <a class="uk-visible@l uk-position-small uk-position-center-left section-white" href="#"
+                            <a class="uk-visible@l uk-position-small uk-position-center-left" href="#"
                                uk-slider-item="previous">
                                 <span class="uk-icon-button" uk-icon="icon: chevron-left; ratio:1.2;"></span>
                             </a>
-                            <a class="uk-visible@l uk-position-small uk-position-center-right section-white" href="#"
+                            <a class="uk-visible@l uk-position-small uk-position-center-right" href="#"
                                uk-slider-item="next">
                                 <span class="uk-icon-button" uk-icon="icon: chevron-right; ratio:1.2;"></span>
                             </a>
@@ -347,7 +350,7 @@ use function ProcessWire\wireRenderFile;
                                 <ul class="uk-grid uk-slider-items">
                                     <?php foreach ($project->testimonial as $item): ?>
                                         <li class="uk-width-1-1">
-                                            <div class="uk-card testimonial-card uk-card-body uk-card-large uk-card-default">
+                                            <div class="uk-card testimonial-card uk-card-body uk-card-large uk-border-rounded uk-card-default">
                                                 <div class="uk-width-1-1@m uk-margin-auto">
                                                     <div class="uk-card-title">
                                                         <?= $item->testimonial_name ?>
@@ -381,7 +384,7 @@ use function ProcessWire\wireRenderFile;
         <?php endforeach; ?>
     </section>
 
-    <div class="uk-background-secondary uk-width-1-1@m uk-padding-small">
+    <div uk-scri class="uk-background-secondary uk-width-1-1@m uk-padding-small">
 
         <div class="uk-container uk-container-large uk-light">
             <div class="uk-flex uk-flex-center uk-margin-large-top">
