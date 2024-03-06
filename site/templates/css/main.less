@@ -380,8 +380,18 @@ footer {
    .work{
     font-family: @global-font-family;
     font-size:16px;
-    margin-top:-5px;
+    //margin-top:-5px;
     font-weight: 300;
+  }
+}
+
+.colaboradores {
+  margin: 0 0 10px 0;
+
+  @media (max-width: 768px) {
+    & {
+      margin: -7px 0 10px 0;
+    }
   }
 }
 
@@ -472,7 +482,7 @@ footer {
   bottom:20px ;
 }*/
 
-.tagline{
+/*.tagline{
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -481,7 +491,38 @@ footer {
   .proyecto-data &{
     margin-bottom: -0.85rem;
   }
+  @media (max-width: 768px) {
+    & {
+      margin-bottom: -0.85rem;
+    }
+  }
+  p {
+    margin-top: 11px;
+  }
+}*/
+
+.tagline {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #828282;
+  margin-bottom: -1rem;
+
+  .proyecto-data & {
+    margin-bottom: -0.85rem;
+  }
 }
+
+@media (max-width: 768px) {
+  .tagline {
+    margin-bottom: -0.85rem;
+  }
+
+  .tagline + p {
+    margin-top: 11px;
+  }
+}
+
 
 .tagline2{
   font-size: 0.85rem;
@@ -578,4 +619,8 @@ testimonial-card-link a{
 
 .home-button p{
   margin : 0;
+}
+
+.diseñoTag{
+  margin-bottom: 5px !important;
 }

@@ -84,12 +84,12 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
                 <div class="uk-navbar-left">
 
                     <div class="uk-navbar-item">
-                        <a class="uk-link-reset bzambrano-logo" href="<?= $home->url ?>">
+                        <a class="uk-link-reset bzambrano-logo uk-margin-small-top" href="<?= $home->url ?>">
                             <!-- <img class="mango" style="" src="<?= $urls->templates ?>img/mango@0.5x.png">-->
                             <span>
                             <span class="name">berenice</span><span class="apellido">zambrano</span><br>
                         </span>
-                            <span class="work">[Design + Research]</span>
+                            <span class="work"><?= $home->work_description  ?></span>
                         </a>
                     </div>
                 </div>
@@ -176,7 +176,7 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
                                     <span>
                                     <span class="name">berenice</span><span class="apellido">zambrano</span><br>
                                     </span>
-                                    <span class="work">[Design + Research]</span>
+                                    <span class="work"><?= $home->work_description ?></span>
                                 </a>
                             </li>
                         </ul>

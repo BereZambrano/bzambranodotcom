@@ -34,7 +34,27 @@ $header_image = $page->getHeaderImage();
             <div class="uk-margin-medium uk-padding-small">
                 <div class="uk-margin-bottom">
                     <p class="tagline"><?= __("Cliente") ?>:</p>
-                    <h3 class="uk-margin-remove"><?= $page->cliente->title ?></h3>
+                    <h3 class="uk-margin-small-top"><?= $page->cliente->title ?></h3>
+                </div>
+
+                <div class="uk-margin-bottom">
+                    <p class="tagline"><?= __("Dirección") ?>:</p>
+                    <p class="">Berenice Zambrano</p>
+                </div>
+
+                <div class="uk-margin-bottom">
+                    <p class="tagline diseñoTag"><?= __("Diseño") ?>:</p>
+                    <?php foreach ($page->colaboradores as $colaborador) : ?>
+
+                            <?php if ($colaborador->url_address) : ?>
+                                <a href="<?= $colaborador->url_address ?>" target="_blank">
+                                    <p class="colaboradores"><?= $colaborador->name ?></p>
+                                </a>
+                            <?php else : ?>
+                            <p class="colaboradores"><?= $colaborador->name ?></p>
+                            <?php endif ?>
+
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="uk-margin-bottom">
@@ -49,12 +69,12 @@ $header_image = $page->getHeaderImage();
 
                 <div class="uk-margin-bottom">
                     <p class="tagline"><?= __("Lugar") ?>:</p>
-                    <h3 class="uk-margin-remove"><?= $page->lugar ?></h3>
+                    <h3 class="uk-margin-small-top"><?= $page->lugar ?></h3>
                 </div>
 
                 <div class="uk-margin-bottom">
                     <p class="tagline"><?= __("Año") ?>:</p>
-                    <h3 class="uk-margin-remove"><?= $page->year ?></h3>
+                    <h3 class="uk-margin-small-top"><?= $page->year ?></h3>
                 </div>
 
             </div>
