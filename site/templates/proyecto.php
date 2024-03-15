@@ -37,13 +37,17 @@ $header_image = $page->getHeaderImage();
                     <h3 class="uk-margin-small-top"><?= $page->cliente->title ?></h3>
                 </div>
 
-                <div class="uk-margin-bottom">
-                    <p class="tagline"><?= __("Dirección") ?>:</p>
+                <!--<div class="uk-margin-bottom">
+                    <p class="tagline"><?php /*= __("Dirección") */?>:</p>
                     <p class="">Berenice Zambrano</p>
-                </div>
+                </div>-->
 
+
+                <?php $colaboradores= $page->colaboradores; ?>
+                <?php if($colaboradores->count() > 0 ): ?>
                 <div class="uk-margin-bottom">
-                    <p class="tagline diseñoTag"><?= __("Diseño") ?>:</p>
+                    <p class="tagline diseñoTag"><?= __("En colaboración con") ?>:</p>
+
                     <?php foreach ($page->colaboradores as $colaborador) : ?>
 
                             <?php if ($colaborador->url_address) : ?>
@@ -56,6 +60,7 @@ $header_image = $page->getHeaderImage();
 
                     <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
 
                 <div class="uk-margin-bottom">
                     <p class=" tagline"><?= __("Servicios") ?>:</p>
