@@ -25,7 +25,7 @@ namespace ProcessWire;
     }
     $projects = $pages->find($selector);
     ?>
-    <div class="uk-container uk-container-large home-portfolio uk-light uk-background-secondary uk-padding">
+    <div class="uk-container uk-container-large uk-width-1-1@m home-portfolio uk-light uk-background-secondary uk-padding">
 
         <div class="uk-grid uk-grid-large uk-child-width-1-2@m uk-margin-large-bottom uk-margin-large-top "  uk-grid>
             <?php foreach ($projects as $i => $project) : ?>

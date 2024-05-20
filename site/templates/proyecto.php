@@ -21,20 +21,20 @@ $header_image = $page->getHeaderImage();
             </div>
         </div>
 
-        <hr class="uk-margin-bottom">
+        <hr>
     </div>
 
-    <div class="project-container contenido uk-light  uk-margin uk-container">
+    <div class="project-container contenido uk-light uk-container uk-margin-large-bottom">
 
         <!-- Project intro and info -->
 
-        <div class="proyecto-data uk-margin-large">
+        <div class="proyecto-data uk-margin">
             <img src="<?= $page->portada_proyecto->url ?>" alt="<?= $page->portada_proyecto->description ?>">
 
-            <div class="uk-margin-medium uk-padding-small">
-                <div class="uk-margin-bottom">
+            <div class="uk-margin ">
+                <div class="uk-margin-small-bottom">
                     <p class="tagline"><?= __("Cliente") ?>:</p>
-                    <h3 class="uk-margin-small-top"><?= $page->cliente->title ?></h3>
+                    <h4 class="project-text uk-margin-small-top"><?= $page->cliente->title ?></h4>
                 </div>
 
                 <!--<div class="uk-margin-bottom">
@@ -52,10 +52,10 @@ $header_image = $page->getHeaderImage();
 
                             <?php if ($colaborador->url_address) : ?>
                                 <a href="<?= $colaborador->url_address ?>" target="_blank">
-                                    <p class="colaboradores"><?= $colaborador->name ?></p>
+                                    <p class="uk-margin-remove project-text"><?= $colaborador->name ?></p>
                                 </a>
                             <?php else : ?>
-                            <p class="colaboradores"><?= $colaborador->name ?></p>
+                            <p class="uk-margin-remove project-text"><?= $colaborador->name ?></p>
                             <?php endif ?>
 
                     <?php endforeach; ?>
@@ -63,23 +63,23 @@ $header_image = $page->getHeaderImage();
                 <?php endif; ?>
 
                 <div class="uk-margin-bottom">
-                    <p class=" tagline"><?= __("Servicios") ?>:</p>
-                    <ul class="uk-list">
+                    <p class=" tagline diseñoTag"><?= __("Servicios") ?>:</p>
+                    <ul class="uk-list uk-list-collapse uk-margin-remove">
                         <?php echo $page->servicios->implode("", function ($item) {
                             //bd($item->title);
-                            return "<li><a href='$item->url'>$item->title</a></li>";
+                            return "<li><a class='project-text' href='$item->url'>$item->title</a></li>";
                         }); ?>
                     </ul>
                 </div>
 
                 <div class="uk-margin-bottom">
                     <p class="tagline"><?= __("Lugar") ?>:</p>
-                    <h3 class="uk-margin-small-top"><?= $page->lugar ?></h3>
+                    <h4 class="project-text uk-margin-small-top"><?= $page->lugar ?></h4>
                 </div>
 
                 <div class="uk-margin-bottom">
                     <p class="tagline"><?= __("Año") ?>:</p>
-                    <h3 class="uk-margin-small-top"><?= $page->year ?></h3>
+                    <h4 class="project-text uk-margin-small-top"><?= $page->year ?></h4>
                 </div>
 
             </div>
@@ -126,8 +126,8 @@ $header_image = $page->getHeaderImage();
     </div>
     <div class="uk-background-muted">
         <div class="proyectos-relacionados uk-container">
-            <h3><?php echo __("Más proyectos")?></h3>
-            <div class="uk-slider" uk-slider="autoplay:true;">
+            <h3 class="uk-margin-large-top"><?php echo __("Más proyectos")?></h3>
+            <div class="uk-slider uk-margin-xlarge-bottom" uk-slider="autoplay:true;">
                 <div class="uk-position-relative">
                     <div class="uk-slider-container">
                         <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-4@m uk-grid uk-grid-small">

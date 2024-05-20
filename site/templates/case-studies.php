@@ -11,7 +11,7 @@
 
 
 
-    <section id="research_tags_nav" class="uk-container uk-container-large uk-background-secondary uk-light uk-padiing">
+    <section id="research_tags_nav" class="uk-container uk-container-large  uk-width-1-1@m uk-background-secondary uk-light uk-padiing">
         <div class="uk-grid uk-grid-large uk-margin-xlarge-top uk-margin-xlarge-bottom" uk-grid>
             <div class="uk-width-2-3@m uk-margin-top">
                 <?php
