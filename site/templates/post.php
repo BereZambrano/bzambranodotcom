@@ -14,28 +14,39 @@
         <div class=" uk-margin-top">
             <div class="uk-grid-collapse uk-child-width-1-2@m" uk-grid>
                 <div class="uk-background-secondary uk-height-large uk-light ">
-                    <div class="uk-height-1-1" uk-slideshow="animation: fade; " >
+                    <div class="uk-position-relative uk-height-1-1" uk-slideshow="animation: fade; " >
                         <ul class="uk-slideshow-items uk-cover-container uk-height-1-1">
-                            <?php foreach ($page->images as $image): ?>
-                                <li class="uk-padding uk-padding-remove-top uk-padding-remove-bottom">
-                                    <img src="<?= $image->url ?>" alt="<?= $image->description ?>" uk-cover >
+                            <?php foreach ($page->content->findOne("type=galeria_modulo")->galeria as $image): ?>
+                                <?php
+                                // If smaller than 1, means its portrait, larger than 1 is landscape ;)
+                                $adjust_class = $image->ratio() < 1 ? "uk-height-1-1" : "uk-width-1-1";
+                                ?>
+                                <li class="uk-flex uk-flex-middle uk-flex-center">
+                                    <img loading="lazy"
+                                         class="<?=$adjust_class?> uk-margin-auto uk-display-block"
+                                         src="<?= $image->url ?>"
+                                         alt="<?= $image->description ?>" >
+                                    <?php if($image->description):?>
+                                        <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom">
+                                            <p><?= $image->description ?></p>
+                                        </div>
+                                    <?php endif ?>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
-
+                        <a class="uk-position-center-left uk-position-small " href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small r" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
                         <!-- Slideshow Navigation -->
-
                     </div>
-                    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
                 </div>
 
                 <!-- Right Column for Text and Social Media Links -->
-                <div class="uk-background-default uk-padding section-white">
+                <div class="uk-background-default uk-height-large uk-overflow-auto uk-padding section-white">
                     <div>
                         <h4><?= $page->title ?></h4>
-                        <p><?= $page->text ?></p>
-
+                        <!-- <p><?= $page->text ?></p> -->
+                        <?php echo $page->content->findOne("type=text_modulo")->text ?>
                         <hr>
                         <!-- Social Media Links -->
                         <div class="uk-margin-top">
