@@ -61,34 +61,69 @@
 
         <hr>
 
-        <div div class="uk-grid uk-child-width-1-4@m uk-flex-between uk-child-width-1-2" uk-grid>
+        <div div class="uk-grid uk-visible@m uk-flex-between uk-child-width-1-2" uk-grid>
             <?php if($page->prev()->id):?>
-            <div class="">
+            <div class=" uk-child-width-1-2@m uk-child-width-expand@s uk-grid-small" uk-grid>
+                <div>
                 <a class="uk-link-reset" href="<?=$page->prev()->url?>">
                     <img alt="<?=$page->prev()->getPostImage()->description?>"
-                         class="uk-width-1-1" width="400"  height="340"
+                         class="uk-width-1-1" width="360"  height="300"
                          data-src="<?=$page->prev()->getPostImage(400,340)->url?>"
                          uk-img>
-                    <div class="uk-margin-small uk-text-center">
-                        <h4><?= $page->prev()->title ?></h4>
-                    </div>
                 </a>
+                </div>
+                <div class="uk-margin-small uk-text-left">
+                    <h5><?= $page->prev()->title ?></h5>
+                </div>
+
             </div>
             <?php endif ?>
 
             <?php if($page->next()->id):?>
-            <div class="">
+            <div class="uk-child-width-1-2@m uk-child-width-expand@s uk-grid-small uk-margin-remove-top" uk-grid>
+                <div class="uk-margin-small uk-text-right">
+                    <h5><?= $page->next()->title ?></h5>
+                </div>
+                <div>
                 <a class="uk-link-reset" href="<?=$page->next()->url?>">
                     <img alt="<?=$page->next()->getPostImage()->description?>"
-                         class="uk-width-1-1" width="400"  height="340"
+                         class="uk-width-1-1" width="360"  height="300"
                          data-src="<?=$page->next()->getPostImage(400,340)->url?>" uk-img>
-                    <div class="uk-margin-small uk-text-center">
-                        <h4><?= $page->next()->title ?></h4>
-                    </div>
                 </a>
+                </div>
             </div>
             <?php endif ?>
         </div>
+
+        <div class="uk-hidden@m uk-grid uk-child-width-1-4@m uk-flex-between uk-child-width-1-2" uk-grid>
+            <?php if($page->prev()->id):?>
+                <div class="">
+                    <a class="uk-link-reset" href="<?=$page->prev()->url?>">
+                        <img alt="<?=$page->prev()->getPostImage()->description?>"
+                             class="uk-width-1-1" width="400" height="340"
+                             data-src="<?=$page->prev()->getPostImage(400,340)->url?>"
+                             uk-img>
+                        <div class="uk-margin-small uk-text-center">
+                            <h5><?= $page->prev()->title ?></h5>
+                        </div>
+                    </a>
+                </div>
+            <?php endif ?>
+
+            <?php if($page->next()->id):?>
+                <div class="">
+                    <a class="uk-link-reset" href="<?=$page->next()->url?>">
+                        <img alt="<?=$page->next()->getPostImage()->description?>"
+                             class="uk-width-1-1" width="400" height="340"
+                             data-src="<?=$page->next()->getPostImage(400,340)->url?>" uk-img>
+                        <div class="uk-margin-small uk-text-center">
+                            <h5><?= $page->next()->title ?></h5>
+                        </div>
+                    </a>
+                </div>
+            <?php endif ?>
+        </div>
+
     </div>
 
 </div>
