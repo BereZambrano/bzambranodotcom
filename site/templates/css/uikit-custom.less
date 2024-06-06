@@ -9,7 +9,14 @@
 @base-body-background:#f0f0ed;
 
 @background-default-background: #f0f0ed;
-@height-large-height: 520px;
+@height-large-height: 630px;
+.blog-post-wrapper{
+  height: 630px;
+  @media(max-width:959px){
+    aspect-ratio:~"1 / 1";
+    height:auto;
+  }
+}
 .hook-base-link() {
   text-decoration: underline;
 }
@@ -404,6 +411,10 @@
 
 .delay{
   animation-delay: 1s;
+}
+
+.uk-width-content{
+  min-width: max-content;
 }
 
 @import "main.less";

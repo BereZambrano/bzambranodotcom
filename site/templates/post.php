@@ -13,7 +13,7 @@
 
         <div class=" uk-margin-top">
             <div class="uk-grid-collapse uk-child-width-1-2@m" uk-grid>
-                <div class="uk-background-secondary uk-height-large uk-light ">
+                <div class="uk-background-secondary blog-post-wrapper uk-light ">
                     <div class="uk-position-relative uk-height-1-1" uk-slideshow="animation: fade; " >
                         <ul class="uk-slideshow-items uk-cover-container uk-height-1-1">
                             <?php foreach ($page->content->findOne("type=galeria_modulo")->galeria as $image): ?>
@@ -24,7 +24,7 @@
                                 <li class="uk-flex uk-flex-middle uk-flex-center">
                                     <img loading="lazy"
                                          class="<?=$adjust_class?> uk-margin-auto uk-display-block"
-                                         src="<?= $image->url ?>"
+                                         src="<?= $image->width(400)->url ?>"
                                          alt="<?= $image->description ?>" >
                                     <?php if($image->description):?>
                                         <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom">
@@ -63,7 +63,7 @@
 
         <div div class="uk-grid uk-visible@m uk-flex-between uk-child-width-1-2" uk-grid>
             <?php if($page->prev()->id):?>
-            <div class=" uk-child-width-1-2@m uk-child-width-expand@s uk-grid-small" uk-grid>
+            <div class=" uk-child-width-1-3@m uk-flex-left uk-grid-small" uk-grid>
                 <div>
                 <a class="uk-link-reset" href="<?=$page->prev()->url?>">
                     <img alt="<?=$page->prev()->getPostImage()->description?>"
@@ -73,16 +73,16 @@
                 </a>
                 </div>
                 <div class="uk-margin-small uk-text-left">
-                    <h5><?= $page->prev()->title ?></h5>
+                    <p><?= $page->prev()->title ?></p>
                 </div>
 
             </div>
             <?php endif ?>
 
             <?php if($page->next()->id):?>
-            <div class="uk-child-width-1-2@m uk-child-width-expand@s uk-grid-small uk-margin-remove-top" uk-grid>
+            <div class="uk-child-width-1-3@m uk-flex-right uk-grid-small uk-margin-remove-top" uk-grid>
                 <div class="uk-margin-small uk-text-right">
-                    <h5><?= $page->next()->title ?></h5>
+                    <p><?= $page->next()->title ?></p>
                 </div>
                 <div>
                 <a class="uk-link-reset" href="<?=$page->next()->url?>">
