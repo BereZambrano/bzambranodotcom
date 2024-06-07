@@ -424,14 +424,24 @@ DirectoryIndex index.php index.html index.htm
 
   RewriteCond %{REQUEST_URI} "^/~?[-_.a-zA-Z0-9/]*$"
 
-  # PROCACHE v89b4cbf0979048b4656f38ef9a2dbee7
+ # PROCACHE v2/573c2438bc39c93c7b436a520df51f14 --------------------------------------------------
   RewriteCond %{REQUEST_METHOD} !=POST
   RewriteCond %{QUERY_STRING} !.*=.*
+  RewriteRule ^.*$ - [E=pwpcstep:pour,E=pwpcname:index]
+  RewriteCond %{ENV:pwpcstep} "=pour"
   RewriteCond %{HTTP_COOKIE} !^.*(wire_challenge|wires_challenge).*$
-  RewriteCond %{DOCUMENT_ROOT}/site/assets/ProCache-8eac512e3602a815615ff032d4e9/$1/index.html -f
-  RewriteRule ^(.*) %{DOCUMENT_ROOT}/site/assets/ProCache-8eac512e3602a815615ff032d4e9/$1/index.html [L]
-  # /PROCACHE
+  RewriteRule ^.*$ - [E=pwpcstep:stir,E=pwpcpath:/site/assets/ProCache-8eac512e3602a815615ff032d4e9]
+  RewriteCond %{ENV:pwpcstep} "=stir"
+  RewriteCond %{DOCUMENT_ROOT}%{ENV:pwpcpath}/$0/%{ENV:pwpcname}.html -f
+  RewriteRule ^.*$ - [E=pwpcstep:drink,E=pwpcfile:$0/%{ENV:pwpcname}.html]
+  RewriteCond %{ENV:pwpcstep} "=drink"
+  RewriteRule ^(.*) %{ENV:pwpcpath}/%{ENV:pwpcfile} [L]
+  <ifModule mod_headers.c>
+  Header set X-PWPC "ProCache" env=pwpcstep
+  Header set X-Powered-By "ProcessWire CMS, ProCache" env=pwpcstep
+  </ifModule>
   RewriteCond %{REQUEST_URI} "^/~?[-_.a-zA-Z0-9/]*$"
+  # /PROCACHE -------------------------------------------------------------------------------------
   
   # ----------------------------------------------------------------------------------------------- 
   # 16B. Alternative name-format specification for UTF8 page name support. (O)
