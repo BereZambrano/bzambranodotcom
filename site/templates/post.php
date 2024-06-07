@@ -20,12 +20,30 @@
                                 <?php
                                 // If smaller than 1, means its portrait, larger than 1 is landscape ;)
                                 $adjust_class = $image->ratio() < 1 ? "uk-height-1-1" : "uk-width-1-1";
+
                                 ?>
                                 <li class="uk-flex uk-flex-middle uk-flex-center">
-                                    <img loading="lazy"
-                                         class="<?=$adjust_class?> uk-margin-auto uk-display-block"
-                                         src="<?= $image->width(400)->url ?>"
-                                         alt="<?= $image->description ?>" >
+                                    <!--<img loading="lazy"
+                                         class="<?php /*=$adjust_class*/?> uk-margin-auto uk-display-block"
+                                         src="<?php /*= $image->width(400)->url */?>"
+                                         alt="<?php /*= $image->description */?>" >-->
+
+                                    <?php if($image->ext == "gif"): ?>
+                                        <img width="<?=$image->width?>"
+                                             class="uk-margin-auto uk-display-block"
+                                             height="<?=$image->height?>"
+                                             loading="lazy"
+                                             src="<?=$image->url?>" alt="<?= $image->description ?>" uk-img>
+                                    <?php else: ?>
+                                        <img data-src="<?= $image->url ?>"
+                                             width="<?=$image->width?>"
+                                             height="<?=$image->height?>"
+                                             alt="<?= $image->description ?>"
+                                             loading="lazy"
+                                             class="uk-margin-auto uk-display-block"
+                                             data-srcset="<?= $image->srcset ?>"
+                                             uk-img>
+                                    <?php endif ?>
                                     <?php if($image->description):?>
                                         <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom">
                                             <p><?= $image->description ?></p>
@@ -48,12 +66,8 @@
                         <!-- <p><?= $page->text ?></p> -->
                         <?php echo $page->content->findOne("type=text_modulo")->text ?>
                         <hr>
-                        <!-- Social Media Links -->
-                        <div class="uk-margin-top">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= $page->httpUrl ?>" target="_blank" class="uk-icon-button uk-margin-small-right" uk-icon="facebook"></a>
-                            <a href="https://twitter.com/intent/tweet?url=<?= $page->httpUrl ?>" target="_blank" class="uk-icon-button uk-margin-small-right" uk-icon="twitter"></a>
-                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $page->httpUrl ?>" target="_blank" class="uk-icon-button uk-margin-small-right" uk-icon="linkedin"></a>
-                        </div>
+                        <?php echo $modules->MarkupSocialShareButtons->render(); ?>
+
                     </div>
                 </div>
             </div>
@@ -68,7 +82,8 @@
                 <a class="uk-link-reset" href="<?=$page->prev()->url?>">
                     <img alt="<?=$page->prev()->getPostImage()->description?>"
                          class="uk-width-1-1" width="360"  height="300"
-                         data-src="<?=$page->prev()->getPostImage(400,340)->url?>"
+                         src="<?=$page->prev()->getPostImage(400,340)->url?>"
+                         loading="lazy"
                          uk-img>
                 </a>
                 </div>
@@ -88,7 +103,8 @@
                 <a class="uk-link-reset" href="<?=$page->next()->url?>">
                     <img alt="<?=$page->next()->getPostImage()->description?>"
                          class="uk-width-1-1" width="360"  height="300"
-                         data-src="<?=$page->next()->getPostImage(400,340)->url?>" uk-img>
+                         loading="lazy"
+                         src="<?=$page->next()->getPostImage(400,340)->url?>" uk-img>
                 </a>
                 </div>
             </div>
