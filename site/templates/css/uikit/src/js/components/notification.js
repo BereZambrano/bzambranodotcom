@@ -1,6 +1,20 @@
-import {$, append, apply, closest, css, pointerEnter, pointerLeave, remove, startsWith, toFloat, Transition, trigger} from 'uikit-util';
+import {
+    $,
+    append,
+    apply,
+    css,
+    parent,
+    pointerEnter,
+    pointerLeave,
+    remove,
+    toFloat,
+    Transition,
+    trigger,
+} from 'uikit-util';
+import Container from '../mixin/container';
 
 export default {
+    mixins: [Container],
 
     functional: true,
 
@@ -10,59 +24,61 @@ export default {
         message: '',
         status: '',
         timeout: 5000,
-        group: null,
+        group: '',
         pos: 'top-center',
         clsContainer: 'uk-notification',
         clsClose: 'uk-notification-close',
-        clsMsg: 'uk-notification-message'
+        clsMsg: 'uk-notification-message',
     },
 
     install,
 
     computed: {
-
-        marginProp({pos}) {
-            return `margin${startsWith(pos, 'top') ? 'Top' : 'Bottom'}`;
-        },
+        marginProp: ({ pos }) => `margin-${pos.match(/[a-z]+(?=-)/)[0]}`,
 
         startProps() {
-            return {opacity: 0, [this.marginProp]: -this.$el.offsetHeight};
-        }
-
+            return { opacity: 0, [this.marginProp]: -this.$el.offsetHeight };
+        },
     },
 
     created() {
+        const posClass = `${this.clsContainer}-${this.pos}`;
+        const containerAttr = `data-${this.clsContainer}-container`;
+        const container =
+            $(`.${posClass}[${containerAttr}]`, this.container) ||
+            append(
+                this.container,
+                `<div class="${this.clsContainer} ${posClass}" ${containerAttr}></div>`,
+            );
 
-        const container = $(`.${this.clsContainer}-${this.pos}`, this.$container)
-            || append(this.$container, `<div class="${this.clsContainer} ${this.clsContainer}-${this.pos}" style="display: block"></div>`);
-
-        this.$mount(append(container,
-            `<div class="${this.clsMsg}${this.status ? ` ${this.clsMsg}-${this.status}` : ''}">
-                <a href class="${this.clsClose}" data-uk-close></a>
-                <div>${this.message}</div>
-            </div>`
-        ));
-
+        this.$mount(
+            append(
+                container,
+                `<div class="${this.clsMsg}${
+                    this.status ? ` ${this.clsMsg}-${this.status}` : ''
+                }" role="alert">
+                    <a href class="${this.clsClose}" data-uk-close></a>
+                    <div>${this.message}</div>
+                </div>`,
+            ),
+        );
     },
 
-    connected() {
-
+    async connected() {
         const margin = toFloat(css(this.$el, this.marginProp));
-        Transition.start(
-            css(this.$el, this.startProps),
-            {opacity: 1, [this.marginProp]: margin}
-        ).then(() => {
-            if (this.timeout) {
-                this.timer = setTimeout(this.close, this.timeout);
-            }
+        await Transition.start(css(this.$el, this.startProps), {
+            opacity: 1,
+            [this.marginProp]: margin,
         });
 
+        if (this.timeout) {
+            this.timer = setTimeout(this.close, this.timeout);
+        }
     },
 
     events: {
-
         click(e) {
-            if (closest(e.target, 'a[href="#"],a[href=""]')) {
+            if (e.target.closest('a[href="#"],a[href=""]')) {
                 e.preventDefault();
             }
             this.close();
@@ -78,45 +94,38 @@ export default {
             if (this.timeout) {
                 this.timer = setTimeout(this.close, this.timeout);
             }
-        }
-
+        },
     },
 
     methods: {
+        async close(immediate) {
+            const removeFn = (el) => {
+                const container = parent(el);
 
-        close(immediate) {
+                trigger(el, 'close', [this]);
+                remove(el);
 
-            const removeFn = () => {
-
-                const container = this.$el.parentNode;
-
-                trigger(this.$el, 'close', [this]);
-                remove(this.$el);
-
-                if (container && !container.hasChildNodes()) {
+                if (!container?.hasChildNodes()) {
                     remove(container);
                 }
-
             };
 
             if (this.timer) {
                 clearTimeout(this.timer);
             }
 
-            if (immediate) {
-                removeFn();
-            } else {
-                Transition.start(this.$el, this.startProps).then(removeFn);
+            if (!immediate) {
+                await Transition.start(this.$el, this.startProps);
             }
-        }
 
-    }
-
+            removeFn(this.$el);
+        },
+    },
 };
 
 function install(UIkit) {
     UIkit.notification.closeAll = function (group, immediate) {
-        apply(document.body, el => {
+        apply(document.body, (el) => {
             const notification = UIkit.getComponent(el, 'notification');
             if (notification && (!group || group === notification.group)) {
                 notification.close(immediate);

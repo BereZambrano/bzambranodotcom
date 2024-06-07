@@ -1,54 +1,45 @@
+import { css } from 'uikit-util';
 import Class from '../mixin/class';
-import Slideshow from '../mixin/slideshow';
-import Animations from './internal/slideshow-animations';
+import SliderParallax from '../mixin/slider-parallax';
 import SliderReactive from '../mixin/slider-reactive';
-import {boxModelAdjust, css} from 'uikit-util';
+import Slideshow from '../mixin/slideshow';
+import SliderPreload from './internal/slider-preload';
+import Animations from './internal/slideshow-animations';
 
 export default {
-
-    mixins: [Class, Slideshow, SliderReactive],
+    mixins: [Class, Slideshow, SliderReactive, SliderParallax, SliderPreload],
 
     props: {
         ratio: String,
-        minHeight: Number,
-        maxHeight: Number
+        minHeight: String,
+        maxHeight: String,
     },
 
     data: {
         ratio: '16:9',
-        minHeight: false,
-        maxHeight: false,
+        minHeight: undefined,
+        maxHeight: undefined,
         selList: '.uk-slideshow-items',
         attrItem: 'uk-slideshow-item',
         selNav: '.uk-slideshow-nav',
-        Animations
+        Animations,
     },
 
-    update: {
-
-        read() {
-
-            let [width, height] = this.ratio.split(':').map(Number);
-
-            height = height * this.list.offsetWidth / width || 0;
-
-            if (this.minHeight) {
-                height = Math.max(this.minHeight, height);
-            }
-
-            if (this.maxHeight) {
-                height = Math.min(this.maxHeight, height);
-            }
-
-            return {height: height - boxModelAdjust(this.list, 'height', 'content-box')};
+    watch: {
+        list(list) {
+            css(list, {
+                aspectRatio: this.ratio ? this.ratio.replace(':', '/') : undefined,
+                minHeight: this.minHeight,
+                maxHeight: this.maxHeight,
+                minWidth: '100%',
+                maxWidth: '100%',
+            });
         },
+    },
 
-        write({height}) {
-            height > 0 && css(this.list, 'minHeight', height);
+    methods: {
+        getAdjacentSlides() {
+            return [1, -1].map((i) => this.slides[this.getIndex(this.index + i)]);
         },
-
-        events: ['resize']
-
-    }
-
+    },
 };

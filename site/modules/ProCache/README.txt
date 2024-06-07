@@ -1,14 +1,19 @@
 ProcessWire Pro Cache
 =====================
 
-Copyright 2017 by Ryan Cramer Design, LLC
+The ultimate cache and optimization tool for ProcessWire powered websites. 
+Static cache page delivery plus CDN, SCSS/LESS compile, CSS merge/minify, 
+JS merge/minify, HTML minify, asset buster, tweaks, .htaccess optimization, 
+live tests and more. 
 
-Read the more detailed HTML version of this README at: 
-https://processwire.com/api/modules/procache/
+Copyright 2023 by Ryan Cramer Design, LLC
+
+Read more about ProCache here:
+https://processwire.com/store/pro-cache/
 
 
-PLEASE DO NOT DISTRIBUTE
-========================
+DO NOT DISTRIBUTE
+=================
 
 This service/software is authorized for use only for the site it was 
 purchased for. It should not be distributed beyond the site you 
@@ -18,8 +23,44 @@ related to the site.
 You may register for a new site at: https://processwire.com/ProCache/
 
 
-ABOUT PROCACHE
-==============
+UPGRADING TO PROCACHE 4.x+ from a 3.x (or previous) version
+===========================================================
+
+If you are currently running an older version of ProCache and upgrading
+to a ProCache 4.x version, please follow these instructions.
+
+1. Rename your old /site/modules/ProCache/ to /site/modules/.ProCache/
+
+2. Upload the new ProCache files into /site/modules/ProCache/
+
+3. In your admin, navigate to Modules > Refresh. This will ensure that
+   ProcessWire sees the new module version. 
+
+4. Navigate to Setup > ProCache. It may tell you an .htaccess update
+   is needed, but since you are upgrading, this likely isn't the case.
+   Click to the Tweaks tab, locate the "Htaccess version" field, and 
+   select "v1". Save. If ProCache no longer tells you you need a new 
+   version, then you can leave your .htaccess file alone.
+  
+5. Please review these settings in your ProCache admin page:    
+   
+ - Review your settings on the Lifetime and Behaviors tabs, which have
+   some changes and new settings. Double check that everything is still
+   configured how you want it. 
+
+ - Review the new “How to handle trailing slashes” setting on the 
+   Tweaks tab to see if you want to utilize it. 
+
+ - If you are using LESS, review the new “Type of LESS compiler” field
+   on the Tweaks tab to see if you want to make any changes.    
+   
+ - If you are using SCSS, please note we have upgraded the SCSS compiler
+   version, so you may want to do a test change in your SCSS file(s) 
+   to make sure everything still works as you expect.    
+   
+
+PROCACHE STATIC CACHE
+=====================
 
 ProCache provides the ultimate performance for your website by 
 completely bypassing PHP and MySQL and enabling your web server to 
@@ -51,9 +92,10 @@ not, there is little doubt that you can benefit greatly from ProCache.
 REQUIREMENTS
 ============
 
-  * ProcessWire 2.7.3 or newer (ProCache 3.0)
-  * ProcessWire 2.5.3 or newer (ProCache 2.0)
-  * Apache web server or 100% compatible
+* ProcessWire 3.0.168+, 3.0.210+ recommended (ProCache 4.x)
+* ProcessWire 2.7.3+ (ProCache 3.x)
+* ProcessWire 2.5.3+ (ProCache 2.x)
+* Apache web server or 100% compatible
 
 
 BEFORE INSTALLING
@@ -61,12 +103,8 @@ BEFORE INSTALLING
 
 ProCache changes the way your website delivers pages. While it is both
 safe and easily reversible, make sure you have a full backup of your 
-website before installing ProCache.
-
-ProCache writes to your .htaccess file. It also removes any changes it
-makes if you uninstall ProCache. However, for good housekeeping, we 
-recommend you also backup your .htaccess file if you have modified it 
-from the default ProcessWire htaccess file. 
+website before installing ProCache. Most important is to have a backup
+of your .htaccess file in the root of your ProcessWire installation.
 
 
 HOW TO INSTALL
@@ -79,11 +117,11 @@ HOW TO INSTALL
 5. Go to Setup > Pro Cache and configure your Pro Cache settings. 
 
 
-USING PROCACHE
-==============
+USING STATIC CACHE
+==================
 
-ProCache is never running when you are logged-in, so you'll want to 
-test the results from another browser, or after logging out. 
+The static cache is never running when you are logged-in, so you'll want
+to test the results from another browser, or after logging out. 
 
 After making changes on the ProCache configuration screen, if you don't
 see your changes reflected on the front-end of your site, be sure to 
@@ -139,25 +177,27 @@ PROCACHE FROM THE API
 =====================
 
 ProCache provides a few public methods that you may use from the API
-side if you find it useful to do so. First, you'd want to have a copy
-of ProCache to call methods from:
-
-   $cache = wire('modules')->get('ProCache');
-
-You may execute the following commands from it: 
+side if you find it useful to do so. ProCache provides an API varible
+named $procache, which provides access to its methods. 
 
    // Manually clear the entire cache
-   $cache->clearAll();
+   $procache->clearAll();
 
    // Manually clear the cache for a page
-   $cache->clearPage($page); 
+   $procache->clearPage($page); 
 
    // Return the number of cached pages
-   $n = $cache->numCachedPages();
+   $n = $procache->numCachedPages();
 
    // Is the given page cached? Returns false if not, or array of 
    // page info if yes: array('/path/to/page' => 'date cached') 
    $info = $cache->pageInfo($page);
+   
+   // Turn cache off
+   $procache->toggleCache(false);
+   
+   // Turn cache on
+   $procache->toggleCache(true);
 
 
 CACHING OTHER CONTENT TYPES
@@ -212,17 +252,21 @@ If the cache does not appear to be working:
      will still be present that prevent caching. Try testing from 
      a new Incognito (Private Mode) browser window.
      
-  3. While rare, some servers need specific adjustments to the .htaccess 
-     file. In the rules that ProCache adds to it, try removing this 
-     string of text on the lines where it appears (with the trailing slash): 
+  3. Some servers need the server DOCUMENT ROOT to be specified manually
+     in the .htaccess file. But ProCache has a setting to manage it for you.  	
+     In your admin, go to Setup > ProCache > Origin and scroll to the bottom
+     where you will see a field called “Server document root path”. This 
+     represents the server’s path to the domain/host. Enter the server path
+     here and save. ProCache will update your .htaccess file, or it will ask
+     you to make an update. 
      
-     %{DOCUMENT_ROOT}\
+  4. If step 3 didn’t solve it, it’s possible that your server has a document
+     root path that is aliased or otherwise hidden. You may need to get this 
+     information from your web host. Or, if you have shell/SSH access to the
+     account, you can login, “cd” to your web root, and type “pwd” and enter.
+     It should reveal the actual document root path. Copy and paste into the
+     ProCache setting. 
      
-  4. If step 3 didn't solve it, try instead to replace that %{DOCUMENT_ROOT}
-     above with the actual server path to the document root. You can get this
-     information from phpinfo(); or if logged in to a shell on the server, you 
-     can reveal it by typing "pwd" and hit enter. 
-
 
 JS/CSS/SCSS/LESS MERGE AND MINIFY FROM THE API
 ==============================================
@@ -294,13 +338,11 @@ PROCACHE VIP SUPPORT
 
 Your ProCache service includes 1-year of VIP support through the ProcessWire 
 ProCache forum. In order to activate this service, you need to sign up for 
-a forum account at http://processwire.com/talk/ (if you don't already have one). 
+a forum account at https://processwire.com/talk/ (if you don't already have one). 
 
 Please send a private message (PM) to 'ryan' or contact us at: 
 https://processwire.com/contact/ and let us know what your forum name is so that 
 we can upgrade your member access.
-
-VIP support is also available by email: ryan@processwire.com
 
 
 HAVE QUESTIONS OR NEED HELP?
@@ -343,5 +385,4 @@ Thanks for using ProCache!
 ---
 
 ProcessWire ProCache
-Copyright 2017 by Ryan Cramer Design, LLC
-
+Copyright 2023 by Ryan Cramer Design, LLC

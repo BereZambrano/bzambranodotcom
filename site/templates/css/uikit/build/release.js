@@ -1,95 +1,122 @@
-const fs = require('fs');
-const {promisify} = require('util');
-const archiver = require('archiver');
-const inquirer = require('inquirer');
-const pkg = require('../package.json');
-const dateFormat = require('dateformat');
-const args = require('minimist')(process.argv);
-const {glob, logFile, read, write} = require('./util');
-const {coerce, inc, prerelease, valid} = require('semver');
-const exec = promisify(require('child_process').exec);
+import archiver from 'archiver';
+import dateFormat from 'dateformat/lib/dateformat.js';
+import { $ } from 'execa';
+import fs from 'fs';
+import { glob } from 'glob';
+import inquirer from 'inquirer';
+import semver from 'semver';
+import { args, getVersion, logFile, read, replaceInFile } from './util.js';
 
-inquireVersion(args.v || args.version)
-    .then(updateVersion)
-    .then(compile)
-    .then(createPackage)
-    .catch(({message}) => {
-        console.error(message);
-        process.exitCode = 1;
-    });
+const $$ = $({ stdio: 'inherit' });
+const prompt = inquirer.createPromptModule();
 
-async function inquireVersion(v) {
+if ((await $`git status --porcelain`).stdout.trim()) {
+    throw 'Repository contains uncommitted changes.';
+}
 
-    if (valid(v)) {
-        return v;
+const prevVersion = await getVersion();
+const version = await inquireVersion(args.v || args.version);
+
+await raiseVersion(version);
+
+await $$`pnpm compile`;
+await $$`pnpm compile-rtl`;
+await $$`pnpm build-scss`;
+
+await createPackage(version);
+
+if (args.d || args.deploy || (await inquireDeploy())) {
+    await deploy(version);
+}
+
+function isValidVersion(version) {
+    return semver.valid(version) && semver.gt(version, prevVersion);
+}
+
+async function inquireVersion(version) {
+    if (isValidVersion(version)) {
+        return version;
     }
 
-    const prompt = inquirer.createPromptModule();
-
-    const {version} = await prompt({
-        name: 'version',
-        message: 'Enter a version',
-        default: () => inc(pkg.version, prerelease(pkg.version) ? 'prerelease' : 'patch'),
-        validate: val => !!val.length || 'Invalid version'
-    });
-
-    return version;
-
+    return (
+        await prompt({
+            name: 'version',
+            message: 'Enter a version',
+            default: () =>
+                semver.inc(prevVersion, semver.prerelease(prevVersion) ? 'prerelease' : 'patch'),
+            validate: (val) => isValidVersion(val) || 'Invalid version',
+        })
+    ).version;
 }
 
-async function updateVersion(version) {
-    await Promise.all([
-        run(`npm version ${version} --git-tag-version false`),
-        replaceInFile('CHANGELOG.md', data => data.replace(/^##\s*WIP/m, `## ${versionFormat(version)} (${dateFormat(Date.now(), 'mmmm d, yyyy')})`)),
-        replaceInFile('.github/ISSUE_TEMPLATE/bug-report.md', data => data.replace(pkg.version, version)),
+function raiseVersion(version) {
+    return Promise.all([
+        $$`npm version ${version} --git-tag-version false`,
+        replaceInFile('CHANGELOG.md', (data) =>
+            data.replace(
+                /^##\s*WIP/m,
+                `## ${versionFormat(version)} (${dateFormat(Date.now(), 'mmmm d, yyyy')})`,
+            ),
+        ),
+        replaceInFile('.github/ISSUE_TEMPLATE/bug-report.md', (data) =>
+            data.replace(prevVersion, version),
+        ),
     ]);
-
-    return version;
-}
-
-async function compile(version) {
-    await sequential([
-        () => run('yarn compile'),
-        () => run('yarn compile-rtl'),
-        () => run('yarn build-scss')
-    ]);
-
-    return version;
 }
 
 async function createPackage(version) {
-    return new Promise(async resolve => {
-        const archive = archiver('zip');
-        const file = `dist/uikit-${version}.zip`;
+    const dest = `dist/uikit-${version}.zip`;
+    const archive = archiver('zip');
 
-        archive.pipe(fs.createWriteStream(file).on('close', () => {
-            logFile(file);
-            resolve();
-        }));
-        await globToArchive(archive, 'dist/{js,css}/uikit?(-icons|-rtl)?(.min).{js,css}');
-        archive.finalize();
-    });
+    archive.pipe(fs.createWriteStream(dest));
+
+    for (const file of await glob('dist/{js,css}/uikit?(-icons|-rtl)?(.min).{js,css}')) {
+        archive.file(file, { name: file.slice(5) });
+    }
+
+    await archive.finalize();
+    await logFile(dest);
 }
 
 function versionFormat(version) {
-    return [coerce(version).version].concat(prerelease(version) || []).join(' ');
+    return [semver.coerce(version).version].concat(semver.prerelease(version) || []).join(' ');
 }
 
-async function replaceInFile(file, fn) {
-    await write(file, fn(await read(file)));
+async function inquireDeploy() {
+    return (
+        await prompt({
+            name: 'deploy',
+            type: 'confirm',
+            message: 'Do you want to deploy the release?',
+            default: true,
+        })
+    ).deploy;
 }
 
-async function globToArchive(archive, pattern) {
-    await glob(pattern).then(files => files.forEach(file => archive.file(file, {name: file.substring(5)})));
-}
+async function deploy(version) {
+    const tag = `v${version}`;
+    const branch = `release/v${version}`;
 
-async function sequential(tasks) {
-    await tasks.reduce((promise, task) => promise.then(task), Promise.resolve());
-}
+    await $$`git checkout -b ${branch}`;
+    await $$`git stage --all`;
+    await $$`git commit -am v${version}`;
 
-async function run(cmd) {
-    const {stdout, stderr} = await exec(cmd);
+    await $$`git checkout main`;
+    await $$`git merge ${branch} --commit --no-ff -m ${`Merge branch '${branch}'`}`;
+    await $$`git tag ${tag}`;
 
-    stdout && console.log(stdout.trim());
-    stderr && console.log(stderr.trim());
+    await $$`git checkout develop`;
+    await $$`git merge ${tag} --commit --no-ff -m ${`Merge tag '${tag}' into develop`}`;
+
+    await $$`git branch --delete ${branch}`;
+
+    await $$`git push origin develop`;
+    await $$`git push origin main --tags`;
+
+    await $$`pnpm publish --no-git-checks`;
+
+    const notes = (await read('./Changelog.md'))
+        .match(/## \d.*?$\s*(.*?)\s*(?=## \d)/ms)[1]
+        .replace(/(["`])/g, '\\$1');
+    await $$`gh release create v${version} --notes ${notes} ./dist/uikit-${version}.zip`;
 }

@@ -74,8 +74,17 @@
         </div>
 
         <hr>
+        <?php
+        $alignment = "uk-flex-between";
+        if(!$page->next()->id){
+            $alignment = " uk-flex-left";
+        }
+        if(!$page->prev()->id){
+            $alignment = " uk-flex-right";
+        }
 
-        <div div class="uk-grid uk-visible@m uk-flex-between uk-child-width-1-2" uk-grid>
+        ?>
+        <div div class="<?=$alignment?> uk-grid uk-visible@m uk-child-width-1-2" uk-grid>
             <?php if($page->prev()->id):?>
             <div class=" uk-child-width-1-3@m uk-flex-left uk-grid-small" uk-grid>
                 <div>

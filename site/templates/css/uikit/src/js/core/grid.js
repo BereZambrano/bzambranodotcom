@@ -1,9 +1,19 @@
-import Margin from './margin';
+import {
+    addClass,
+    css,
+    hasClass,
+    isRtl,
+    scrolledOver,
+    sumBy,
+    toFloat,
+    toggleClass,
+    toPx,
+} from 'uikit-util';
+import { scroll } from '../api/observables';
 import Class from '../mixin/class';
-import {addClass, children, css, height as getHeight, hasClass, scrolledOver, sortBy, toFloat, toggleClass, Transition} from 'uikit-util';
+import Margin from './margin';
 
 export default {
-
     extends: Margin,
 
     mixins: [Class],
@@ -12,137 +22,189 @@ export default {
 
     props: {
         masonry: Boolean,
-        parallax: Number
+        parallax: String,
+        parallaxStart: String,
+        parallaxEnd: String,
+        parallaxJustify: Boolean,
     },
 
     data: {
         margin: 'uk-grid-margin',
         clsStack: 'uk-grid-stack',
         masonry: false,
-        parallax: 0
+        parallax: 0,
+        parallaxStart: 0,
+        parallaxEnd: 0,
+        parallaxJustify: false,
     },
 
     connected() {
-        this.masonry && addClass(this.$el, 'uk-flex-top uk-flex-wrap-top');
+        this.masonry && addClass(this.$el, 'uk-flex-top', 'uk-flex-wrap-top');
     },
 
+    observe: scroll({ filter: ({ parallax, parallaxJustify }) => parallax || parallaxJustify }),
+
     update: [
-
         {
-
-            write({columns}) {
-                toggleClass(this.$el, this.clsStack, columns.length < 2);
+            write({ rows }) {
+                toggleClass(this.$el, this.clsStack, !rows.some((row) => row.length > 1));
             },
 
-            events: ['resize']
-
+            events: ['resize'],
         },
 
         {
+            read(data) {
+                const { rows } = data;
+                let { masonry, parallax, parallaxJustify, margin } = this;
 
-            read({columns, rows}) {
+                parallax = Math.max(0, toPx(parallax));
 
-                const nodes = children(this.$el);
-
-                if (!nodes.length || !this.masonry && !this.parallax) {
-                    return false;
+                // Filter component makes elements positioned absolute
+                if (
+                    !(masonry || parallax || parallaxJustify) ||
+                    positionedAbsolute(rows) ||
+                    rows[0].some((el, i) =>
+                        rows.some((row) => row[i] && row[i].offsetWidth !== el.offsetWidth),
+                    )
+                ) {
+                    return (data.translates = data.scrollColumns = false);
                 }
 
-                const transitionInProgress = nodes.some(Transition.inProgress);
-                let translates = false;
+                let gutter = getGutter(rows, margin);
 
-                const columnHeights = getColumnHeights(columns);
-                const margin = getMarginTop(nodes, this.margin) * (rows.length - 1);
-                const elHeight = Math.max(...columnHeights) + margin;
-
-                if (this.masonry) {
-                    columns = columns.map(column => sortBy(column, 'offsetTop'));
-                    translates = getTranslates(rows, columns);
+                let columns;
+                let translates;
+                if (masonry) {
+                    [columns, translates] = applyMasonry(rows, gutter, masonry === 'next');
+                } else {
+                    columns = transpose(rows);
                 }
 
-                let padding = Math.abs(this.parallax);
-                if (padding) {
-                    padding = columnHeights.reduce((newPadding, hgt, i) =>
-                            Math.max(newPadding, hgt + margin + (i % 2 ? padding : padding / 8) - elHeight)
-                        , 0);
+                const columnHeights = columns.map(
+                    (column) => sumBy(column, 'offsetHeight') + gutter * (column.length - 1),
+                );
+                const height = Math.max(0, ...columnHeights);
+
+                let scrollColumns;
+                let parallaxStart;
+                let parallaxEnd;
+                if (parallax || parallaxJustify) {
+                    scrollColumns = columnHeights.map((hgt, i) =>
+                        parallaxJustify ? height - hgt + parallax : parallax / (i % 2 || 8),
+                    );
+                    if (!parallaxJustify) {
+                        parallax = Math.max(
+                            ...columnHeights.map((hgt, i) => hgt + scrollColumns[i] - height),
+                        );
+                    }
+                    parallaxStart = toPx(this.parallaxStart, 'height', this.$el, true);
+                    parallaxEnd = toPx(this.parallaxEnd, 'height', this.$el, true);
                 }
 
-                return {padding, columns, translates, height: transitionInProgress ? false : this.masonry ? elHeight : ''};
-
-            },
-
-            write({height, padding}) {
-
-                css(this.$el, 'paddingBottom', padding || '');
-                height !== false && css(this.$el, 'height', height);
-
-            },
-
-            events: ['resize']
-
-        },
-
-        {
-
-            read({height}) {
                 return {
-                    scrolled: this.parallax
-                        ? scrolledOver(this.$el, height ? height - getHeight(this.$el) : 0) * Math.abs(this.parallax)
-                        : false
+                    columns,
+                    translates,
+                    scrollColumns,
+                    parallaxStart,
+                    parallaxEnd,
+                    padding: parallax,
+                    height: translates ? height : '',
                 };
             },
 
-            write({columns, scrolled, translates}) {
+            write({ height, padding }) {
+                css(this.$el, 'paddingBottom', padding || '');
+                height !== false && css(this.$el, 'height', height);
+            },
 
-                if (scrolled === false && !translates) {
+            events: ['resize'],
+        },
+
+        {
+            read({ rows, scrollColumns, parallaxStart, parallaxEnd }) {
+                return {
+                    scrolled:
+                        scrollColumns && !positionedAbsolute(rows)
+                            ? scrolledOver(this.$el, parallaxStart, parallaxEnd)
+                            : false,
+                };
+            },
+
+            write({ columns, scrolled, scrollColumns, translates }) {
+                if (!scrolled && !translates) {
                     return;
                 }
 
                 columns.forEach((column, i) =>
-                    column.forEach((el, j) =>
-                        css(el, 'transform', !scrolled && !translates ? '' : `translateY(${
-                            (translates && -translates[i][j]) + (scrolled ? i % 2 ? scrolled : scrolled / 8 : 0)
-                        }px)`)
-                    )
-                );
+                    column.forEach((el, j) => {
+                        let [x, y] = (translates && translates[i][j]) || [0, 0];
 
+                        if (scrolled) {
+                            y += scrolled * scrollColumns[i];
+                        }
+
+                        css(el, 'transform', `translate(${x}px, ${y}px)`);
+                    }),
+                );
             },
 
-            events: ['scroll', 'resize']
-
-        }
-
-    ]
-
+            events: ['scroll', 'resize'],
+        },
+    ],
 };
 
-function getTranslates(rows, columns) {
-
-    const rowHeights = rows.map(row =>
-        Math.max(...row.map(el => el.offsetHeight))
-    );
-
-    return columns.map(elements => {
-        let prev = 0;
-        return elements.map((element, row) =>
-            prev += row
-                ? rowHeights[row - 1] - elements[row - 1].offsetHeight
-                : 0
-        );
-    });
+function positionedAbsolute(rows) {
+    return rows.flat().some((el) => css(el, 'position') === 'absolute');
 }
 
-function getMarginTop(nodes, cls) {
+function applyMasonry(rows, gutter, next) {
+    const columns = [];
+    const translates = [];
+    const columnHeights = Array(rows[0].length).fill(0);
+    let rowHeights = 0;
+    for (let row of rows) {
+        if (isRtl) {
+            row = row.reverse();
+        }
 
-    const [node] = nodes.filter(el => hasClass(el, cls));
+        let height = 0;
+        for (const j in row) {
+            const { offsetWidth, offsetHeight } = row[j];
+            const index = next ? j : columnHeights.indexOf(Math.min(...columnHeights));
+            push(columns, index, row[j]);
+            push(translates, index, [
+                (index - j) * offsetWidth * (isRtl ? -1 : 1),
+                columnHeights[index] - rowHeights,
+            ]);
+            columnHeights[index] += offsetHeight + gutter;
+            height = Math.max(height, offsetHeight);
+        }
 
-    return toFloat(node
-        ? css(node, 'marginTop')
-        : css(nodes[0], 'paddingLeft'));
+        rowHeights += height + gutter;
+    }
+
+    return [columns, translates];
 }
 
-function getColumnHeights(columns) {
-    return columns.map(column =>
-        column.reduce((sum, el) => sum + el.offsetHeight, 0)
-    );
+function getGutter(rows, cls) {
+    const node = rows.flat().find((el) => hasClass(el, cls));
+    return toFloat(node ? css(node, 'marginTop') : css(rows[0][0], 'paddingLeft'));
+}
+
+function transpose(rows) {
+    const columns = [];
+    for (const row of rows) {
+        for (const i in row) {
+            push(columns, i, row[i]);
+        }
+    }
+    return columns;
+}
+
+function push(array, index, value) {
+    if (!array[index]) {
+        array[index] = [];
+    }
+    array[index].push(value);
 }

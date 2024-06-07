@@ -1,70 +1,62 @@
-import {Promise} from './promise';
 /*
     Based on:
     Copyright (c) 2016 Wilson Page wilsonpage@me.com
     https://github.com/wilsonpage/fastdom
 */
 
-export const fastdom = {
+export const fastdom = { read, write, clear, flush };
 
-    reads: [],
-    writes: [],
+const reads = [];
+const writes = [];
 
-    read(task) {
-        this.reads.push(task);
+function read(task) {
+    reads.push(task);
+    scheduleFlush();
+    return task;
+}
+
+function write(task) {
+    writes.push(task);
+    scheduleFlush();
+    return task;
+}
+
+function clear(task) {
+    remove(reads, task);
+    remove(writes, task);
+}
+
+let scheduled = false;
+function flush() {
+    runTasks(reads);
+    runTasks(writes.splice(0));
+
+    scheduled = false;
+
+    if (reads.length || writes.length) {
         scheduleFlush();
-        return task;
-    },
-
-    write(task) {
-        this.writes.push(task);
-        scheduleFlush();
-        return task;
-    },
-
-    clear(task) {
-        return remove(this.reads, task) || remove(this.writes, task);
-    },
-
-    flush
-
-};
-
-function flush(recursion = 1) {
-    runTasks(fastdom.reads);
-    runTasks(fastdom.writes.splice(0, fastdom.writes.length));
-
-    fastdom.scheduled = false;
-
-    if (fastdom.reads.length || fastdom.writes.length) {
-        scheduleFlush(recursion + 1);
     }
 }
 
-const RECURSION_LIMIT = 4;
-function scheduleFlush(recursion) {
-
-    if (fastdom.scheduled) {
-        return;
+function scheduleFlush() {
+    if (!scheduled) {
+        scheduled = true;
+        queueMicrotask(flush);
     }
-
-    fastdom.scheduled = true;
-    if (recursion && recursion < RECURSION_LIMIT) {
-        Promise.resolve().then(() => flush(recursion));
-    } else {
-        requestAnimationFrame(() => flush());
-    }
-
 }
 
 function runTasks(tasks) {
     let task;
     while ((task = tasks.shift())) {
-        task();
+        try {
+            task();
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
 
 function remove(array, item) {
     const index = array.indexOf(item);
-    return !!~index && !!array.splice(index, 1);
+    return ~index && array.splice(index, 1);
 }

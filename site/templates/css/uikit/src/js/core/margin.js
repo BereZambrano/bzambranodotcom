@@ -1,119 +1,107 @@
-import {includes, isRtl, isVisible, offsetPosition, toggleClass} from 'uikit-util';
+import { children, isRtl, isVisible, offsetPosition, toggleClass } from 'uikit-util';
+import { mutation, resize } from '../api/observables';
 
 export default {
-
     props: {
         margin: String,
-        firstColumn: Boolean
+        firstColumn: Boolean,
     },
 
     data: {
         margin: 'uk-margin-small-top',
-        firstColumn: 'uk-first-column'
+        firstColumn: 'uk-first-column',
     },
 
+    observe: [
+        mutation({
+            options: {
+                childList: true,
+            },
+        }),
+        mutation({
+            options: {
+                attributes: true,
+                attributeFilter: ['style'],
+            },
+            target: ({ $el }) => [$el, ...children($el)],
+        }),
+        resize({
+            target: ({ $el }) => [$el, ...children($el)],
+        }),
+    ],
+
     update: {
-
         read() {
-
-            const rows = getRows(this.$el.children);
-
             return {
-                rows,
-                columns: getColumns(rows)
+                rows: getRows(children(this.$el)),
             };
         },
 
-        write({columns, rows}) {
-            rows.forEach((row, i) =>
-                row.forEach(el => {
-                    toggleClass(el, this.margin, i !== 0);
-                    toggleClass(el, this.firstColumn, includes(columns[0], el));
-                })
-            );
+        write({ rows }) {
+            for (const row of rows) {
+                for (const el of row) {
+                    toggleClass(el, this.margin, rows[0] !== row);
+                    toggleClass(el, this.firstColumn, row[isRtl ? row.length - 1 : 0] === el);
+                }
+            }
         },
 
-        events: ['resize']
-
-    }
-
+        events: ['resize'],
+    },
 };
 
-export function getRows(items) {
-    return sortBy(items, 'top', 'bottom');
-}
-
-function getColumns(rows) {
-
-    const columns = [[]];
-
-    rows.forEach(row =>
-        sortBy(row, 'left', 'right').forEach((column, i) =>
-            columns[i] = !columns[i] ? column : columns[i].concat(column)
-        )
+export function getRows(elements) {
+    const sorted = [[]];
+    const withOffset = elements.some(
+        (el, i) => i && elements[i - 1].offsetParent !== el.offsetParent,
     );
 
-    return isRtl
-        ? columns.reverse()
-        : columns;
-}
-
-function sortBy(items, startProp, endProp) {
-
-    const sorted = [[]];
-
-    for (let i = 0; i < items.length; i++) {
-
-        const el = items[i];
-
+    for (const el of elements) {
         if (!isVisible(el)) {
             continue;
         }
 
-        let dim = getOffset(el);
+        const offset = getOffset(el, withOffset);
 
-        for (let j = sorted.length - 1; j >= 0; j--) {
-
-            const current = sorted[j];
+        for (let i = sorted.length - 1; i >= 0; i--) {
+            const current = sorted[i];
 
             if (!current[0]) {
                 current.push(el);
                 break;
             }
 
-            let startDim;
-            if (current[0].offsetParent === el.offsetParent) {
-                startDim = getOffset(current[0]);
-            } else {
-                dim = getOffset(el, true);
-                startDim = getOffset(current[0], true);
-            }
+            const offsetCurrent = getOffset(current[0], withOffset);
 
-            if (dim[startProp] >= startDim[endProp] - 1 && dim[startProp] !== startDim[startProp]) {
+            if (offset.top >= offsetCurrent.bottom - 1 && offset.top !== offsetCurrent.top) {
                 sorted.push([el]);
                 break;
             }
 
-            if (dim[endProp] - 1 > startDim[startProp] || dim[startProp] === startDim[startProp]) {
-                current.push(el);
+            if (offset.bottom - 1 > offsetCurrent.top || offset.top === offsetCurrent.top) {
+                let j = current.length - 1;
+                for (; j >= 0; j--) {
+                    const offsetCurrent = getOffset(current[j], withOffset);
+                    if (offset.left >= offsetCurrent.left) {
+                        break;
+                    }
+                }
+                current.splice(j + 1, 0, el);
                 break;
             }
 
-            if (j === 0) {
+            if (i === 0) {
                 sorted.unshift([el]);
                 break;
             }
-
         }
-
     }
 
     return sorted;
 }
 
 function getOffset(element, offset = false) {
-
-    let {offsetTop, offsetLeft, offsetHeight, offsetWidth} = element;
+    let { offsetTop, offsetLeft, offsetHeight, offsetWidth } = element;
 
     if (offset) {
         [offsetTop, offsetLeft] = offsetPosition(element);
@@ -123,6 +111,6 @@ function getOffset(element, offset = false) {
         top: offsetTop,
         left: offsetLeft,
         bottom: offsetTop + offsetHeight,
-        right: offsetLeft + offsetWidth
+        right: offsetLeft + offsetWidth,
     };
 }

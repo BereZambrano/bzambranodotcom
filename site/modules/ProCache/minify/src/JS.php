@@ -101,7 +101,14 @@ class JS extends Minify
      */
     public function __construct()
     {
-        call_user_func_array(array('parent', '__construct'), func_get_args());
+		// RJC ---
+	    // call_user_func_array(array('parent', '__construct'), func_get_args());
+		if(count(func_get_args())) {
+			call_user_func_array(array('parent', '__construct'), func_get_args());
+        } else {
+			parent::__construct();
+		}
+		// --- END RJC
 
         $dataDir = __DIR__.'/../data/js/';
         $options = FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES;

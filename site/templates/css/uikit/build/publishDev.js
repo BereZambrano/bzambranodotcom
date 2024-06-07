@@ -1,42 +1,33 @@
-const {inc} = require('semver');
-const {resolve} = require('path');
-const {execSync} = require('child_process');
-const argv = require('minimist')(process.argv.slice(2));
+import { $ } from 'execa';
+import semver from 'semver';
+import { args, getVersion } from './util.js';
 
-argv._.forEach(arg => {
-    const tokens = arg.split('=');
-    argv[tokens[0]] = tokens[1] || true;
-});
+const $$ = $({ stdio: 'inherit' });
 
 // default exec options
-const options = {cwd: resolve(`${__dirname}/..`), encoding: 'utf8'};
-
-if (isDevCommit() || argv.f || argv.force) {
-
+if (args.f || args.force || (await isDevCommit())) {
     // increase version patch number
-    const version = inc(require('../package.json').version, 'patch');
+    const version = semver.inc(await getVersion(), 'patch');
 
     // get current git hash
-    const hash = execSync('git rev-parse --short HEAD', options).trim();
+    const hash = (await $`git rev-parse --short HEAD`).stdout.trim();
 
     // set version of package.json
-    execSync(`npm version ${version}-dev.${hash} --git-tag-version false`, {...options, stdio: 'inherit'});
+    await $$`pnpm version ${version}-dev.${hash} --no-git-tag-version`;
 
     // create dist files
-    execSync('yarn compile && yarn compile-rtl && yarn build-scss', {...options, stdio: 'inherit'});
+    await $$`pnpm compile`;
+    await $$`pnpm compile-rtl`;
+    await $$`pnpm build-scss`;
 
     // publish to dev tag
-    execSync('npm publish --tag dev', options);
-
+    await $$`pnpm publish --tag dev --no-git-checks`;
 }
 
-function isDevCommit() {
-
+async function isDevCommit() {
     // check for changes to publish (%B: raw body (unwrapped subject and body)
-    const message = execSync('git log -1 --pretty=%B', options);
+    const message = (await $`git log -1 --pretty=%B`).stdout.trim();
 
-    const type = message.match(/^(revert: )?(feat|fix|polish|docs|style|refactor|perf|test|workflow|ci|chore|types)(\(.+\))?: .{1,50}/);
-
-    return type && ['feat', 'fix', 'refactor', 'perf'].includes(type[2]);
-
+    // https://www.conventionalcommits.org/en/v1.0.0/
+    return Boolean(message.match(/^(revert: )?(feat|fix|refactor|perf)(\(.+\))?: .{1,50}/));
 }

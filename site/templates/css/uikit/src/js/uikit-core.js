@@ -1,16 +1,10 @@
-import UIkit from './api/index';
-import Core from './core/core';
+import { each } from 'uikit-util';
 import boot from './api/boot';
+import UIkit from './api/index';
 import * as components from './core/index';
-import {each} from './util/lang';
 
 // register components
-each(components, (component, name) =>
-    UIkit.component(name, component)
-);
-
-// core functionality
-UIkit.use(Core);
+each(components, (component, name) => UIkit.component(name, component));
 
 boot(UIkit);
 

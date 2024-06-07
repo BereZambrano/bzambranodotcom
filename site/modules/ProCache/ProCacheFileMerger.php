@@ -1,9 +1,9 @@
-<?php
+<?php namespace ProcessWire;
 
 /**
  * ProcessWire Pro Cache: File Merger
  *
- * Copyright (C) 2017 by Ryan Cramer
+ * Copyright (C) 2023 by Ryan Cramer
  *
  * This is a commercially licensed and supported module
  * DO NOT DISTRIBUTE
@@ -28,7 +28,8 @@ class ProCacheFileMerger extends Wire {
 	protected $maxImportSizeCSS = 5; 
 	protected $hashSRI = '';
 	protected $scss = null;
-	protected $less = null; 
+	protected $less = null;
+	protected $procache = null;
 	
 	const debug = false;  // when true, files are re-created on every merge
 
@@ -41,20 +42,34 @@ class ProCacheFileMerger extends Wire {
 	 * 
 	 */
 	public function __construct(array $files = array(), $destination = '') {
-		$this->source = $this->wire('config')->paths->templates;
-		if($destination) {
-			$this->setDestination($destination);
-		} else {
-			$destination = $this->wire('config')->paths->assets . $this->prefix . '/';
+		parent::__construct();
+		$config = $this->wire()->config;
+		$this->source = $config->paths->templates;
+		if(empty($destination)) {
+			$destination = $config->paths->assets . $this->prefix . '/';
 			if(!is_dir($destination)) wireMkdir($destination);
-			$this->setDestination($destination);
 		}
+		$this->setDestination($destination);
 		$src = dirname(__FILE__) . '/minify/src/';
 		foreach(array('Exception', 'Minify', 'Converter', 'CSS', 'JS') as $f) {
-			require_once("$src$f.php");
+			$ns = "\\MatthiasMullie\\" . ($f === 'Converter' ? 'PathConverter' : 'Minify');
+			if(!class_exists("$ns\\$f", false)) require_once("$src$f.php");
 		}
 		if(count($files)) $this->merge($files);
 		return $this; 
+	}
+
+	/**
+	 * Get or set ProCache instance
+	 * 
+	 * @param ProCache|null $procache
+	 * @return ProCache
+	 * 
+	 */
+	public function procache(ProCache $procache = null) {
+		if($procache) $this->procache = $procache;
+		if(!$this->procache) $this->procache = $this->wire('procache');
+		return $this->procache;
 	}
 
 	/**
@@ -111,7 +126,8 @@ class ProCacheFileMerger extends Wire {
 	
 	public function getDestination($url = false) {
 		if(!$url) return $this->destination;
-		return str_replace($this->wire('config')->paths->root, $this->wire('config')->urls->root, $this->destination);
+		$config = $this->wire()->config;
+		return str_replace($config->paths->root, $config->urls->root, $this->destination);
 	}
 
 	/**
@@ -122,8 +138,9 @@ class ProCacheFileMerger extends Wire {
 	 * 
 	 */
 	public function setExpiration($seconds) {
-		$this->expiredSeconds = (int) $seconds; 
-		$this->refreshSeconds = floor($seconds / 2);
+		$seconds = (int) $seconds;
+		$this->expiredSeconds = $seconds; 
+		$this->refreshSeconds = ($seconds ? floor($seconds / 2) : 0);
 		return $this; 
 	}
 
@@ -149,7 +166,7 @@ class ProCacheFileMerger extends Wire {
 	 * 
 	 */
 	public function setPrefix($prefix) {
-		if($prefix) $this->prefix = $this->wire('sanitizer')->name($prefix);
+		if($prefix) $this->prefix = $this->wire()->sanitizer->name($prefix);
 		return $this;
 	}
 
@@ -212,7 +229,10 @@ class ProCacheFileMerger extends Wire {
 	 * 
 	 */
 	public function url() {
-		$url = str_replace($this->wire('config')->paths->root, $this->wire('config')->urls->root, $this->mergedFilename);
+		$config = $this->wire()->config;
+		$cnt = 0;
+		$url = str_replace($config->paths->assets, $config->urls->assets, $this->mergedFilename, $cnt); 
+		if(!$cnt) $url = str_replace($config->paths->root, $config->urls->root, $url);
 		return $url;
 	}
 
@@ -229,7 +249,7 @@ class ProCacheFileMerger extends Wire {
 	/**
 	 * Given an array of file URLs, convert them to file system paths
 	 * 
-	 * @param string|array $files Can be array or CSV string
+	 * @param string|array|WireArray $files Can be array or CSV string
 	 * @return array
 	 * 
 	 */
@@ -245,10 +265,13 @@ class ProCacheFileMerger extends Wire {
 				$files[$key] = trim($file); 
 				if(!strlen($file)) unset($files[$key]); 
 			}
+		} else if($files instanceof WireArray) {
+			$files = $files->getArray();
 		}
 		if(!is_array($files)) return array();
-		$rootPath = $this->wire('config')->paths->root;
-		$rootURL = $this->wire('config')->urls->root; 
+		$config = $this->wire()->config;
+		$rootPath = $config->paths->root;
+		$rootURL = $config->urls->root; 
 		foreach($files as $key => $file) {
 			if(strpos($file, '/') !== 0) $file = $this->source . $file;
 			if(strpos($file, $rootPath) !== 0) {
@@ -263,11 +286,11 @@ class ProCacheFileMerger extends Wire {
 	}
 	
 	public function getMinifierJS() {
-		return new MatthiasMullie\Minify\JS();
+		return new \MatthiasMullie\Minify\JS();
 	}
 	
 	public function getMinifierCSS() {
-		$minifier = new MatthiasMullie\Minify\CSS();
+		$minifier = new \MatthiasMullie\Minify\CSS();
 		$minifier->setMaxImportSize($this->maxImportSizeCSS);
 		return $minifier;
 	}
@@ -277,9 +300,10 @@ class ProCacheFileMerger extends Wire {
 	 * 
 	 * To retrieve the result, call the $this->url() method or append ->url() to your merge call.
 	 * 
-	 * @param string|array $files Array or CSV string of file URLs
-	 * @param bool $minify Also minify the files? (default=true)
+	 * @param string|array|WireArray $files Array or CSV string of file URLs
+	 * @param bool $minify Also minify the files? (default=false)
 	 * @param bool $sri Return file that is named with its subresource integrity hash? (excludes leading "sha256-")
+	 *  - Warning: the $sri option can add significant overhead, do not call on every request
 	 * @return $this
 	 * 
 	 */
@@ -292,7 +316,7 @@ class ProCacheFileMerger extends Wire {
 		
 		if(is_file($targetFilename) && !self::debug) {
 			// use existing merge
-			if(filemtime($targetFilename) < time() - $this->refreshSeconds) {
+			if($this->refreshSeconds && filemtime($targetFilename) < (time() - $this->refreshSeconds)) {
 				// update mtime to prevent it from being cleaned out
 				touch($targetFilename);
 			}
@@ -312,16 +336,16 @@ class ProCacheFileMerger extends Wire {
 				foreach($files as $file) {
 					if($targetExt === 'css') {
 						$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-						if($ext == 'scss' || $ext == 'sass') {
+						if($ext === 'scss' || $ext === 'sass') {
 							$minifier->addString($this->compileSCSS($file), $file);
-						} else if($ext == 'less') {
+						} else if($ext === 'less') {
 							$minifier->addString($this->compileLESS($file), $file);
 						} else {
-							$minifier->add($file);
+							$minifier->addFile($file);
 						}
 						
 					} else {
-						$minifier->add($file);
+						$minifier->addFile($file);
 					}
 				}
 				$minifier->minify($targetFilename);
@@ -335,10 +359,14 @@ class ProCacheFileMerger extends Wire {
 			foreach($files as $file) {
 				if($targetExt === 'css') {
 					$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-					if($ext == 'scss' || $ext == 'sass') {
+					if($ext === 'scss' || $ext === 'sass') {
 						$css = $this->compileSCSS($file);
-						$this->updateCSS($css, $file); 
-						fwrite($fp, $css); 
+						$this->updateCSS($css, $file);
+						fwrite($fp, $css);
+					} else if($ext === 'less') {
+						$css = $this->compileLESS($file);
+						$this->updateCSS($css, $file);
+						fwrite($fp, $css);
 					} else {
 						fwrite($fp, $this->getFileContents($file));
 					}
@@ -357,10 +385,12 @@ class ProCacheFileMerger extends Wire {
 			$hash = base64_encode($hash);
 			$this->hashSRI = "sha256-$hash";
 			$hashFilename = "$this->destination$this->prefix-$hash.$targetData[ext]";
-			if(is_file($hashFilename)) unlink($hashFilename);
-			rename($targetFilename, $hashFilename);
-			wireChmod($hashFilename);
-			$targetFilename = $hashFilename;
+			if(is_file($hashFilename) && $hashFilename != $targetFilename) {
+				unlink($hashFilename);
+				rename($targetFilename, $hashFilename);
+				wireChmod($hashFilename);
+				$targetFilename = $hashFilename;
+			}
 		}
 		
 		$this->mergedFilename = $targetFilename;
@@ -396,18 +426,65 @@ class ProCacheFileMerger extends Wire {
 	/**
 	 * Clean up the merged file cache, removing old/expired files
 	 * 
+	 * @param string $ext Clean only files with this extension
+	 * @param int $expiredSeconds Clear only files older than this many seconds (default=$this->expiredSeconds)
 	 * @return int Number of files cleaned out
 	 * 
 	 */
-	public function clean() {
-		static $cleaned = false;
-		if($cleaned) return 0; // don't allow this to run more than once per request
+	public function clean($ext = '', $expiredSeconds = 0) {
+		static $cleaned = '';
+
+		// don't allow this to run more than once per request
+		if($ext && strpos($cleaned, ",$ext,") !== false) return 0; 
+		if($cleaned === "*") return 0;
+		
+		if(!$expiredSeconds) $expiredSeconds = $this->expiredSeconds;
+		if(!$expiredSeconds) return 0;
+	
 		$numRemoved = 0;
-		foreach($this->getFiles() as $file) {
-			if(filemtime($file) >= time() - $this->expiredSeconds) continue;
-			if(@unlink($file)) $numRemoved++;
+		$files = $this->wire()->files;
+		$newestFile = '';
+		$newestMtime = 0;
+		$removeFiles = array();
+		
+		foreach($this->getFiles($ext) as $file) {
+			$mtime = filemtime($file);
+			if($mtime >= $newestMtime) list($newestFile, $newestMtime) = array($file, $mtime);
+			if($mtime >= time() - $expiredSeconds) continue;
+			$removeFiles[] = $file;
 		}
-		$cleaned = true;
+		
+		foreach($removeFiles as $file) {
+			if($file === $newestFile) continue; // never remove newest version
+			if($files->unlink($file)) $numRemoved++;
+		}
+	
+		$cleaned = ($ext ? "$cleaned,$ext," : "*");
+		
+		return $numRemoved; 
+	}
+
+	/**
+	 * Clear files by basename
+	 * 
+	 * @param array|string $basenames
+	 * @return int
+	 * 
+	 */
+	public function clearFiles($basenames) {
+		if(!is_array($basenames)) $basenames = array($basenames);
+		$numRemoved = 0;
+		$files = $this->wire()->files;
+		foreach($this->getFiles() as $file) {
+			$basename = basename($file);
+			foreach($basenames as $key => $name) {
+				if($name === $basename) {
+					if($files->unlink($file)) $numRemoved++;
+					unset($basenames[$key]); 
+				}
+			}
+			if(!count($basenames)) break;
+		}
 		return $numRemoved; 
 	}
 
@@ -420,12 +497,9 @@ class ProCacheFileMerger extends Wire {
 	 */
 	public function clear($ext = '') {
 		$numRemoved = 0;
+		$files = $this->wire()->files;
 		foreach($this->getFiles($ext) as $file) {
-			if(unlink($file)) {
-				$numRemoved++;
-			} else {
-				$this->warning("Error removing " . $file); 
-			}
+			if($files->unlink($file)) $numRemoved++;
 		}
 		return $numRemoved; 
 	}
@@ -441,7 +515,7 @@ class ProCacheFileMerger extends Wire {
 		$files = array();
 		$prefix = $this->prefix . '-';
 		$expectedLength = $this->hashLength + strlen($prefix); 
-		foreach(new DirectoryIterator($this->destination) as $file) {
+		foreach(new \DirectoryIterator($this->destination) as $file) {
 			if($file->isDot() || $file->isDir()) continue;
 			$basename = $file->getBasename("." . $file->getExtension());
 			if(strlen($basename) != $expectedLength) continue;
@@ -474,11 +548,13 @@ class ProCacheFileMerger extends Wire {
 	 */
 	public function updateCSS(&$out, $file) {
 		if(strpos($out, 'url(') === false) return;
+		
+		$config = $this->wire()->config;
 
 		$urls = array();
 		$dirname = dirname($file) . '/';
-		$cssRootURL = str_replace($this->wire('config')->paths->root, '/', $dirname);
-		$siteRootURL = $this->wire('config')->urls->root;
+		$cssRootURL = str_replace($config->paths->root, '/', $dirname);
+		$siteRootURL = $config->urls->root;
 		if($siteRootURL != '/') $cssRootURL = $siteRootURL . ltrim($cssRootURL, '/');
 		
 		preg_match_all('!\burl\(([^)]+)\)!', $out, $matches);
@@ -486,7 +562,7 @@ class ProCacheFileMerger extends Wire {
 		foreach($matches[1] as $key => $url) {
 			// skip over absolute, possibly external URLs.
 			$url = trim($url, ' \'"');
-			if(strpos($url, '//') === 0 || strpos($url, ':') !== false) continue;
+			if(strpos($url, '/') === 0 || strpos($url, ':') !== false) continue;
 			
 			if(strpos($url, '../') === 0) {
 				$cssRootParts = explode('/', trim($cssRootURL, '/'));
@@ -534,7 +610,7 @@ class ProCacheFileMerger extends Wire {
 		$re = '!<link\s[^>]*?href\s*=\s*["\']?(/[^/][^"\'\s]+?\.(?:css|scss|sass|less)(?:\?[^"\'\s]+)?)["\'\s][^>]*>!i';
 		if(!preg_match_all($re, $head, $matches)) return $html;
 		
-		$timer = $this->wire('config')->debug ? Debug::timer() : null;
+		$timer = $this->wire()->config->debug ? Debug::timer() : null;
 		
 		foreach($matches[0] as $key => $fullMatch) {
 			// skip references that have "?NoMinify" in them	
@@ -700,7 +776,7 @@ class ProCacheFileMerger extends Wire {
 		$placeholders = array();
 		if(!strpos($html, '<!--[') || !strpos($html, ']-->')) return array();
 		if(!preg_match_all('/(<!--\[.+?\]-->)/s', $html, $matches)) return array();
-		foreach($matches[1] as $key => $value) {
+		foreach($matches[1] as $value) {
 			$placeholder = "<!--" . md5($value) . "-->";
 			$placeholders[$placeholder] = $value;
 		}
@@ -729,7 +805,7 @@ class ProCacheFileMerger extends Wire {
 	 * 
 	 */
 	public function minifyInlineJS(&$out) {
-		if(stripos($out, '<script') == false) return 0;
+		if(stripos($out, '<script') === false) return 0;
 		if(!preg_match_all('!(<script[^>]*>\s*)([^<].+?)</script>!is', $out, $matches)) return 0;
 		$n = 0;
 		foreach($matches[1] as $key => $tag) {
@@ -757,7 +833,7 @@ class ProCacheFileMerger extends Wire {
 	 *
 	 */
 	public function minifyInlineCSS(&$out) {
-		if(stripos($out, '<style') == false) return 0;
+		if(stripos($out, '<style') === false) return 0;
 		if(!preg_match_all('!(<style[^>]*>\s*)([^<].+?)</style>!is', $out, $matches)) return 0;
 		$n = 0;
 		foreach($matches[1] as $key => $tag) {
@@ -793,16 +869,21 @@ class ProCacheFileMerger extends Wire {
 	 * Return instance of SCSS compiler
 	 * 
 	 * @param bool $cache Specify false to prevent cache and always return a new instance
-	 * @return \Leafo\ScssPhp\Compiler
+	 * @return \ScssPhp\ScssPhp\Compiler
 	 * @see http://leafo.net/scssphp/docs/
+	 * @deprecated
 	 * 
 	 */
 	public function getSCSS($cache = true) {
+		if($cache) {}
+		return $this->procache()->getSCSS();
+		/*
 		if($this->scss && $cache) return $this->scss;
 		require_once(dirname(__FILE__) . '/scssphp/scss.inc.php');
 		$scss = new \Leafo\ScssPhp\Compiler();
 		if($cache) $this->scss = $scss;
 		return $scss;
+		*/
 	}
 
 	/**
@@ -814,39 +895,59 @@ class ProCacheFileMerger extends Wire {
 	 *
 	 */
 	public function getLESS($cache = true) {
+		if($cache) {}
+		return $this->procache()->getLESS();
+		/*
 		if($this->less && $cache) return $this->less;
 		require_once(dirname(__FILE__) . '/lessphp/lessify.inc.php');
 		$less = new lessc;
 		if($cache) $this->less = $less;
 		return $less;
+		*/
 	}
 
 	/**
 	 * Compile an SCSS file
 	 * 
-	 * @param string $file
+	 * When using the `file` option the given file must include full server path and must be writable. The method will return 
+	 * an error string if it cannot compile or write to the file, or boolean true if file does not need an update, or a positive
+	 * integer of bytes written if file was updated. 
+	 * 
+	 * @param string $file SCSS file
 	 * @param array $options
 	 *  - `importPaths` (array): Paths to look for files referenced in @import, default is path of given $file. 
 	 *  - `formatter` (string): "scss_formatter", "scss_formatter_nested" (default), or "scss_formatter_compressed".
-	 * @return string
+	 *  - `file` (string): Save to this CSS file, rather than returning the CSS. See notes in method desc. (default='')
+	 *  - `force` (bool): When using “file” option, force compilation even if existing CSS file has an up-to-date modified time. (default=false)
+	 * @return string|bool
 	 * @see http://leafo.net/scssphp/docs/
 	 * 
 	 */
 	public function compileSCSS($file, array $options = array()) {
+		return $this->procache()->getCompilerSCSS()->compile($file, $options);
+		/*
 		$defaults = array(
+			'compiler' => null, // \ScssPhp\ScssPhp\Compiler
 			'importPaths' => array(dirname($file) . '/'), 
 			'formatter' => '', 
+			'fileCSS' => '', 
+			'force' => false, 
 		);
 		$options = array_merge($defaults, $options);
+		if($options['fileCSS'] && !$options['force'] && is_file($options['fileCSS'])) {
+			if(filemtime($file) <= filemtime($options['fileCSS'])) return true;
+		}
 		$compiler = $this->getSCSS();
 		$compiler->setImportPaths($options['importPaths']); 
 		if($options['formatter']) $compiler->setFormatter($options['formatter']); 
 		try {
 			$css = $compiler->compile(file_get_contents($file));
+			if($options['fileCSS']) $css = $this->filePutContents($options['fileCSS'], $css); 
 		} catch(\Exception $e) {
 			$css = $this->compileError('SCSS', $file, $e->getMessage()); 
 		}
 		return $css;
+		*/
 	}
 	
 	/**
@@ -854,46 +955,41 @@ class ProCacheFileMerger extends Wire {
 	 *
 	 * @param string $file
 	 * @param array $options
+	 *  - `compiler` (\lessc|\Less_Parser): LESS compiler if you already have an instance you want to use
 	 *  - `includePaths` (array): Paths to look for files referenced in @import statements, default is path of given $file.
 	 *  - `formatter` (string): "lessjs" (default), "compressed" or "classic".
+	 *  - `file` (string): Save to this CSS file, rather than returning the CSS. See notes in method desc. (default='')
+	 *  - `url` (string): Root URL for CSS file, used only by Wikimedia parser (default='')
+	 *  - `force` (bool): When using “file” option, force compilation even if existing CSS file has an up-to-date modified time. (default=false)
+	 *  - `compress` (bool): Compress result when using Wikimedia parser? (default=true)
 	 * @return string
 	 * @see http://leafo.net/lessphp/docs/
 	 *
 	 */
 	public function compileLESS($file, array $options = array()) {
+		return $this->procache()->getCompilerLESS()->compile($file, $options);
+		/*
 		$defaults = array(
 			'importPaths' => array(dirname($file) . '/'), 
-			'formatter' => '', 
+			'formatter' => '',
+			'fileCSS' => '',
+			'force' => false, 
 		);
-		$options = array_merge($defaults, $options); 
+		$options = array_merge($defaults, $options);
+		if($options['fileCSS'] && !$options['force'] && is_file($options['fileCSS'])) {
+			if(filemtime($file) <= filemtime($options['fileCSS'])) return true;
+		}
 		$compiler = $this->getLESS();
 		$compiler->setImportDir($options['importPaths']);
 		if($options['formatter']) $compiler->setFormatter($options['formatter']); 
 		try {
 			$css = $compiler->compileFile($file);
+			if($options['fileCSS']) $css = $this->filePutContents($options['fileCSS'], $css); 
 		} catch(\Exception $e) {
 			$css = $this->compileError('LESS', $file, $e->getMessage()); 
 		}
 		return $css;
-	}
-
-	/**
-	 * Log and return an SCSS/LESS error for storage in resulting CSS file
-	 * 
-	 * @param string $source Specify either SCSS or LESS
-	 * @param string $file
-	 * @param string $error
-	 * @return string
-	 * 
-	 */
-	protected function compileError($source, $file, $error) {
-		$log = $this->wire('log');
-		if($log) $log->save("procache-" . strtolower($source) . "-errors", $error);
-		$error .= "\nCompiling file: $file";
-		return "/*NoMinify*/\n\n" .
-			"/*** ProCache Error ***************************************************************\n" .
-			"$source compile error: $error\n" .
-			"***********************************************************************************/\n\n";
+		*/
 	}
 
 	/**
@@ -913,7 +1009,7 @@ class ProCacheFileMerger extends Wire {
 		
 		if(!preg_match_all('!@import\s+["\']([^/][^"\']+)["\']!', $data, $matches)) return $files;
 		
-		foreach($matches[1] as $key => $importFile) {
+		foreach($matches[1] as $importFile) {
 			if(strpos($importFile, '//') !== false) continue; // skip URLs
 			$x = substr($importFile, -5); 
 			if(strpos($x, '.css')) continue; // @import in .css file does not apply
@@ -923,8 +1019,17 @@ class ProCacheFileMerger extends Wire {
 				$tests[] = $importFile; 
 			} else {
 				// has no extension, so append extension of parent file
-				$tests[] ="$importFile.$extension"; // example.scss
-				if($x != 'less') $tests[] = "_$importFile.$extension"; // _example.scss
+				$tests[] = "$importFile.$extension"; // example.scss
+				if($x != 'less') {
+					if(strrpos($importFile, '/')) {
+						// file has path
+						$parts = explode('/', $importFile);
+						$importFile = array_pop($parts); // file without path
+						$tests[] = implode('/', $parts) . "/_$importFile.$extension"; 
+					} else {
+						$tests[] = "_$importFile.$extension"; // _example.scss
+					}
+				}
 			}
 			foreach($tests as $f) {
 				$importFile = realpath("$dirname/$f");

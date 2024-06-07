@@ -128,7 +128,7 @@ class Converter
 
 		$path = $this->normalize($path);
 		// if we're not dealing with a relative path, just return absolute
-		if (strpos($path, '/') === 0) {
+		if (strpos($path, '/') === 0 || strpos($path, '#') === 0) {
 			return $path;
 		}
 

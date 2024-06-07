@@ -1,103 +1,104 @@
-import {$$, addClass, closest, escape, getViewport, isVisible, last, offset, position, removeClass, scrollParents, trigger} from 'uikit-util';
+import {
+    $$,
+    dimensions,
+    getCoveringElement,
+    getTargetedElement,
+    hasClass,
+    isSameSiteAnchor,
+    isVisible,
+    offset,
+    offsetViewport,
+    scrollParent,
+    toggleClass,
+    trigger,
+} from 'uikit-util';
+import { intersection, scroll } from '../api/observables';
 
 export default {
-
     props: {
         cls: String,
-        closest: String,
+        closest: Boolean,
         scroll: Boolean,
-        overflow: Boolean,
-        offset: Number
+        target: String,
+        offset: Number,
     },
 
     data: {
         cls: 'uk-active',
         closest: false,
         scroll: false,
-        overflow: true,
-        offset: 0
+        target: 'a[href]',
+        offset: 0,
     },
 
     computed: {
+        links: ({ target }, $el) => $$(target, $el).filter((el) => isSameSiteAnchor(el)),
 
-        links: {
-
-            get(_, $el) {
-                return $$('a[href^="#"]', $el).filter(el => el.hash);
-            },
-
-            watch(links) {
-                if (this.scroll) {
-                    this.$create('scroll', links, {offset: this.offset || 0});
-                }
-            },
-
-            immediate: true
-
+        elements({ closest }) {
+            return this.links.map((el) => el.closest(closest || '*'));
         },
-
-        targets() {
-            return $$(this.links.map(el => escape(el.hash).substr(1)).join(','));
-        },
-
-        elements({closest: selector}) {
-            return closest(this.links, selector || '*');
-        }
-
     },
 
+    watch: {
+        links(links) {
+            if (this.scroll) {
+                this.$create('scroll', links, { offset: this.offset });
+            }
+        },
+    },
+
+    observe: [intersection(), scroll()],
+
     update: [
-
         {
-
             read() {
+                const targets = this.links.map((el) => getTargetedElement(el) || el.ownerDocument);
 
-                const {length} = this.targets;
+                const { length } = targets;
 
                 if (!length || !isVisible(this.$el)) {
                     return false;
                 }
 
-                const scrollElement = last(scrollParents(this.targets[0]));
-                const {scrollTop, scrollHeight} = scrollElement;
-                const viewport = getViewport(scrollElement);
-                const max = scrollHeight - offset(viewport).height;
+                const scrollElement = scrollParent(targets, true);
+                const { scrollTop, scrollHeight } = scrollElement;
+                const viewport = offsetViewport(scrollElement);
+                const max = scrollHeight - viewport.height;
                 let active = false;
 
-                if (scrollTop === max) {
+                if (scrollTop >= max) {
                     active = length - 1;
                 } else {
+                    const offsetBy =
+                        this.offset +
+                        dimensions(getCoveringElement()).height +
+                        viewport.height * 0.1;
 
-                    this.targets.every((el, i) => {
-                        if (position(el, viewport).top - this.offset <= 0) {
-                            active = i;
-                            return true;
+                    for (let i = 0; i < targets.length; i++) {
+                        if (offset(targets[i]).top - viewport.top - offsetBy > 0) {
+                            break;
                         }
-                    });
-
-                    if (active === false && this.overflow) {
-                        active = 0;
+                        active = +i;
                     }
                 }
 
-                return {active};
+                return { active };
             },
 
-            write({active}) {
+            write({ active }) {
+                const changed = active !== false && !hasClass(this.elements[active], this.cls);
 
-                this.links.forEach(el => el.blur());
-                removeClass(this.elements, this.cls);
-
-                if (active !== false) {
-                    trigger(this.$el, 'active', [active, addClass(this.elements[active], this.cls)]);
+                this.links.forEach((el) => el.blur());
+                for (let i = 0; i < this.elements.length; i++) {
+                    toggleClass(this.elements[i], this.cls, +i === active);
                 }
 
+                if (changed) {
+                    trigger(this.$el, 'active', [active, this.elements[active]]);
+                }
             },
 
-            events: ['scroll', 'resize']
-
-        }
-
-    ]
-
+            events: ['scroll', 'resize'],
+        },
+    ],
 };

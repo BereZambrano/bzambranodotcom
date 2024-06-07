@@ -1,60 +1,99 @@
-import {css, hasAttr, isInView, isVisible, mute, pause, play} from 'uikit-util';
+import {
+    hasAttr,
+    includes,
+    isTag,
+    isTouch,
+    isVideo,
+    mute,
+    parent,
+    pause,
+    play,
+    pointerEnter,
+    pointerLeave,
+} from 'uikit-util';
+import { intersection } from '../api/observables';
 
 export default {
-
     args: 'autoplay',
 
     props: {
         automute: Boolean,
-        autoplay: Boolean
+        autoplay: Boolean,
     },
 
     data: {
         automute: false,
-        autoplay: true
+        autoplay: true,
     },
 
-    computed: {
-
-        inView({autoplay}) {
-            return autoplay === 'inview';
+    beforeConnect() {
+        if (this.autoplay === 'inview' && !hasAttr(this.$el, 'preload')) {
+            this.$el.preload = 'none';
         }
 
-    },
+        if (isTag(this.$el, 'iframe') && !hasAttr(this.$el, 'allow')) {
+            this.$el.allow = 'autoplay';
+        }
 
-    connected() {
-
-        if (this.inView && !hasAttr(this.$el, 'preload')) {
-            this.$el.preload = 'none';
+        if (this.autoplay === 'hover') {
+            if (isTag(this.$el, 'video')) {
+                this.$el.tabindex = 0;
+            } else {
+                this.autoplay = true;
+            }
         }
 
         if (this.automute) {
             mute(this.$el);
         }
-
     },
 
-    update: {
+    events: [
+        {
+            name: `${pointerEnter} focusin`,
 
-        read() {
-            return {
-                visible: isVisible(this.$el) && css(this.$el, 'visibility') !== 'hidden',
-                inView: this.inView && isInView(this.$el)
-            };
+            filter: ({ autoplay }) => includes(autoplay, 'hover'),
+
+            handler(e) {
+                if (!isTouch(e) || !isPlaying(this.$el)) {
+                    play(this.$el);
+                } else {
+                    pause(this.$el);
+                }
+            },
         },
 
-        write({visible, inView}) {
+        {
+            name: `${pointerLeave} focusout`,
 
-            if (!visible || this.inView && !inView) {
-                pause(this.$el);
-            } else if (this.autoplay === true || this.inView && inView) {
-                play(this.$el);
-            }
+            filter: ({ autoplay }) => includes(autoplay, 'hover'),
 
+            handler(e) {
+                if (!isTouch(e)) {
+                    pause(this.$el);
+                }
+            },
         },
+    ],
 
-        events: ['resize', 'scroll']
-
-    }
-
+    observe: [
+        intersection({
+            filter: ({ $el, autoplay }) => autoplay && autoplay !== 'hover' && isVideo($el),
+            handler([{ isIntersecting }]) {
+                if (!document.fullscreenElement) {
+                    if (isIntersecting) {
+                        play(this.$el);
+                    } else {
+                        pause(this.$el);
+                    }
+                }
+            },
+            args: { intersecting: false },
+            options: ({ $el, autoplay }) => ({ root: autoplay === 'inview' ? null : parent($el) }),
+        }),
+    ],
 };
+
+function isPlaying(videoEl) {
+    return !videoEl.paused && !videoEl.ended;
+}

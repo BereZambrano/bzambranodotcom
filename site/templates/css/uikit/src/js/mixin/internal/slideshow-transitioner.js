@@ -1,42 +1,36 @@
-import {clamp, createEvent, css, Deferred, noop, Promise, Transition, trigger} from 'uikit-util';
+import { clamp, createEvent, css, noop, Transition, trigger } from 'uikit-util';
 
-export default function Transitioner(prev, next, dir, {animation, easing}) {
-
-    const {percent, translate, show = noop} = animation;
+export default function Transitioner(prev, next, dir, { animation, easing }) {
+    const { percent, translate, show = noop } = animation;
     const props = show(dir);
-    const deferred = new Deferred();
+
+    const { promise, resolve } = withResolvers();
 
     return {
-
         dir,
 
         show(duration, percent = 0, linear) {
-
             const timing = linear ? 'linear' : easing;
             duration -= Math.round(duration * clamp(percent, -1, 1));
 
             this.translate(percent);
 
-            triggerUpdate(next, 'itemin', {percent, duration, timing, dir});
-            triggerUpdate(prev, 'itemout', {percent: 1 - percent, duration, timing, dir});
+            triggerUpdate(next, 'itemin', { percent, duration, timing, dir });
+            triggerUpdate(prev, 'itemout', { percent: 1 - percent, duration, timing, dir });
 
             Promise.all([
                 Transition.start(next, props[1], duration, timing),
-                Transition.start(prev, props[0], duration, timing)
+                Transition.start(prev, props[0], duration, timing),
             ]).then(() => {
                 this.reset();
-                deferred.resolve();
+                resolve();
             }, noop);
 
-            return deferred.promise;
-        },
-
-        stop() {
-            return Transition.stop([next, prev]);
+            return promise;
         },
 
         cancel() {
-            Transition.cancel([next, prev]);
+            return Transition.cancel([next, prev]);
         },
 
         reset() {
@@ -45,22 +39,19 @@ export default function Transitioner(prev, next, dir, {animation, easing}) {
             }
         },
 
-        forward(duration, percent = this.percent()) {
-            Transition.cancel([next, prev]);
+        async forward(duration, percent = this.percent()) {
+            await this.cancel();
             return this.show(duration, percent, true);
-
         },
 
         translate(percent) {
-
             this.reset();
 
             const props = translate(percent, dir);
             css(next, props[1]);
             css(prev, props[0]);
-            triggerUpdate(next, 'itemtranslatein', {percent, dir});
-            triggerUpdate(prev, 'itemtranslateout', {percent: 1 - percent, dir});
-
+            triggerUpdate(next, 'itemtranslatein', { percent, dir });
+            triggerUpdate(prev, 'itemtranslateout', { percent: 1 - percent, dir });
         },
 
         percent() {
@@ -68,13 +59,17 @@ export default function Transitioner(prev, next, dir, {animation, easing}) {
         },
 
         getDistance() {
-            return prev && prev.offsetWidth;
-        }
-
+            return prev?.offsetWidth;
+        },
     };
-
 }
 
-function triggerUpdate(el, type, data) {
+export function triggerUpdate(el, type, data) {
     trigger(el, createEvent(type, false, false, data));
+}
+
+// Use Promise.withResolvers() once it becomes baseline
+export function withResolvers() {
+    let resolve;
+    return { promise: new Promise((res) => (resolve = res)), resolve };
 }

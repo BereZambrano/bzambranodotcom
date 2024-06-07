@@ -1,102 +1,116 @@
-import {attr} from './attr';
-import {Promise} from './promise';
-import {once, trigger} from './event';
-import {css, propName} from './style';
-import {assign, startsWith, toNodes} from './lang';
-import {addClass, hasClass, removeClass, removeClasses} from './class';
+import { addClass, hasClass, removeClass } from './class';
+import { once, trigger } from './event';
+import { toNodes } from './lang';
+import { css, propName } from './style';
 
-export function transition(element, props, duration = 400, timing = 'linear') {
+const clsTransition = 'uk-transition';
+const transitionEnd = 'transitionend';
+const transitionCanceled = 'transitioncanceled';
 
-    return Promise.all(toNodes(element).map(element =>
-        new Promise((resolve, reject) => {
+function transition(element, props, duration = 400, timing = 'linear') {
+    duration = Math.round(duration);
+    return Promise.all(
+        toNodes(element).map(
+            (element) =>
+                new Promise((resolve, reject) => {
+                    for (const name in props) {
+                        // Force reflow: transition won't run for previously hidden element
+                        css(element, name);
+                    }
 
-            for (const name in props) {
-                const value = css(element, name);
-                if (value === '') {
-                    css(element, name, value);
-                }
-            }
+                    const timer = setTimeout(() => trigger(element, transitionEnd), duration);
 
-            const timer = setTimeout(() => trigger(element, 'transitionend'), duration);
+                    once(
+                        element,
+                        [transitionEnd, transitionCanceled],
+                        ({ type }) => {
+                            clearTimeout(timer);
+                            removeClass(element, clsTransition);
+                            css(element, {
+                                transitionProperty: '',
+                                transitionDuration: '',
+                                transitionTimingFunction: '',
+                            });
+                            type === transitionCanceled ? reject() : resolve(element);
+                        },
+                        { self: true },
+                    );
 
-            once(element, 'transitionend transitioncanceled', ({type}) => {
-                clearTimeout(timer);
-                removeClass(element, 'uk-transition');
-                css(element, {
-                    transitionProperty: '',
-                    transitionDuration: '',
-                    transitionTimingFunction: ''
-                });
-                type === 'transitioncanceled' ? reject() : resolve();
-            }, {self: true});
-
-            addClass(element, 'uk-transition');
-            css(element, assign({
-                transitionProperty: Object.keys(props).map(propName).join(','),
-                transitionDuration: `${duration}ms`,
-                transitionTimingFunction: timing
-            }, props));
-
-        })
-    ));
-
+                    addClass(element, clsTransition);
+                    css(element, {
+                        transitionProperty: Object.keys(props).map(propName).join(','),
+                        transitionDuration: `${duration}ms`,
+                        transitionTimingFunction: timing,
+                        ...props,
+                    });
+                }),
+        ),
+    );
 }
 
 export const Transition = {
-
     start: transition,
 
-    stop(element) {
-        trigger(element, 'transitionend');
-        return Promise.resolve();
+    async stop(element) {
+        trigger(element, transitionEnd);
+        await Promise.resolve();
     },
 
-    cancel(element) {
-        trigger(element, 'transitioncanceled');
+    async cancel(element) {
+        trigger(element, transitionCanceled);
+        await Promise.resolve();
     },
 
     inProgress(element) {
-        return hasClass(element, 'uk-transition');
-    }
-
+        return hasClass(element, clsTransition);
+    },
 };
 
-const animationPrefix = 'uk-animation-';
+const clsAnimation = 'uk-animation';
+const animationEnd = 'animationend';
+const animationCanceled = 'animationcanceled';
 
-export function animate(element, animation, duration = 200, origin, out) {
+function animate(element, animation, duration = 200, origin, out) {
+    return Promise.all(
+        toNodes(element).map(
+            (element) =>
+                new Promise((resolve, reject) => {
+                    if (hasClass(element, clsAnimation)) {
+                        trigger(element, animationCanceled);
+                    }
 
-    return Promise.all(toNodes(element).map(element =>
-        new Promise((resolve, reject) => {
+                    const classes = [
+                        animation,
+                        clsAnimation,
+                        `${clsAnimation}-${out ? 'leave' : 'enter'}`,
+                        origin && `uk-transform-origin-${origin}`,
+                        out && `${clsAnimation}-reverse`,
+                    ];
 
-            trigger(element, 'animationcanceled');
-            const timer = setTimeout(() => trigger(element, 'animationend'), duration);
+                    const timer = setTimeout(() => trigger(element, animationEnd), duration);
 
-            once(element, 'animationend animationcanceled', ({type}) => {
+                    once(
+                        element,
+                        [animationEnd, animationCanceled],
+                        ({ type }) => {
+                            clearTimeout(timer);
 
-                clearTimeout(timer);
+                            type === animationCanceled ? reject() : resolve(element);
 
-                type === 'animationcanceled' ? reject() : resolve();
+                            css(element, 'animationDuration', '');
+                            removeClass(element, classes);
+                        },
+                        { self: true },
+                    );
 
-                css(element, 'animationDuration', '');
-                removeClasses(element, `${animationPrefix}\\S*`);
-
-            }, {self: true});
-
-            css(element, 'animationDuration', `${duration}ms`);
-            addClass(element, animation, animationPrefix + (out ? 'leave' : 'enter'));
-
-            if (startsWith(animation, animationPrefix)) {
-                addClass(element, origin && `uk-transform-origin-${origin}`, out && `${animationPrefix}reverse`);
-            }
-
-        })
-    ));
-
+                    css(element, 'animationDuration', `${duration}ms`);
+                    addClass(element, classes);
+                }),
+        ),
+    );
 }
 
-const inProgress = new RegExp(`${animationPrefix}(enter|leave)`);
 export const Animation = {
-
     in: animate,
 
     out(element, animation, duration, origin) {
@@ -104,11 +118,10 @@ export const Animation = {
     },
 
     inProgress(element) {
-        return inProgress.test(attr(element, 'class'));
+        return hasClass(element, clsAnimation);
     },
 
     cancel(element) {
-        trigger(element, 'animationcanceled');
-    }
-
+        trigger(element, animationCanceled);
+    },
 };

@@ -1,7 +1,7 @@
 <div id="main-content" class="blog" pw-append>
 
     <div class="posts-container uk-margin-large-top uk-container-large uk-container">
-        <div class="uk-grid uk-grid-small" uk-grid="masonry:true;">
+        <div class="uk-grid uk-grid-small" uk-grid="masonry:next;">
             <?php
             $limit = 6;
             $posts = $page->children("sort=sort, limit={$limit}");

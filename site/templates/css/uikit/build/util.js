@@ -1,189 +1,286 @@
-const fs = require('fs');
-const less = require('less');
-const SVGO = require('svgo');
-const rollup = require('rollup');
-const postcss = require('postcss');
-const uglify = require('uglify-js');
-const {promisify} = require('util');
-const CleanCSS = require('clean-css');
-const html = require('rollup-plugin-html');
-const buble = require('@rollup/plugin-buble');
-const replace = require('@rollup/plugin-replace');
-const alias = require('@rollup/plugin-alias');
-const {basename, dirname, join, resolve} = require('path');
-const {version} = require('../package.json');
-const banner = `/*! UIkit ${version} | https://www.getuikit.com | (c) 2014 - ${new Date().getFullYear()} YOOtheme | MIT License */\n`;
+import alias from '@rollup/plugin-alias';
+import replace from '@rollup/plugin-replace';
+import CleanCSS from 'clean-css';
+import fs from 'fs-extra';
+import { glob } from 'glob';
+import less from 'less';
+import minimist from 'minimist';
+import pLimit from 'p-limit';
+import path from 'path';
+import { rollup, watch as rollupWatch } from 'rollup';
+import { default as esbuild, minify as esbuildMinify } from 'rollup-plugin-esbuild';
+import modify from 'rollup-plugin-modify';
+import svgo from 'svgo';
 
-exports.banner = banner;
-exports.validClassName = /[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/;
+const limit = pLimit(Number(process.env.cpus || 2));
 
-exports.glob = promisify(require('glob'));
+export const banner = `/*! UIkit ${await getVersion()} | https://www.getuikit.com | (c) 2014 - ${new Date().getFullYear()} YOOtheme | MIT License */\n`;
+export const validClassName = /[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/;
 
-const readFile = promisify(fs.readFile);
-exports.read = async function (file, cb) {
+const argv = minimist(process.argv.slice(2));
 
-    const data = await readFile(file, 'utf8');
-    cb && cb(data);
-    return data;
+argv._.forEach((arg) => {
+    const tokens = arg.split('=');
+    argv[tokens[0]] = tokens[1] || true;
+});
 
-};
+export const args = argv;
 
-const writeFile = promisify(fs.writeFile);
-exports.write = async function (dest, data) {
+export function read(file) {
+    return fs.readFile(file, 'utf8');
+}
 
-    const err = await writeFile(dest, data);
-
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-
-    exports.logFile(dest);
+export async function write(dest, data) {
+    await fs.writeFile(dest, data);
+    await logFile(dest);
 
     return dest;
+}
 
-};
+export async function logFile(file) {
+    const { size } = await fs.stat(file);
+    console.log(`${cyan(file)} ${formatSize(size)}`);
+}
 
-exports.logFile = async function (file) {
-    const data = await exports.read(file);
-    console.log(`${cyan(file)} ${getSize(data)}`);
-};
+export async function minify(file) {
+    const { styles } = await limit(() =>
+        new CleanCSS({
+            advanced: false,
+            keepSpecialComments: 0,
+            rebase: false,
+            returnPromise: true,
+        }).minify([file]),
+    );
 
-exports.minify = async function (file) {
-
-    const {styles} = await new CleanCSS({
-        advanced: false,
-        keepSpecialComments: 0,
-        rebase: false,
-        returnPromise: true
-    }).minify([file]);
-
-    await exports.write(`${join(dirname(file), basename(file, '.css'))}.min.css`, styles);
+    await write(`${path.join(path.dirname(file), path.basename(file, '.css'))}.min.css`, styles);
 
     return styles;
+}
 
-};
+export function renderLess(data, options) {
+    return limit(async () => (await less.render(data, options)).css);
+}
 
-exports.uglify = async function (file) {
-    file = join(dirname(file), basename(file, '.js'));
-    return exports.write(
-        `${file}.min.js`,
-        uglify.minify(
-            await exports.read(`${file}.js`),
-            {output: {preamble: exports.banner}}
-        ).code
-    );
-};
+export async function compile(file, dest, { external, globals, name, aliases, replaces } = {}) {
+    const minify = !args.nominify;
+    const debug = args.d || args.debug;
+    const log = args.l || args.log;
+    const watch = args.w || args.watch;
 
-exports.renderLess = async function (data, options) {
-    return postcss()
-        .use(postcss.plugin('calc', () =>
-            css => {
-                css.walk(node => {
-                    const {type} = node;
+    name = (name || '').replace(/\W/g, '_');
 
-                    if (type === 'decl') {
-                        node.value = postcss.list.space(node.value).map(value =>
-                            value.startsWith('calc(')
-                                ? value.replace(/(.)calc/g, '$1')
-                                : value
-                        ).join(' ');
-                    }
-                });
-            }
-        ))
-        .process((await less.render(data, options)).css)
-        .css;
-};
-
-exports.compile = async function (file, dest, {external, globals, name, aliases, replaces, minify = true}) {
-
-    name = (name || '').replace(/[^\w]/g, '_');
-
-    const bundle = await rollup.rollup({
+    const inputOptions = {
         external,
-        input: `${resolve(dirname(file), basename(file, '.js'))}.js`,
+        input: file,
         plugins: [
-            replace(Object.assign({
-                VERSION: `'${version}'`
-            }, replaces)),
+            replace({
+                preventAssignment: true,
+                values: {
+                    VERSION: `'${await getVersion()}'`,
+                    LOG: !!log,
+                    ...replaces,
+                },
+            }),
             alias({
-                entries: Object.assign({
-                    'uikit-util': './src/js/util/index.js'
-                }, aliases)
+                entries: {
+                    'uikit-util': path.resolve('./src/js/util/index.js'),
+                    ...aliases,
+                },
             }),
-            html({
-                include: '**/*.svg',
-                htmlMinifierOptions: {
-                    collapseWhitespace: true
-                }
-            }),
-            buble({namedFunctionExpressions: false})
-        ]
-    });
 
-    let {output: [{code, map}]} = await bundle.generate({
+            svgPlugin(),
+
+            esbuild({
+                target: 'safari12',
+                sourceMap: !!debug,
+                minify: false,
+                supported: { 'template-literal': true },
+            }),
+
+            !debug &&
+                modify({
+                    find: /(?<=>)\n\s+|\n\s+(?=<)/,
+                    replace: ' ',
+                }),
+        ],
+    };
+
+    const outputOptions = {
         globals,
+        banner,
         format: 'umd',
-        banner: exports.banner,
-        amd: {id: `UIkit${name}`.toLowerCase()},
-        name: `UIkit${exports.ucfirst(name)}`,
-        sourcemap: !minify ? 'inline' : false
-    });
+        amd: { id: `UIkit${name}`.toLowerCase() },
+        name: `UIkit${ucfirst(name)}`,
+        sourcemap: debug ? 'inline' : false,
+    };
 
-    code = code.replace(/(>)\\n\s+|\\n\s+(<)/g, '$1 $2');
+    const output = [
+        {
+            ...outputOptions,
+            file: `${dest}.js`,
+        },
+    ];
 
-    return Promise.all([
-        exports.write(`${dest}.js`, code + (!minify ? '\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,' + Buffer.from(map.toString()).toString('base64') : '')),
-        minify ? exports.write(`${dest}.min.js`, uglify.minify(code, {output: {preamble: exports.banner}}).code) : null
-    ])[0];
+    if (minify) {
+        output.push({
+            ...outputOptions,
+            file: `${dest}.min.js`,
+            plugins: [
+                debug
+                    ? undefined
+                    : esbuildMinify({
+                          target: 'safari12',
+                          supported: { 'template-literal': true },
+                      }),
+            ],
+        });
+    }
 
-};
+    if (!watch) {
+        const bundle = await rollup(inputOptions);
 
-exports.icons = async function (src) {
+        for (const options of output) {
+            await limit(() => bundle.write(options));
+            logFile(options.file);
+        }
 
-    const svgo = new SVGO({
+        await bundle.close();
+    } else {
+        console.log('UIkit is watching the files...');
 
-        plugins: [
-            {removeViewBox: false},
-            {
-                cleanupNumericValues: {
-                    floatPrecision: 3
-                }
-            },
-            {convertPathData: false},
-            {convertShapeToPath: false},
-            {mergePaths: false},
-            {removeDimensions: false},
-            {removeStyleElement: false},
-            {removeScriptElement: false},
-            {removeUnknownsAndDefaults: false},
-            {removeUselessStrokeAndFill: false}
-        ]
+        const watcher = rollupWatch({
+            ...inputOptions,
+            output,
+        });
 
-    });
-    const files = await exports.glob(src, {nosort: true});
-    const icons = await Promise.all(files.map(async file => {
-        const data = await exports.read(file);
-        const {data: svg} = await svgo.optimize(data);
-        return svg;
-    }));
+        watcher.on('event', ({ code, result, output, error }) => {
+            if (result) {
+                result.close();
+            }
+            if (code === 'BUNDLE_END' && output) {
+                output.map(logFile);
+            }
+            if (error) {
+                console.error(error);
+            }
+        });
 
-    return JSON.stringify(files.reduce((result, file, i) => {
-        result[basename(file, '.svg')] = icons[i];
-        return result;
-    }, {}), null, '    ');
+        await watcher.close();
+    }
+}
 
-};
+export async function icons(src) {
+    const files = await glob(src);
+    const icons = await Promise.all(
+        files.map((file) => limit(async () => optimizeSvg(await read(file)))),
+    );
 
-exports.ucfirst = function (str) {
+    return JSON.stringify(
+        files.reduce((result, file, i) => {
+            result[path.basename(file, '.svg')] = icons[i];
+            return result;
+        }, {}),
+        null,
+        '    ',
+    );
+}
+
+export function ucfirst(str) {
     return str.length ? str.charAt(0).toUpperCase() + str.slice(1) : '';
-};
+}
+
+export async function getVersion() {
+    return (await fs.readJson('package.json')).version;
+}
+
+export async function replaceInFile(file, fn) {
+    await write(file, await fn(await read(file)));
+}
 
 function cyan(str) {
     return `\x1b[1m\x1b[36m${str}\x1b[39m\x1b[22m`;
 }
 
-function getSize(data) {
-    return `${(data.length / 1024).toFixed(2)}kb`;
+function formatSize(bytes) {
+    return `${(bytes / 1024).toFixed(2)}kb`;
+}
+
+async function optimizeSvg(svg) {
+    const options = {
+        plugins: [
+            {
+                name: 'preset-default',
+                params: {
+                    overrides: {
+                        removeViewBox: false,
+                        cleanupNumericValues: {
+                            floatPrecision: 3,
+                        },
+                        convertPathData: false,
+                        convertShapeToPath: false,
+                        mergePaths: false,
+                        minifyStyles: false,
+                        removeUnknownsAndDefaults: false,
+                        removeUselessStrokeAndFill: false,
+                        sortAttrs: {
+                            order: [
+                                'id',
+                                'width',
+                                'height',
+                                'fill',
+                                'stroke',
+                                'x',
+                                'y',
+                                'x1',
+                                'y1',
+                                'x2',
+                                'y2',
+                                'cx',
+                                'cy',
+                                'r',
+                                'marker',
+                                'd',
+                                'points',
+                            ],
+                        },
+                    },
+                },
+            },
+            'removeXMLNS',
+            'removeXlink',
+            {
+                name: 'removeAttributesBySelector',
+                params: {
+                    selector: 'svg',
+                    attributes: ['id', 'version'],
+                },
+            },
+            {
+                name: 'removeAttributesBySelector',
+                params: {
+                    selector: '*',
+                    attributes: ['data-name'],
+                },
+            },
+        ],
+    };
+
+    return (await svgo.optimize(svg, options)).data;
+}
+
+function svgPlugin() {
+    return {
+        name: 'svg-import',
+
+        transform: async (code, id) => {
+            if (!id.endsWith('.svg')) {
+                return;
+            }
+
+            return {
+                code: `export default ${JSON.stringify(await optimizeSvg(code))};`,
+                map: { mappings: '' },
+            };
+        },
+    };
 }

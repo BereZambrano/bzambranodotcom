@@ -24,8 +24,8 @@
 // Common
 @import "close.scss";
 @import "spinner.scss";
-@import "marker.scss";
 @import "totop.scss";
+@import "marker.scss";
 @import "alert.scss";
 @import "placeholder.scss";
 @import "badge.scss";
@@ -38,8 +38,9 @@
 // JavaScript
 @import "accordion.scss";
 @import "drop.scss";
-@import "dropdown.scss";
+@import "dropbar.scss";
 @import "modal.scss";
+@import "slider.scss";
 @import "sticky.scss";
 @import "offcanvas.scss";
 @import "leader.scss";
@@ -62,6 +63,7 @@
 @import "thumbnav.scss";
 @import "iconnav.scss";
 
+@import "dropdown.scss";
 @import "lightbox.scss";
 
 // Utilities

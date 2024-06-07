@@ -272,9 +272,9 @@ $uikitCustomFilename = \Less_Cache::Get($less_files, $uikitOptions);
     </div>
 </footer>
 
-<script src="<?= $urls->templates ?>js/uikit.min.js"></script>
-<script src="<?= $urls->templates ?>js/uikit-icons.min.js"></script>
-<script src="<?= $urls->templates ?>js/nanobar.min.js"></script>
+<script src="<?=$buster->url("{$urls->templates}js/uikit.min.js")?>"></script>
+<script src="<?=$buster->url("{$urls->templates}js/uikit-icons.min.js")?>"></script>
+<script src="<?=$buster->url("{$urls->templates}js/nanobar.min.js")?>"></script>
 <script src="https://unpkg.com/htmx.org@1.6.1"></script>
 
 <script>

@@ -1,9 +1,9 @@
-<?php
+<?php namespace ProcessWire;
 
 /**
  * ProcessWire Pro Cache: HTML Minifier
  *
- * Copyright (C) 2017 by Ryan Cramer
+ * Copyright (C) 2023 by Ryan Cramer
  *
  * This is a commercially licensed and supported module
  * DO NOT DISTRIBUTE
@@ -280,6 +280,13 @@ class ProCacheMinifyHTML {
 	 */
 	protected $resetCaches = true;
 
+	/**
+	 * Additional strings to replace at the end
+	 * 
+	 * @var array
+	 * 
+	 */
+	protected $replaceStrings = array();
 
 	/**************************************************************************************
 	 * Construct and populate default settings
@@ -292,7 +299,7 @@ class ProCacheMinifyHTML {
 		 *
 		 */
 		$this->ignoreTags = array(
-			'script', 'style', 'pre', 'textarea',
+			'script', 'style', 'pre', 'textarea', 'svg',
 		);
 
 		/**
@@ -335,21 +342,21 @@ class ProCacheMinifyHTML {
 		 *
 		 */
 		$this->unnecessaryAttrs = array(
-			'input'  => array(
+			'input' => array(
 				'type'  => 'text',
 				'value' => ''
 			),
 			'script' => array(
 				'type' => 'text/javascript'
 			),
-			'style'  => array(
+			'style' => array(
 				'type' => 'text/css'
 			),
-			'link'   => array(
+			'link' => array(
 				'type'  => 'text/css',
 				'media' => 'all'
 			),
-			'form'   => array(
+			'form' => array(
 				'method' => 'get'
 			),
 		);
@@ -368,42 +375,42 @@ class ProCacheMinifyHTML {
 		 *
 		 */
 		$this->unnecessaryTags = array(
-			'<html>'      => array(
-				'str_replace'  => array(
+			'<html>' => array(
+				'str_replace' => array(
 					'<html><head' => '<head'
 				),
 				'preg_replace' => array(
 					'<html>(<[^!])' => '$1',
 				)
 			),
-			'<head>'      => array(
-				'str_replace'  => array(
-					'<head><link'  => '<link',
-					'<head><meta'  => '<meta',
+			'<head>' => array(
+				'str_replace' => array(
+					'<head><link' => '<link',
+					'<head><meta' => '<meta',
 					'<head><title' => '<title',
 				),
 				'preg_replace' => array(
 					'<head>\s*(<[a-z]+)' => '$1',
 				),
 			),
-			'</head>'     => array(
-				'str_replace'  => array(
+			'</head>' => array(
+				'str_replace' => array(
 					'</head><body' => '<body',
 				),
 				'preg_replace' => array(
 					'</head>(<[^!])' => '$1',
 				),
 			),
-			'<body>'      => array(
-				'str_replace'  => array(
+			'<body>' => array(
+				'str_replace' => array(
 					'<body><div' => '<div',
 				),
 				'preg_replace' => array(
 					'<body>(<[^!])' => '$1',
 				)
 			),
-			'</body>'     => array(
-				'str_replace'  => array(
+			'</body>' => array(
+				'str_replace' => array(
 					'</body></html>' => '</html>',
 				),
 				'preg_replace' => array(
@@ -411,14 +418,14 @@ class ProCacheMinifyHTML {
 					'</body>\s*$'    => '',
 				)
 			),
-			'</html>'     => array( // intentionally after </body>
-				'str_replace'  => array(),
+			'</html>' => array( // intentionally after </body>
+				'str_replace' => array(),
 				'preg_replace' => array(
 					'</html>(\s*$|<[^!])' => '$1',
 				),
 			),
-			'</tr>'       => array(
-				'str_replace'  => array(
+			'</tr>' => array(
+				'str_replace' => array(
 					'</tr><tr>'     => '<tr>',
 					'</tr></table>' => '</table>',
 				),
@@ -426,8 +433,8 @@ class ProCacheMinifyHTML {
 					'</tr>\s*(<tr|</)' => '$1'
 				)
 			),
-			'</thead>'    => array(
-				'str_replace'  => array(
+			'</thead>' => array(
+				'str_replace' => array(
 					'</thead><tbody' => '<tbody',
 					'</thead><tfoot' => '<tfoot',
 				),
@@ -435,77 +442,77 @@ class ProCacheMinifyHTML {
 					'</thead>\s*(<tbody|<tfoot)' => '$1',
 				),
 			),
-			'</tbody>'    => array(
-				'str_replace'  => array(
+			'</tbody>' => array(
+				'str_replace' => array(
 					'</tbody></table>' => '</table>',
-					'</tbody><tfoot'   => '<tfoot',
-					'</tbody><tbody'   => '<tbody',
+					'</tbody><tfoot' => '<tfoot',
+					'</tbody><tbody' => '<tbody',
 				),
 				'preg_replace' => array(
 					'</tbody>\s*(<tbody|<tfoot|</table)' => '$1',
 				)
 			),
-			'</tfoot>'    => array(
-				'str_replace'  => array(
+			'</tfoot>' => array(
+				'str_replace' => array(
 					'</tfoot></table>' => '</table>',
 				),
 				'preg_replace' => array(
 					'</tfoot>\s*(<tbody|</table)' => '$1',
 				)
 			),
-			'</td>'       => array(
-				'str_replace'  => array(
+			'</td>' => array(
+				'str_replace' => array(
 					'</td><td' => '<td',
 					'</td><th' => '<th',
-					'</td></'  => '</',
+					'</td></' => '</',
 				),
 				'preg_replace' => array(
 					'</td>\s*(<td|<th|</)' => '$1',
 				)
 			),
-			'</th>'       => array(
-				'str_replace'  => array(
+			'</th>' => array(
+				'str_replace' => array(
 					'</th><td' => '<td',
 					'</th><th' => '<th',
-					'</th></'  => '</',
+					'</th></' => '</',
 				),
 				'preg_replace' => array(
 					'</th>\s*(<td|<th|</)' => '$1',
 				)
 			),
-			'</li>'       => array(
-				'str_replace'  => array(
+			'</li>' => array(
+				'str_replace' => array(
 					'</li><li' => '<li',
-					'</li></'  => '</',
+					'</li></' => '</',
 				),
 				'preg_replace' => array(
 					'</li>\s*(<li|</)' => '$1',
 				)
 			),
-			'</dt>'       => array(
+			'</dt>' => array(
 				'str_replace'  => array(
-					'</dt><dt'  => '<dt',
-					'</dt><dd'  => '<dd',
+					'</dt><dt' => '<dt',
+					'</dt><dd' => '<dd',
 					'</dt></dl' => '</dl',
 				),
 				'preg_replace' => array(
 					'</dt>\s*(<dt|<dd|</dl)' => '$1',
 				)
 			),
-			'</dd>'       => array(
-				'str_replace'  => array(
-					'</dd><dt'  => '<dt',
-					'</dd><dd'  => '<dd',
+			'</dd>' => array(
+				'str_replace' => array(
+					'</dd><dt' => '<dt',
+					'</dd><dd' => '<dd',
 					'</dd></dl' => '</dl',
 				),
 				'preg_replace' => array(
 					'</dd>\s*(<dt|<dd|</dl)' => '$1',
 				),
 			),
-			'</p>'        => array(
+			'</p>' => array(
 				'str_replace'  => array(
-					'</p><p>'    => '<p>',
-					'</p><p '    => '<p ',
+					'</p><p>' => '<p>',
+					'</p><p ' => '<p ',
 					'</p></div>' => '</div>',
 				),
 				'preg_replace' => array(
@@ -513,19 +520,19 @@ class ProCacheMinifyHTML {
 					'footer|form|h\d|header|hgroup|hr|main|nav|ol|p|pre|section|table|ul)(\s|>)' => '$1$2$3',
 				)
 			),
-			'</option>'   => array(
+			'</option>' => array(
 				'str_replace'  => array(
-					'</option><option'     => '<option',
-					'</option><optgroup'   => '<optgroup',
+					'</option><option' => '<option',
+					'</option><optgroup' => '<optgroup',
 					'</option></optgroup>' => '</optgroup>',
-					'</option></select>'   => '</select>',
+					'</option></select>' => '</select>',
 				),
 				'preg_replace' => array(
 					'</option>\s*(<option|</?optgroup|</select>)' => '$1'
 				)
 			),
 			'</optgroup>' => array(
-				'str_replace'  => array(
+				'str_replace' => array(
 					'</optgroup><optgroup' => '<optgroup',
 					'</optgroup></select>' => '</select>',
 				),
@@ -556,12 +563,30 @@ class ProCacheMinifyHTML {
 		$this->lastHadTrailingWhitespace = false; // whether last line had trailing whitespace (before being trimmed)
 		$this->skipKeys = array(); // line keys that should be skipped over
 		$this->replaceLines = array(); // lines to be replaced, indexed by key
-		$this->resetCaches = true; 
+		$this->resetCaches = true;
 		
+		// force script, style, svg elements to be ignored
+		foreach(array('script', 'style', 'svg') as $tag) {
+			if(!in_array($tag, $this->ignoreTags)) $this->ignoreTags[] = $tag;
+		}
+	
+		$uniqueStr = 'PWPCHTM';
+		$uniqueNum = 0;
+		while(strpos($html, "$uniqueStr$uniqueNum") !== false) $uniqueNum++;
+		$uniqueStr .= $uniqueNum;
+
 		// make sure that there isn't more than one ignoreTag per line
 		foreach($this->ignoreTags as $tag) {
 			$tag = trim($tag);
-			if($tag) $html = str_replace("<$tag", "\n<$tag", $html);
+			if(!$tag) continue;
+			if(stripos($html, "<$tag") === false) continue;
+			$html = str_ireplace("<$tag", "\n<$tag", $html);
+			if($tag === 'svg') {
+				$html = preg_replace('!(<svg[^>]*?>)!is', '$1' . "\nSVG+" . $uniqueStr, $html);
+				$this->replaceStrings["\nSVG+$uniqueStr"] = '';
+				$html = str_replace('</svg>', "SVG-$uniqueStr\n</svg>\n", $html);
+				$this->replaceStrings["SVG-$uniqueStr\n"] = '';
+			}
 		}
 
 		// setup open and close blocks
@@ -573,10 +598,6 @@ class ProCacheMinifyHTML {
 			$this->openBlocks[" <$block "] = "<$block ";
 			$this->closeBlocks[" </$block>"] = "</$block>";
 		}
-
-		// force script and style elements to be ignored
-		if(!in_array('script', $this->ignoreTags)) $this->ignoreTags[] = 'script';
-		if(!in_array('style', $this->ignoreTags)) $this->ignoreTags[] = 'style';
 
 		// determine if there are any <!--NoMinify--> comments in the markup
 		if(stripos($html, 'NoMinify') !== false) {
@@ -661,9 +682,13 @@ class ProCacheMinifyHTML {
 	 */
 	protected function postProcessHTML(&$html) {
 		
+		if(count($this->replaceStrings)) {
+			$html = str_replace(array_keys($this->replaceStrings), array_values($this->replaceStrings), $html);
+		}
+
 		// replace additional unnecessary whitespace
 		if(strpos($html, "\n</")) $html = str_replace("\n</", "</", $html);
-
+		
 		// remove unnecessary newline after an opening script tag
 		// $out = preg_replace('{\s*(</?(?:script|style|!\[)[^>]*>)\s*}s', '$1', $out);
 
@@ -930,8 +955,20 @@ class ProCacheMinifyHTML {
 		$kk = $k + 1;
 
 		// check if the line ends in the middle of an attribute value...
-		$inAttributeRegex = '/(?:\s|^)[-_\w\d]+\s*=\s*([\'"])\s*([^\'"]*)$/'; // matches[1] is quote
-		$inAttribute = preg_match($inAttributeRegex, substr($line, $lastTagOpen), $matches);
+		//                            1:name            2:quote   3:value
+		$inAttributeRegex = '/(?:\s|^)([-_\w\d]+)\s*=\s*([\'"])\s*([^\'"]*)$/'; // matches[2] is quote
+		$lastTagPart = substr($line, $lastTagOpen);
+		list($matches, $attrs, $attr) = array(array(), array(), array());
+		$inAttribute = strpos($lastTagPart, '=') && preg_match($inAttributeRegex, $lastTagPart, $matches);
+		
+		if($inAttribute) {
+			$attr = array(
+				'name' => $matches[1], 
+				'quote' => $matches[2], 
+				'value' => $matches[3] // note: value is only 1st line start value
+			);
+			$attrs[] = $attr;
+		}
 
 		// join the rest of the tag's attribute lines into this one
 		while(isset($this->lines[$kk])) {
@@ -940,16 +977,27 @@ class ProCacheMinifyHTML {
 			$startsAnotherTag = strpos($nextLine, '<') !== false;
 			if($startsAnotherTag) list($nextLine, $startsAnotherTag) = explode('<', $nextLine, 2);
 			
-			if($inAttribute && ($matches[2] != '{' && $matches[2] != '[')) { // JSON okay to collapse
+			if($inAttribute && ($attr['value'] != '{' && $attr['value'] != '[')) { // JSON okay to collapse
 				// no minify within a multi-line attribute value
 				$line .= "\n$nextLine";
 				// if closing quote, get out of inAttribute
-				if(strpos($nextLine, $matches[1])) $inAttribute = false; 
+				$quotePos = strpos($nextLine, $attr['quote']); 
+				if($quotePos !== false) $inAttribute = false;
 			} else {
 				$line .= ' ' . trim($nextLine);
 			}
 			
-			if(!$inAttribute) $inAttribute = preg_match($inAttributeRegex, $nextLine, $matches);
+			if(!$inAttribute && strpos($nextLine, '=')) {
+				$inAttribute = preg_match($inAttributeRegex, $nextLine, $matches);
+				if($inAttribute) {
+					$attr = array(
+						'name' => $matches[1], 
+						'quote' => $matches[2], 
+						'value' => $matches[3] // value is only 1st line start value
+					);
+					$attrs[] = $attr;
+				}
+			}
 			
 			if($startsAnotherTag) {
 				// tell outer loop to replace this line
@@ -961,6 +1009,30 @@ class ProCacheMinifyHTML {
 			
 			if(strpos($nextLine, '>') !== false || $startsAnotherTag) break;
 			$kk++;
+		}
+
+		// get rid of unnecessary whitespace in attribute values or around equals sign
+		foreach($attrs as $attr) {
+			$name = $attr['name'];
+			$quote = $attr['quote'];
+			$re = '/(?:\s+|^)' . preg_quote($name) . '\s*=\s*' . $quote . '([^' . $quote . ']+)' . $quote . '/s';
+			if(!preg_match($re, $line, $matches)) continue;
+			$fullMatch = $matches[0];
+			$value = trim($matches[1]);
+			if(strtolower($name) === 'class') {
+				// class attributes do not need more than 1 whitespace between class names
+				$value = preg_replace('/\s\s+/', ' ', $value);
+			}
+			$newMatch = " $name=$quote$value$quote";
+			if($fullMatch !== $newMatch) {
+				// line was able to be minified within or around attribute
+				$line = str_replace($fullMatch, $newMatch, $line);
+			}
+		}
+	
+		if(strpos($line, ' >')) {
+			// i.e. "<span >" => "<span>"
+			$line = preg_replace('!<(\w+[^<>]*)\s+>!', '<$1>', $line);
 		}
 	}
 
@@ -1285,7 +1357,7 @@ class ProCacheMinifyHTML {
 	 */
 	public function minifyInlineCSS(&$html) {
 		if(!$this->cssMinifyFunction) return 0;
-		if(stripos($html, '<style') == false) return 0;
+		if(stripos($html, '<style') === false) return 0;
 		if(!preg_match_all('!(<style[^>]*>\s*)([^<].+?)</style>!is', $html, $matches)) return 0;
 		$n = 0;
 		foreach($matches[1] as $key => $tag) {
@@ -1311,7 +1383,7 @@ class ProCacheMinifyHTML {
 	 */
 	public function minifyInlineJS(&$html) {
 		if(!$this->jsMinifyFunction) return 0;
-		if(stripos($html, '<script') == false) return 0;
+		if(stripos($html, '<script') === false) return 0;
 		if(!preg_match_all('!(<script[^>]*>\s*)([^<].+?)</script>!is', $html, $matches)) return 0;
 		$n = 0;
 		foreach($matches[1] as $key => $tag) {
@@ -1339,11 +1411,11 @@ class ProCacheMinifyHTML {
 	 * @param string $name
 	 * @param bool $value
 	 * @return $this
-	 * @throws Exception if given unknown option
+	 * @throws \Exception if given unknown option
 	 *
 	 */
 	public function setOption($name, $value) {
-		if(!isset($this->options[$name])) throw new WireException("Unknown option: $name");
+		if(!isset($this->options[$name])) throw new \Exception("Unknown option: $name");
 		$this->options[$name] = (bool) $value;
 		return $this;
 	}
@@ -1353,7 +1425,7 @@ class ProCacheMinifyHTML {
 	 *
 	 * @param array $options
 	 * @return $this
-	 * @throws Exception if given unknown option
+	 * @throws \Exception if given unknown option
 	 *
 	 */
 	public function setOptions(array $options) {
@@ -1429,11 +1501,11 @@ class ProCacheMinifyHTML {
 	 * 
 	 * @param callable $func
 	 * @return $this
-	 * @throws Exception
+	 * @throws \Exception
 	 * 
 	 */
 	public function setJSMinifyFunction($func) {
-		if(!is_callable($func)) throw new Exception("jsMinifyFunction is not callable");
+		if(!is_callable($func)) throw new \Exception("jsMinifyFunction is not callable");
 		$this->jsMinifyFunction = $func;
 		return $this;
 	}
@@ -1445,11 +1517,11 @@ class ProCacheMinifyHTML {
 	 *
 	 * @param callable $func
 	 * @return $this
-	 * @throws Exception
+	 * @throws \Exception
 	 *
 	 */
 	public function setCSSMinifyFunction($func) {
-		if(!is_callable($func)) throw new Exception("cssMinifyFuntion is not callable");
+		if(!is_callable($func)) throw new \Exception("cssMinifyFuntion is not callable");
 		$this->cssMinifyFunction = $func;
 		return $this;
 	}
@@ -1471,7 +1543,7 @@ class ProCacheMinifyHTML {
 	 * 
 	 * @param string $name
 	 * @param bool|string|array $value
-	 * @throws Exception if given an invalid option
+	 * @throws \Exception if given an invalid option
 	 * 
 	 */
 	public function __set($name, $value) {

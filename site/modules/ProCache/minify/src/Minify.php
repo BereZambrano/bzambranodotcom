@@ -49,6 +49,8 @@ abstract class Minify
 
     /**
      * Add a file or straight-up code to be minified.
+     * 
+     * RJC/ProCache: when possible please use addString() or addFile() instead
      *
      * @param string $data
      */
@@ -81,39 +83,91 @@ abstract class Minify
 	 * 
 	 * @param string $data
 	 * @param string $sourceFile
+	 * @param bool|null $noMinify
 	 * 
 	 */
-    public function addString($data, $sourceFile) {
-		$this->data[$sourceFile] = $this->load($data);
+    public function addString($data, $sourceFile, $noMinify = null) {
+    	if($sourceFile === '') {
+    		$this->add($data);
+	    } else {
+		    $this->data[$sourceFile] = $this->loadString($data, $sourceFile, $noMinify);
+	    }
+    }
+
+	/**
+	 * Add a source file file
+	 *
+	 * Added by RJC/ProCache
+	 *
+	 * @param string $sourceFile
+	 * @param bool|null $noMinify
+	 *
+	 */
+    public function addFile($sourceFile, $noMinify = null) {
+    	$data = $this->loadFile($sourceFile, $noMinify);
+    	if($data !== '') $this->data[$sourceFile] = $data;
     }
 
     /**
-     * Load data.
+     * Load data (heavily modified by RJC/ProCache)
      *
-     * @param  string $data Either a path to a file or the content itself.
+     * @param string $data Either a path to a file or the content itself.
      * @return string
      */
-    protected function load($data)
-    {
-        // check if the data is a file
-        if (@file_exists($data) && is_file($data)) {
-	        if(stripos($data, '.min.js') !== false) {
-		        $noMinify = substr(strtolower($data), -7) == '.min.js'; // Added by RJC/ProCache
-	        } else if(stripos($data, '.min.css') !== false) {
-		        $noMinify = substr(strtolower($data), -8) == '.min.css'; // Added by RJC/ProCache
-	        } else {
-		        $noMinify = false;
-	        }
-            //$data = @file_get_contents($data);
-			$data = ($noMinify ? '/*NoMinify*/' : '') . rtrim(@file_get_contents($data)) . "\n"; // Added by RJC/ProCache
+    protected function load($data) {
+    	// if data has any newlines then it is not a file
+	    if(strpos($data, "\n") !== false || strpos($data, '{') !== false) return $data;
 
-            // strip BOM, if any
-            if (substr($data, 0, 3) == "\xef\xbb\xbf") {
-                $data = substr($data, 3);
-            }
+	    // check if the data is a file
+        if(@file_exists($data) && is_file($data)) {
+        	$sourceFile = $data; 
+        	$data = $this->loadFile($sourceFile);
         }
 
         return $data;
+    }
+
+	/**
+	 * Load string from file (Added by RJC/ProCache)
+	 * 
+	 * @param string $sourceFile
+	 * @param bool|null $noMinify
+	 * @return string
+	 * 
+	 */
+    protected function loadFile($sourceFile, $noMinify = null) {
+    	$data = @file_get_contents($sourceFile);
+    	if($data === false) return '';
+	    return $this->loadString($data, $sourceFile, $noMinify); 
+    }
+    
+	/**
+	 * Prepare string for merging (Added by RJC/ProCache)
+	 * 
+	 * @param string $data
+	 * @param string $sourceFile
+	 * @param bool|null $noMinify Specify true to include a NoMinify comment, false to exclude, null to detect
+	 * @return string
+	 * 
+	 */
+    protected function loadString($data, $sourceFile = '', $noMinify = null) {
+    	
+    	if($sourceFile && $noMinify === null) {
+		    if(stripos($sourceFile, '.min.js') !== false) {
+			    $noMinify = substr(strtolower($sourceFile), -7) == '.min.js';
+		    } else if(stripos($sourceFile, '.min.css') !== false) {
+			    $noMinify = substr(strtolower($sourceFile), -8) == '.min.css';
+		    }
+	    }
+	    
+	    // strip BOM, if present
+	    if(substr($data, 0, 3) == "\xef\xbb\xbf") {
+		    $data = substr($data, 3);
+	    }
+	    
+	    $data = ($noMinify ? '/*NoMinify*/' : '') . rtrim($data) . "\n"; 
+	    
+	    return $data;
     }
 
     /**
@@ -125,7 +179,7 @@ abstract class Minify
      */
     protected function save($content, $path)
     {
-	    $content = str_replace('/*NoMinify*/', '', $content);  /* RJC */ 
+	    $content = str_replace('/*NoMinify*/', '', $content);  /* RJC/ProCache */ 
 	    
         // create file & open for writing
         if (($handler = @fopen($path, 'w')) === false) {
@@ -222,7 +276,7 @@ abstract class Minify
         while ($content) {
             // find first match for all patterns
             foreach ($this->patterns as $i => $pattern) {
-                list($pattern, $replacement) = $pattern;
+                list($pattern, /*$replacement*/) = $pattern;
 
                 // no need to re-run matches that are still in the part of the
                 // content that hasn't been processed

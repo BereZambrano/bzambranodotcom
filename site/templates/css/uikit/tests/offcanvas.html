@@ -99,9 +99,9 @@
                     <tbody>
                         <tr>
                             <td><code>mode</code></td>
-                            <td>slide|reveal|push|none</td>
+                            <td>String</td>
                             <td>slide</td>
-                            <td>Offcanvas open mode.</td>
+                            <td>Offcanvas open mode (slide, reveal, push, none).</td>
                         </tr>
                         <tr>
                             <td><code>flip</code></td>
@@ -140,12 +140,12 @@
             <div id="offcanvas-slide" uk-offcanvas>
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -170,7 +170,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -187,12 +187,12 @@
             <div id="offcanvas-reveal" uk-offcanvas="mode: reveal">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -217,7 +217,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -234,12 +234,12 @@
             <div id="offcanvas-push" uk-offcanvas="mode: push">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -264,7 +264,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -281,12 +281,12 @@
             <div id="offcanvas-none" uk-offcanvas="mode: none">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -311,7 +311,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -328,12 +328,12 @@
             <div id="offcanvas-flip-slide" uk-offcanvas="flip: true">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -358,7 +358,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -375,12 +375,12 @@
             <div id="offcanvas-flip-reveal" uk-offcanvas="mode: reveal; flip: true">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -405,7 +405,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -422,12 +422,12 @@
             <div id="offcanvas-flip-push" uk-offcanvas="mode: push; flip: true">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -452,7 +452,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -469,12 +469,12 @@
             <div id="offcanvas-flip-none" uk-offcanvas="mode: none; flip: true">
                 <div class="uk-offcanvas-bar uk-flex uk-flex-column uk-text-center">
 
-                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close></button>
+                    <button class="uk-offcanvas-close uk-close-large" type="button" uk-close uk-toggle="cls: uk-close-large; mode: media; media: @s"></button>
 
-                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical uk-nav-parent-icon" uk-nav>
+                    <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical" uk-nav>
                         <li class="uk-active"><a href="#">Active</a></li>
                         <li class="uk-parent">
-                            <a href="#">Parent</a>
+                            <a href>Parent <span uk-nav-parent-icon></span></a>
                             <ul class="uk-nav-sub">
                                 <li><a href="#">Sub item</a></li>
                                 <li><a href="#">Sub item</a></li>
@@ -499,7 +499,7 @@
                                 <a class="uk-icon-button" href="#" uk-icon="icon: facebook"></a>
                             </div>
                             <div>
-                                <a class="uk-icon-button" href="#" uk-icon="icon: twitter"></a>
+                                <a class="uk-icon-button" href="#" uk-icon="icon: instagram"></a>
                             </div>
                             <div>
                                 <a class="uk-icon-button" href="#" uk-icon="icon: mail"></a>
@@ -769,13 +769,9 @@
 
         <script>
 
-            var util = UIkit.util;
-
-            util.on(util.$('#js-toggle'), 'click', function (e) {
-
+            UIkit.util.on('#js-toggle', 'click', e => {
                 e.preventDefault();
                 UIkit.offcanvas('#js-offcanvas-toggle').toggle();
-
             });
 
         </script>

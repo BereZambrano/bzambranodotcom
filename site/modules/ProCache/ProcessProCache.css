@@ -18,3 +18,8 @@ input.lifespan {
 .InputfieldContent pre {
 	color: #333;
 }
+
+.pwpc-off,
+tr.pwpc-off .pwpc-off-hide {
+	opacity: 0.1;
+}

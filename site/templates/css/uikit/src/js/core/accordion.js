@@ -1,135 +1,243 @@
+import {
+    $,
+    $$,
+    attr,
+    children,
+    css,
+    dimensions,
+    filter,
+    getIndex,
+    hasClass,
+    includes,
+    index,
+    isTag,
+    scrollParent,
+    sumBy,
+    toFloat,
+    toggleClass,
+    Transition,
+    unwrap,
+    wrapAll,
+} from 'uikit-util';
+import { generateId } from '../api/instance';
+import { lazyload } from '../api/observables';
 import Class from '../mixin/class';
-import {default as Togglable, toggleHeight} from '../mixin/togglable';
-import {$, $$, attr, filter, getIndex, hasClass, includes, index, isInView, scrollIntoView, toggleClass, unwrap, wrapAll} from 'uikit-util';
+import Togglable from '../mixin/togglable';
+import { keyMap } from '../util/keys';
 
 export default {
-
     mixins: [Class, Togglable],
 
     props: {
+        animation: Boolean,
         targets: String,
         active: null,
         collapsible: Boolean,
         multiple: Boolean,
         toggle: String,
         content: String,
-        transition: String,
-        offset: Number
+        offset: Number,
     },
 
     data: {
         targets: '> *',
         active: false,
-        animation: [true],
+        animation: true,
         collapsible: true,
         multiple: false,
         clsOpen: 'uk-open',
         toggle: '> .uk-accordion-title',
         content: '> .uk-accordion-content',
-        transition: 'ease',
-        offset: 0
+        offset: 0,
     },
 
     computed: {
+        items: ({ targets }, $el) => $$(targets, $el),
 
-        items: {
+        toggles({ toggle }) {
+            return this.items.map((item) => $(toggle, item));
+        },
 
-            get({targets}, $el) {
-                return $$(targets, $el);
-            },
+        contents({ content }) {
+            return this.items.map((item) => item._wrapper?.firstElementChild || $(content, item));
+        },
+    },
 
-            watch(items, prev) {
+    watch: {
+        items(items, prev) {
+            if (prev || hasClass(items, this.clsOpen)) {
+                return;
+            }
 
-                items.forEach(el => hide($(this.content, el), !hasClass(el, this.clsOpen)));
+            const active =
+                (this.active !== false && items[Number(this.active)]) ||
+                (!this.collapsible && items[0]);
 
-                if (prev || hasClass(items, this.clsOpen)) {
+            if (active) {
+                this.toggle(active, false);
+            }
+        },
+
+        toggles() {
+            this.$emit();
+        },
+
+        contents(items) {
+            for (const el of items) {
+                const isOpen = hasClass(
+                    this.items.find((item) => item.contains(el)),
+                    this.clsOpen,
+                );
+
+                hide(el, !isOpen);
+            }
+            this.$emit();
+        },
+    },
+
+    observe: lazyload(),
+
+    events: [
+        {
+            name: 'click keydown',
+
+            delegate: ({ targets, $props }) => `${targets} ${$props.toggle}`,
+
+            async handler(e) {
+                if (e.type === 'keydown' && e.keyCode !== keyMap.SPACE) {
                     return;
                 }
 
-                const active = this.active !== false && items[Number(this.active)]
-                    || !this.collapsible && items[0];
-
-                if (active) {
-                    this.toggle(active, false);
-                }
-
-            },
-
-            immediate: true
-
-        }
-
-    },
-
-    events: [
-
-        {
-
-            name: 'click',
-
-            delegate() {
-                return `${this.targets} ${this.$props.toggle}`;
-            },
-
-            handler(e) {
                 e.preventDefault();
-                this.toggle(index($$(`${this.targets} ${this.$props.toggle}`, this.$el), e.current));
-            }
 
-        }
+                this._off?.();
+                this._off = keepScrollPosition(e.target);
+                await this.toggle(index(this.toggles, e.current));
+                this._off();
+            },
+        },
+        {
+            name: 'shown hidden',
 
+            self: true,
+
+            delegate: ({ targets }) => targets,
+
+            handler() {
+                this.$emit();
+            },
+        },
     ],
 
+    update() {
+        const activeItems = filter(this.items, `.${this.clsOpen}`);
+
+        for (const index in this.items) {
+            const toggle = this.toggles[index];
+            const content = this.contents[index];
+
+            if (!toggle || !content) {
+                continue;
+            }
+
+            toggle.id = generateId(this, toggle);
+            content.id = generateId(this, content);
+
+            const active = includes(activeItems, this.items[index]);
+            attr(toggle, {
+                role: isTag(toggle, 'a') ? 'button' : null,
+                'aria-controls': content.id,
+                'aria-expanded': active,
+                'aria-disabled': !this.collapsible && activeItems.length < 2 && active,
+            });
+
+            attr(content, { role: 'region', 'aria-labelledby': toggle.id });
+            if (isTag(content, 'ul')) {
+                attr(children(content), 'role', 'presentation');
+            }
+        }
+    },
+
     methods: {
-
         toggle(item, animate) {
-
-            let items = [this.items[getIndex(item, this.items)]];
+            item = this.items[getIndex(item, this.items)];
+            let items = [item];
             const activeItems = filter(this.items, `.${this.clsOpen}`);
 
             if (!this.multiple && !includes(activeItems, items[0])) {
                 items = items.concat(activeItems);
             }
 
-            if (!this.collapsible && activeItems.length < 2 && !filter(items, `:not(.${this.clsOpen})`).length) {
+            if (!this.collapsible && activeItems.length < 2 && includes(activeItems, item)) {
                 return;
             }
 
-            items.forEach(el => this.toggleElement(el, !hasClass(el, this.clsOpen), (el, show) => {
+            return Promise.all(
+                items.map((el) =>
+                    this.toggleElement(el, !includes(activeItems, el), (el, show) => {
+                        toggleClass(el, this.clsOpen, show);
 
-                toggleClass(el, this.clsOpen, show);
-
-                const content = $(`${el._wrapper ? '> * ' : ''}${this.content}`, el);
-
-                if (animate === false || !this.hasTransition) {
-                    hide(content, !show);
-                    return;
-                }
-
-                if (!el._wrapper) {
-                    el._wrapper = wrapAll(content, `<div${show ? ' hidden' : ''}>`);
-                }
-
-                hide(content, false);
-                return toggleHeight(this)(el._wrapper, show).then(() => {
-                    hide(content, !show);
-                    delete el._wrapper;
-                    unwrap(content);
-
-                    if (show) {
-                        const toggle = $(this.$props.toggle, el);
-                        if (!isInView(toggle)) {
-                            scrollIntoView(toggle, {offset: this.offset});
+                        if (animate === false || !this.animation) {
+                            hide($(this.content, el), !show);
+                            return;
                         }
-                    }
-                });
-            }));
-        }
 
-    }
-
+                        return transition(el, show, this);
+                    }),
+                ),
+            );
+        },
+    },
 };
 
 function hide(el, hide) {
-    attr(el, 'hidden', hide ? '' : null);
+    el && (el.hidden = hide);
+}
+
+async function transition(el, show, { content, duration, velocity, transition }) {
+    content = el._wrapper?.firstElementChild || $(content, el);
+
+    if (!el._wrapper) {
+        el._wrapper = wrapAll(content, '<div>');
+    }
+
+    const wrapper = el._wrapper;
+    css(wrapper, 'overflow', 'hidden');
+    const currentHeight = toFloat(css(wrapper, 'height'));
+
+    await Transition.cancel(wrapper);
+    hide(content, false);
+
+    const endHeight =
+        sumBy(['marginTop', 'marginBottom'], (prop) => css(content, prop)) +
+        dimensions(content).height;
+
+    const percent = currentHeight / endHeight;
+    duration = (velocity * endHeight + duration) * (show ? 1 - percent : percent);
+    css(wrapper, 'height', currentHeight);
+
+    await Transition.start(wrapper, { height: show ? endHeight : 0 }, duration, transition);
+
+    unwrap(content);
+    delete el._wrapper;
+
+    if (!show) {
+        hide(content, true);
+    }
+}
+
+function keepScrollPosition(el) {
+    const scrollElement = scrollParent(el, true);
+    let frame;
+    (function scroll() {
+        frame = requestAnimationFrame(() => {
+            const { top } = dimensions(el);
+            if (top < 0) {
+                scrollElement.scrollTop += top;
+            }
+            scroll();
+        });
+    })();
+
+    return () => requestAnimationFrame(() => cancelAnimationFrame(frame));
 }

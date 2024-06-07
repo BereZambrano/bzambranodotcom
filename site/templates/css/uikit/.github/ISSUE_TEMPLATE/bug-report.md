@@ -3,14 +3,13 @@ name: Bug Report 🐛
 about: Report a bug you have found.
 labels: '! Bug'
 assignees: ''
-
 ---
 
 <!--
 
 👋 Hi, thank you for using UIKit!
 
-Please open an issues only for a bug report or feature request. Make sure no one else else has already opened a similar issue. If you need help or have questions about UIkit, there are few places to start:
+Please open an issues only for a bug report or feature request. Make sure no one else has already opened a similar issue. If you need help or have questions about UIkit, there are few places to start:
 
 - Search our public documentation: https://getuikit.com/docs
 - Ask the community in the Discord chat: https://discord.gg/NEt4Pv7
@@ -20,20 +19,20 @@ Please open an issues only for a bug report or feature request. Make sure no one
 
 ### UIkit Version
 
-*Check if the issue is reproducible with the latest stable version.*
-3.5.7
+_Check if the issue is reproducible with the latest stable version._
+3.21.5
 
 ### Actual Behavior
 
-*What happened? Screenshots please, if relevant!*
+_What happened? Screenshots please, if relevant!_
 
 ### Expected Behavior
 
-*What should have happened?*
+_What should have happened?_
 
 ### Reproduction Link
 
-*A minimal Codepen that can reproduce the bug. Start with this [Codepen template](http://codepen.io/anon/pen/XMpryM)*
+_A minimal Codepen that can reproduce the bug. Start with this [Codepen template](http://codepen.io/anon/pen/XMpryM)_
 
 ### Steps to Reproduce the Problem
 
